@@ -1,0 +1,11 @@
+{
+  "name": "hello-world",
+  "version": "0.1.0",
+  "description": "Starter plugin — proves the marketplace + skill loading works",
+  "author": {
+    "name": "Jorge Lopez",
+    "email": "jorgeiglopez@gmail.com"
+  },
+  "license": "MIT",
+  "keywords": ["starter", "example"]
+}

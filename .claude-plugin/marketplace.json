@@ -1,0 +1,21 @@
+{
+  "name": "jorgeilopez-toolkit",
+  "owner": {
+    "name": "Jorge Lopez",
+    "email": "jorgeiglopez@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "hello-world",
+      "source": "./plugins/hello-world",
+      "description": "Starter plugin — proves the marketplace + skill loading works",
+      "version": "0.1.0"
+    },
+    {
+      "name": "communication",
+      "source": "./plugins/communication",
+      "description": "Skills for clearer, more human writing and communication.",
+      "version": "0.1.0"
+    }
+  ]
+}
