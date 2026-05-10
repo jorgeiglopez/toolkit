@@ -9,6 +9,6 @@ The idea and content of this skill were taken from the **agent-toolkit** repo by
 
 ## Changes from upstream
 
-- Copied verbatim into the `communication` plugin within the `jorgeilopez-toolkit` marketplace.
+- Copied verbatim into the `communication` plugin within the `jorgeiglopez-toolkit` marketplace.
 
 If you make further edits, note them here so the divergence from upstream stays visible.

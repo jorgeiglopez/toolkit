@@ -1,8 +1,10 @@
 {
-  "name": "jorgeilopez-toolkit",
+  "name": "jorgeiglopez-toolkit",
+  "description": "Personal Claude Code plugin marketplace — domain-specific plugins for day-to-day work",
   "owner": {
     "name": "Jorge Lopez",
-    "email": "jorgeiglopez@gmail.com"
+    "email": "jorgeiglopez@gmail.com",
+    "url": "https://github.com/jorgeiglopez"
   },
   "plugins": [
     {

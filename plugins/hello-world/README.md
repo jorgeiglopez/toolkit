@@ -1,6 +1,6 @@
 # hello-world
 
-Starter plugin for the `jorgeilopez-toolkit` marketplace. Ships one skill (`hello-world`) so you can confirm installation worked end-to-end.
+Starter plugin for the `jorgeiglopez-toolkit` marketplace. Ships one skill (`hello-world`) so you can confirm installation worked end-to-end.
 
 ## Skills
 

@@ -20,7 +20,7 @@ A trivial skill that confirms this plugin is installed and discoverable by Claud
 Reply with a single short sentence confirming the skill ran, and include:
 
 1. The plugin name (`hello-world`)
-2. The marketplace name (`jorgeilopez-toolkit`)
+2. The marketplace name (`jorgeiglopez-toolkit`)
 3. The current working directory
 
 That's it. Do not call any tools unless the user asks you to.
