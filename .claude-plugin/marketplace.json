@@ -8,15 +8,15 @@
   },
   "plugins": [
     {
-      "name": "hello-world",
-      "source": "./plugins/hello-world",
-      "description": "Starter plugin — proves the marketplace + skill loading works",
-      "version": "0.1.0"
-    },
-    {
       "name": "communication",
       "source": "./plugins/communication",
       "description": "Skills for clearer, more human writing and communication.",
+      "version": "0.1.0"
+    },
+    {
+      "name": "build",
+      "source": "./plugins/build",
+      "description": "Stages and crafts Conventional Commits messages, then stops for review.",
       "version": "0.1.0"
     }
   ]
