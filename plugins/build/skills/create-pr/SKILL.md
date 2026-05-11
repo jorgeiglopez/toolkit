@@ -5,6 +5,22 @@ description: "Open a pull request from the current branch. Use when the user ask
 
 # PR
 
+<EXTREMELY-IMPORTANT>
+If the user asks to open a PR, raise a PR, create a pull request, ship for review, "PR this", or "ready for review", YOU MUST follow this skill end-to-end before running `gh pr create` or pushing.
+
+This is not negotiable. This is not optional. You cannot rationalize your way out of it.
+
+Violating the letter of this rule is violating the spirit of this rule.
+</EXTREMELY-IMPORTANT>
+
+## Announce first
+
+Before any other tool call in this skill, send one line to the user:
+
+> Using the `create-pr` skill to <one-line summary of what you're about to do>.
+
+This is mandatory. The user must always see when a skill is shaping your behavior.
+
 ## Goal
 
 Push the current branch and open a clean pull request — small, focused, with a title and body a reviewer can act on. Prefer the GitHub CLI (`gh`); fall back to manual steps if it's not installed.
@@ -84,6 +100,19 @@ Return the PR URL `gh` prints.
    - [ ] ...
    ```
    ````
+
+## Red Flags — STOP
+
+If you catch yourself thinking any of these, you are rationalizing. Stop and follow the workflow.
+
+| Rationalization | Reality |
+|---|---|
+| "I'll skip the verification step, the tests probably pass" | Probably ≠ passing. Run them. A broken PR wastes the reviewer's time. |
+| "The diff is obvious, I don't need to draft a body" | The reviewer is not in your head. Fill in Summary + Test plan. |
+| "I'll just open it and edit the body in GitHub" | Show the draft and get a "yes" first. |
+| "The branch is fine, no need to check `git status`" | Uncommitted work breaks the PR. Run preflight. |
+| "I'll force-push to clean up real quick" | Never `--force` without an explicit ask. |
+| "main is fine for this one tiny fix" | Never PR from `main` or `master`. Create a branch. |
 
 ## Rules
 

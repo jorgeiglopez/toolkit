@@ -5,6 +5,22 @@ description: "Guidelines how to perform a git commit. Use when the user asks to 
 
 # Commit
 
+<EXTREMELY-IMPORTANT>
+If the user asks to commit, save changes, stage, craft a commit message, or split work into commits, YOU MUST follow this skill end-to-end before running `git commit`.
+
+This is not negotiable. This is not optional. You cannot rationalize your way out of it.
+
+Violating the letter of this rule is violating the spirit of this rule.
+</EXTREMELY-IMPORTANT>
+
+## Announce first
+
+Before any other tool call in this skill, send one line to the user:
+
+> Using the `commit` skill to <one-line summary of what you're about to do>.
+
+This is mandatory. The user must always see when a skill is shaping your behavior.
+
 ## Goal
 
 Make commits that are easy to review and safe to ship:
@@ -73,6 +89,19 @@ around the upsert.
 
 Fixes #234
 ```
+
+## Red Flags — STOP
+
+If you catch yourself thinking any of these, you are rationalizing. Stop and follow the workflow.
+
+| Rationalization | Reality |
+|---|---|
+| "It's a tiny change, I'll skip staging review" | Tiny changes hide secrets and unrelated churn too. Run `git diff --cached`. |
+| "I already know what's in the diff" | Confidence ≠ evidence. Read the actual diff before writing the message. |
+| "Just `git add -A` this once" | No. Use `git add -p` or named paths. The rule has no exceptions. |
+| "I'll combine these two unrelated changes to save time" | Split them. Mixed commits are unreviewable. |
+| "The user is in a hurry" | Speed comes from doing this once correctly, not from skipping steps. |
+| "I'll `--amend` to fix the message" | Never amend. Create a new commit. |
 
 ## Rules
 
