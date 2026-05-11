@@ -17,7 +17,7 @@
       "name": "build",
       "source": "./plugins/build",
       "description": "Stages and crafts Conventional Commits messages, then stops for review.",
-      "version": "0.1.0"
+      "version": "0.2.0"
     }
   ]
 }
