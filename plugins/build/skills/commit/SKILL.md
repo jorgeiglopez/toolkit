@@ -1,6 +1,6 @@
 ---
 name: commit
-description: "Create high-quality git commits: review and stage intended changes, split into logical commits, and write Conventional Commits messages. Use when the user asks to commit, craft a commit message, stage changes, or split work into multiple commits."
+description: "Guidelines how to perform a git commit. Use when the user asks to commit, save changes, commit changes, craft a commit message, stage changes, or split work into multiple commits."
 ---
 
 # Commit
@@ -16,9 +16,10 @@ Make commits that are easy to review and safe to ship:
 
 1. **Inspect the working tree**
    - `git status`
-   - `git diff` (unstaged)
+   - `git diff HEAD` (staged + unstaged in one pass)
    - `git diff --stat` if many changes
-   - `git log --oneline -5` to match house style
+   - `git branch --show-current` — if on `main`/`master`, ask the user whether to create a feature branch first.
+   - `git log --oneline -10` to match house style
 
 2. **Decide commit boundaries — split when needed**
    - Split by: feature vs refactor, backend vs frontend, formatting vs logic, tests vs prod code, dependency bumps vs behavior changes.
