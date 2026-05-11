@@ -48,12 +48,10 @@ Push the current branch and open a clean pull request — small, focused, with a
 - <what changed, 2-4 bullets>
 - <why it matters>
 
-## Test plan
-- [ ] <how a reviewer can verify>
-- [ ] <edge cases checked>
-
 Closes #<issue> (if applicable)
 ```
+
+Keep the body short. Do not include a test plan, testing strategy, or verification checklist — that belongs in CI and the diff, not the description.
 
 Show the draft. Ask: "Open this PR?" Wait for "yes."
 
@@ -64,9 +62,6 @@ git push -u origin "$(git branch --show-current)"
 gh pr create --title "<title>" --body "$(cat <<'EOF'
 ## Summary
 - ...
-
-## Test plan
-- [ ] ...
 EOF
 )"
 ```
@@ -95,9 +90,6 @@ Return the PR URL `gh` prints.
 
    ## Summary
    - ...
-
-   ## Test plan
-   - [ ] ...
    ```
    ````
 
@@ -108,7 +100,7 @@ If you catch yourself thinking any of these, you are rationalizing. Stop and fol
 | Rationalization | Reality |
 |---|---|
 | "I'll skip the verification step, the tests probably pass" | Probably ≠ passing. Run them. A broken PR wastes the reviewer's time. |
-| "The diff is obvious, I don't need to draft a body" | The reviewer is not in your head. Fill in Summary + Test plan. |
+| "The diff is obvious, I don't need to draft a body" | The reviewer is not in your head. Fill in the Summary. |
 | "I'll just open it and edit the body in GitHub" | Show the draft and get a "yes" first. |
 | "The branch is fine, no need to check `git status`" | Uncommitted work breaks the PR. Run preflight. |
 | "I'll force-push to clean up real quick" | Never `--force` without an explicit ask. |
