@@ -1,64 +1,78 @@
 ---
 name: commit
-description: "Guidelines how to perform a git commit. Use when the user asks to commit, save changes, commit changes, craft a commit message, stage changes, or split work into multiple commits."
+description: "Stage and commit changes with a clear Conventional Commits message. Use when the user asks to commit, save changes, stage, craft a commit message, or split work into commits."
 ---
 
 # Commit
 
 <EXTREMELY-IMPORTANT>
-If the user asks to commit, save changes, stage, craft a commit message, or split work into commits, YOU MUST follow this skill end-to-end before running `git commit`.
+If the user asks to commit, save, stage, craft a commit message, or split work into commits, follow this skill end-to-end before running `git commit`.
 
-This is not negotiable. This is not optional. You cannot rationalize your way out of it.
+Not negotiable. Not optional. You cannot rationalize your way out of it.
 
-Violating the letter of this rule is violating the spirit of this rule.
+Violating the letter violates the spirit.
 </EXTREMELY-IMPORTANT>
 
 ## Announce first
 
-Before any other tool call in this skill, send one line to the user:
+Before any other tool call, send one line:
 
-> Using the `commit` skill to <one-line summary of what you're about to do>.
+> Using the `commit` skill to <one-line summary>.
 
-This is mandatory. The user must always see when a skill is shaping your behavior.
+The user must see when a skill drives your behavior.
 
 ## Goal
 
-Make commits that are easy to review and safe to ship:
-- only intended changes are included
-- commits are logically scoped (split when needed)
-- messages describe what changed and why
+Commits that are easy to review and safe to ship:
+- only intended changes included
+- logically scoped (split when needed)
+- messages explain what changed and why
 
 ## Workflow
 
 1. **Inspect the working tree**
    - `git status`
-   - `git diff HEAD` (staged + unstaged in one pass)
+   - `git diff HEAD` — staged + unstaged in one pass
    - `git diff --stat` if many changes
-   - `git branch --show-current` — if on `main`/`master`, ask the user whether to create a feature branch first.
+   - `git branch --show-current` — if on `main`/`master`, ask whether to branch first
    - `git log --oneline -10` to match house style
 
 2. **Decide commit boundaries — split when needed**
-   - Split by: feature vs refactor, backend vs frontend, formatting vs logic, tests vs prod code, dependency bumps vs behavior changes.
-   - **File renames go in their own commit.** Stage the rename alone so git records it as a rename in history; mixing renames with content edits hides the move.
-   - If changes mix inside one file, use patch staging.
+   - Split feature vs refactor, backend vs frontend, formatting vs logic, tests vs prod, deps vs behavior.
+   - **File renames go in their own commit.** Stage the rename alone so git records it as a rename; mixing with edits hides the move.
+   - For mixed changes inside one file, use patch staging.
 
-3. **Stage only what belongs in the next commit**
-   - Patch staging for mixed changes: `git add -p`
-   - Unstage a hunk or file: `git restore --staged -p` or `git restore --staged <path>`
+3. **Stage only what belongs in this commit**
+   - Patch staging: `git add -p`
+   - Unstage: `git restore --staged -p` or `git restore --staged <path>`
    - Never `git add -A` or `git add .`
 
-4. **Review what will actually be committed**
+4. **Review the staging**
    - `git diff --cached`
-   - Reject the staging if you see secrets, tokens, `.env*`, credentials, debug prints, or unrelated churn.
+   - Reject if you see secrets, tokens, `.env*`, credentials, debug prints, or unrelated churn.
 
-5. **Describe the staged change in one sentence before writing the message**
-   - What + why. If you cannot describe it cleanly, the commit is too big or mixed — go back to step 2.
+5. **Describe the change in one sentence — what + why.** If you can't, the commit is too big or mixed; go back to step 2.
 
-6. **Write the message** (format below).
+6. **Write the message** (format below), then run it through `writing-clearly-and-concisely` — see Writing pass. `git log` is forever.
 
-7. **Run the smallest relevant check** — unit tests, lint, or build — before moving on.
+7. **Run the smallest meaningful check** — tests, lint, or build.
 
 8. **Repeat** until the tree is clean.
+
+## Writing pass — mandatory
+
+Before `git commit`, invoke `writing-clearly-and-concisely` on the drafted message. A first draft is a draft, not the commit.
+
+A commit message is the shortest text that lets a future reviewer understand the change and decide whether to revert it. Cut any sentence that wouldn't change what a reader does.
+
+Targets:
+- **Subject ≤ 50 chars** (hard cap 72)
+- **Body ≤ 3 short paragraphs**, ideally one. Wrap at 72.
+- Cut filler: "this commit", "basically", "various", "some", "a bit of"
+- Cut diff narration: "renamed X to Y, then updated the import" — the diff says that
+- Keep: motivation, the non-obvious decision, the trade-off, the bug fixed
+
+If the body is longer than the diff is interesting, the body is wrong.
 
 ## Message format
 
@@ -71,12 +85,12 @@ Cover motivation and trade-offs, not a line-by-line diff.
 Fixes #123
 ```
 
-Types: `feat`, `fix`, `refactor`, `perf`, `test`, `docs`, `chore`, `build`, `ci`, `style`, `revert`. Breaking change: append `!` after type/scope and add a `BREAKING CHANGE:` footer.
+Types: `feat`, `fix`, `refactor`, `perf`, `test`, `docs`, `chore`, `build`, `ci`, `style`, `revert`. Breaking: append `!` after type/scope and add a `BREAKING CHANGE:` footer.
 
 **Subject rules:**
-- Imperative, present tense: "add" not "added" or "adds"
-- No period at the end
-- Under 72 characters, ideally under 50
+- Imperative: "add", not "added" or "adds"
+- No trailing period
+- Under 72 chars, ideally under 50
 
 **Example:**
 
@@ -92,21 +106,23 @@ Fixes #234
 
 ## Red Flags — STOP
 
-If you catch yourself thinking any of these, you are rationalizing. Stop and follow the workflow.
+If you catch yourself thinking any of these, you're rationalizing. Stop and follow the workflow.
 
 | Rationalization | Reality |
 |---|---|
-| "It's a tiny change, I'll skip staging review" | Tiny changes hide secrets and unrelated churn too. Run `git diff --cached`. |
-| "I already know what's in the diff" | Confidence ≠ evidence. Read the actual diff before writing the message. |
-| "Just `git add -A` this once" | No. Use `git add -p` or named paths. The rule has no exceptions. |
-| "I'll combine these two unrelated changes to save time" | Split them. Mixed commits are unreviewable. |
-| "The user is in a hurry" | Speed comes from doing this once correctly, not from skipping steps. |
+| "Tiny change, I'll skip the staging review" | Tiny changes hide secrets and churn too. Run `git diff --cached`. |
+| "I already know what's in the diff" | Confidence ≠ evidence. Read it. |
+| "Just `git add -A` this once" | No. Use `git add -p` or named paths. No exceptions. |
+| "I'll combine these unrelated changes" | Split them. Mixed commits are unreviewable. |
+| "The user is in a hurry" | Speed comes from doing this once, not from skipping steps. |
 | "I'll `--amend` to fix the message" | Never amend. Create a new commit. |
+| "My draft is fine, skip the writing pass" | Drafts read worse than you think. Run the pass. |
+| "More context is better, leave the body long" | Cut. The reader's attention is the scarce resource. |
 
 ## Rules
 
-- Never `--amend`. If a pre-commit hook fails, fix the issue and create a new commit.
-- Never `--no-verify` unless the user asks for it.
-- Never include a `Co-Authored-By` trailer or any co-author attribution.
+- Never `--amend`. If a pre-commit hook fails, fix it and create a new commit.
+- Never `--no-verify` unless the user asks.
+- Never include `Co-Authored-By` or any co-author trailer.
 - Never include `.env*`, credentials, tokens, or large binaries.
-- Each commit should compile and pass the fastest meaningful check.
+- Each commit must compile and pass the fastest meaningful check.

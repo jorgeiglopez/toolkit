@@ -1,47 +1,47 @@
 ---
 name: pr-create
-description: "Open a pull request from the current branch. Use when the user asks to open a PR, raise a PR, create a pull request, ship for review, or says \"make a PR\", \"PR this\", \"open a pull request\", or \"ready for review\"."
+description: "Open a pull request from the current branch. Use when the user asks to open a PR, create a pull request, ship for review, \"PR this\", or \"ready for review\"."
 ---
 
 # PR
 
 <EXTREMELY-IMPORTANT>
-If the user asks to open a PR, raise a PR, create a pull request, ship for review, "PR this", or "ready for review", YOU MUST follow this skill end-to-end before running `gh pr create` or pushing.
+If the user asks to open a PR, create a pull request, ship for review, "PR this", or "ready for review", follow this skill end-to-end before running `gh pr create` or pushing.
 
-This is not negotiable. This is not optional. You cannot rationalize your way out of it.
+Not negotiable. Not optional. You cannot rationalize your way out of it.
 
-Violating the letter of this rule is violating the spirit of this rule.
+Violating the letter violates the spirit.
 </EXTREMELY-IMPORTANT>
 
 ## Announce first
 
-Before any other tool call in this skill, send one line to the user:
+Before any other tool call, send one line:
 
-> Using the `pr-create` skill to <one-line summary of what you're about to do>.
+> Using the `pr-create` skill to <one-line summary>.
 
-This is mandatory. The user must always see when a skill is shaping your behavior.
+The user must see when a skill drives your behavior.
 
 ## Goal
 
-Push the current branch and open a clean pull request — small, focused, with a title and body a reviewer can act on. Prefer the GitHub CLI (`gh`); fall back to manual steps if it's not installed.
+Push the current branch and open a focused PR with a title and body a reviewer can act on. Prefer `gh`; fall back to manual if not installed.
 
 ## Preflight
 
-1. **Branch check.** `git branch --show-current`. If on `main` or `master`, stop. Tell the user to create a feature branch first.
-2. **Base branch.** `git merge-base HEAD main 2>/dev/null || git merge-base HEAD master 2>/dev/null`. If neither resolves, ask.
-3. **Sync check.** `git status` should be clean. Uncommitted work? Run the `commit` skill first.
-4. **Verification.** Run the repo's fastest meaningful check (tests, lint, or build). If it fails, stop and surface the failure — do not open a broken PR.
-5. **Tool check.** `command -v gh` decides the path below.
+1. **Branch.** `git branch --show-current`. If on `main`/`master`, stop and tell the user to branch first.
+2. **Base.** `git merge-base HEAD main 2>/dev/null || git merge-base HEAD master 2>/dev/null`. If neither resolves, ask.
+3. **Clean tree.** `git status` must be clean. Uncommitted work? Run the `commit` skill first.
+4. **Verify.** Run the repo's fastest meaningful check. If it fails, stop — do not open a broken PR.
+5. **Tool.** `command -v gh` picks the path.
 
 ## Draft the title and body
 
-**Title** follows commit-subject rules:
-- Imperative, present tense: "add" not "added"
-- No period at the end
-- Under 72 characters, ideally under 50
-- If the branch contains a single commit, the title can match the commit subject.
+**Title** — commit-subject rules:
+- Imperative: "add", not "added"
+- No trailing period
+- Under 72 chars, ideally under 50
+- Single-commit branch: title can match the commit subject
 
-**Body** uses this template:
+**Body** template:
 
 ```
 ## Summary
@@ -51,9 +51,26 @@ Push the current branch and open a clean pull request — small, focused, with a
 Closes #<issue> (if applicable)
 ```
 
-Keep the body short. Do not include a test plan, testing strategy, or verification checklist — that belongs in CI and the diff, not the description.
+Keep the body short. No test plan, testing strategy, or verification checklist — that belongs in CI and the diff.
 
-Show the draft. Ask: "Open this PR?" Wait for "yes."
+**Run the draft through `writing-clearly-and-concisely` before showing it** — see Writing pass. PR bodies live forever on the merge commit.
+
+Show the cleaned draft. Ask: "Open this PR?" Wait for "yes."
+
+## Writing pass — mandatory
+
+Before showing the draft, invoke `writing-clearly-and-concisely` on title and body. A first draft is a draft, not the PR.
+
+The body is the shortest text that lets a reviewer understand intent and decide where to look — not a changelog of the diff.
+
+Targets:
+- **Title ≤ 50 chars** (hard cap 72)
+- **Summary: 2–4 bullets**, one short line each. No nesting. No paragraphs.
+- Cut filler: "this PR", "various changes", "in addition", "we also"
+- Drop bullets that just narrate the diff
+- Keep: the user-facing change, the non-obvious decision, the linked issue
+
+If a bullet repeats what the file names already say, delete it.
 
 ## Path A — `gh` is installed (recommended)
 
@@ -68,21 +85,21 @@ EOF
 
 Return the PR URL `gh` prints.
 
-## Path B — `gh` is not installed (fallback)
+## Path B — `gh` not installed (fallback)
 
 1. Tell the user:
 
    > `gh` is not installed. Install it with `brew install gh && gh auth login` for a smoother flow next time.
 
-2. Push the branch and capture the "Create a pull request" URL git prints:
+2. Push and capture the "Create a pull request" URL git prints:
 
    ```bash
    git push -u origin "$(git branch --show-current)"
    ```
 
-   GitHub's response includes a `https://github.com/<owner>/<repo>/pull/new/<branch>` link. Surface it.
+   GitHub returns a `https://github.com/<owner>/<repo>/pull/new/<branch>` link. Surface it.
 
-3. Output the title and body inside a single fenced markdown block so the user can copy-paste into the GitHub web form:
+3. Output title and body in a single fenced block for copy-paste:
 
    ````
    ```
@@ -95,21 +112,23 @@ Return the PR URL `gh` prints.
 
 ## Red Flags — STOP
 
-If you catch yourself thinking any of these, you are rationalizing. Stop and follow the workflow.
+If you catch yourself thinking any of these, you're rationalizing. Stop and follow the workflow.
 
 | Rationalization | Reality |
 |---|---|
-| "I'll skip the verification step, the tests probably pass" | Probably ≠ passing. Run them. A broken PR wastes the reviewer's time. |
-| "The diff is obvious, I don't need to draft a body" | The reviewer is not in your head. Fill in the Summary. |
-| "I'll just open it and edit the body in GitHub" | Show the draft and get a "yes" first. |
-| "The branch is fine, no need to check `git status`" | Uncommitted work breaks the PR. Run preflight. |
+| "Skip verification, tests probably pass" | Probably ≠ passing. Run them. A broken PR wastes the reviewer's time. |
+| "The diff is obvious, no body needed" | The reviewer isn't in your head. Fill in the Summary. |
+| "Open it now, edit the body in GitHub" | Show the draft and get a "yes" first. |
+| "Branch is fine, skip `git status`" | Uncommitted work breaks the PR. Run preflight. |
 | "I'll force-push to clean up real quick" | Never `--force` without an explicit ask. |
-| "main is fine for this one tiny fix" | Never PR from `main` or `master`. Create a branch. |
+| "main is fine for this tiny fix" | Never PR from `main`/`master`. Branch first. |
+| "My draft is fine, skip the writing pass" | Run the pass before showing the draft. |
+| "More bullets help the reviewer" | They don't. Cut to 2–4. The diff has the detail. |
 
 ## Rules
 
 - Never PR from `main` or `master`.
-- Never include `Co-Authored-By` or any co-author trailer in the title or body.
+- Never include `Co-Authored-By` or any co-author trailer.
 - Never `--force` push without an explicit ask.
-- One concern per PR. If the diff spans unrelated changes, split commits first (use the `commit` skill) and open separate PRs.
-- Do not paraphrase the diff line-by-line in the body. Lead with intent, then evidence.
+- One concern per PR. Split unrelated changes via the `commit` skill and open separate PRs.
+- Lead with intent, then evidence. Don't paraphrase the diff.
