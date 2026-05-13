@@ -8,6 +8,12 @@
   },
   "plugins": [
     {
+      "name": "using-toolkit",
+      "source": "./plugins/using-toolkit",
+      "description": "Bootstrap plugin: injects the toolkit's skill table-of-contents at session start so domain skills get reliably invoked.",
+      "version": "0.1.0"
+    },
+    {
       "name": "communication",
       "source": "./plugins/communication",
       "description": "Skills for clearer, more human writing and communication.",

@@ -6,8 +6,9 @@ Personal Claude Code plugin marketplace. macOS only, Claude Code only, single-us
 
 | Plugin | Description |
 |---|---|
+| [using-toolkit](./plugins/using-toolkit) | Bootstrap: injects the toolkit's skill TOC at session start so domain skills get invoked reliably |
 | [communication](./plugins/communication) | Skills for clearer, more human writing and communication |
-| [build](./plugins/build) | Commit and PR workflow skills, with skill-usage logging hook |
+| [build](./plugins/build) | Commit, PR, and pre-flight skills, with skill-usage logging hook |
 
 ## Install (from GitHub)
 
