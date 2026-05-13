@@ -1,5 +1,5 @@
 ---
-name: create-pr
+name: pr-create
 description: "Open a pull request from the current branch. Use when the user asks to open a PR, raise a PR, create a pull request, ship for review, or says \"make a PR\", \"PR this\", \"open a pull request\", or \"ready for review\"."
 ---
 
@@ -17,7 +17,7 @@ Violating the letter of this rule is violating the spirit of this rule.
 
 Before any other tool call in this skill, send one line to the user:
 
-> Using the `create-pr` skill to <one-line summary of what you're about to do>.
+> Using the `pr-create` skill to <one-line summary of what you're about to do>.
 
 This is mandatory. The user must always see when a skill is shaping your behavior.
 

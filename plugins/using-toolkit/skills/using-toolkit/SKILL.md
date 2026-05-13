@@ -12,7 +12,7 @@ If you were dispatched as a subagent to execute a specific task, skip this skill
 <EXTREMELY-IMPORTANT>
 If a user's request matches the triggers of any skill in the table of contents below, YOU MUST invoke that skill via the `Skill` tool BEFORE taking the action it covers. You do not have a choice. You cannot rationalize your way out of it.
 
-The known failure this rule prevents: the model running `git commit` straight from Bash when asked to commit, instead of invoking `build:commit` first; opening a PR with raw `gh pr create` instead of invoking `build:create-pr`; producing prose without invoking the `communication` skills. These are not edge cases — they are the default failure mode this bootstrap exists to close.
+The known failure this rule prevents: the model running `git commit` straight from Bash when asked to commit, instead of invoking `build:commit` first; opening a PR with raw `gh pr create` instead of invoking `build:pr-create`; producing prose without invoking the `communication` skills. These are not edge cases — they are the default failure mode this bootstrap exists to close.
 
 This is not negotiable. This is not optional. Violating the letter of this rule is violating the spirit of this rule.
 </EXTREMELY-IMPORTANT>
@@ -34,7 +34,7 @@ The skills currently shipped in `jorgeiglopez-toolkit`. When a request matches a
 ### `build` plugin — git, commits, PRs, quality gates
 
 - **`build:commit`** — Craft a git commit following the project's commit rules: logical splitting, conventional-commits format, no `--amend`, no co-authors. Triggers: "commit", "save changes", "stage changes", "split this into multiple commits", "write a commit message", "fix the last commit" (which becomes a new commit on top).
-- **`build:create-pr`** — Open a PR from the current branch. Runs preflight (not on main, base detected, clean tree, verification, gh installed), drafts a short body (no Test plan section per project rules), and asks before submitting. Triggers: "open a PR", "raise a PR", "create a pull request", "PR this", "ship for review", "ready for review".
+- **`build:pr-create`** — Open a PR from the current branch. Runs preflight (not on main, base detected, clean tree, verification, gh installed), drafts a short body (no Test plan section per project rules), and asks before submitting. Triggers: "open a PR", "raise a PR", "create a pull request", "PR this", "ship for review", "ready for review".
 - **`build:pre-flight`** — Generate a `pre-flight.sh` (or split light/full) that mirrors the project's CI quality gates locally. Detects existing scripts and routes to update mode. Triggers: "preflight script", "pre-PR checks", "CI mirror", "quality gate", "set up the checks for this repo", "replicate CI locally".
 
 ### `communication` plugin — writing for humans

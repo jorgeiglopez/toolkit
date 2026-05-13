@@ -1,5 +1,5 @@
 ---
-name: create-pr
+name: pr-create
 lastUpdate: 2026-05-11 21:16
 ---
 
