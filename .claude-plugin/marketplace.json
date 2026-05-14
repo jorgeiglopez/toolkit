@@ -11,19 +11,19 @@
       "name": "using-toolkit",
       "source": "./plugins/using-toolkit",
       "description": "Bootstrap plugin: injects the toolkit's skill table-of-contents at session start so domain skills get reliably invoked. Ships a /sync slash command and bin/sync.sh to keep the toolkit current.",
-      "version": "0.2.0"
+      "version": "0.2.1"
     },
     {
       "name": "communication",
       "source": "./plugins/communication",
       "description": "Skills for clearer, more human writing and communication.",
-      "version": "0.1.0"
+      "version": "0.2.1"
     },
     {
       "name": "build",
       "source": "./plugins/build",
       "description": "Stages and crafts Conventional Commits messages, then stops for review.",
-      "version": "0.3.0"
+      "version": "0.2.1"
     }
   ]
 }

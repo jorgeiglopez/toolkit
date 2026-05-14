@@ -20,14 +20,20 @@ From inside Claude Code:
 /plugin install build@jorgeiglopez-toolkit
 ```
 
-To pull updates after pushing new commits, **first bump the plugin's `version`** in both `plugins/<name>/.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json`, then:
+To pull updates after pushing new commits, **first bump the toolkit version** (`bin/set-version.sh <new-version>` — see [Updating a plugin](#updating-a-plugin) below), then from inside Claude Code:
+
+```
+/sync
+```
+
+`/sync` (from the using-toolkit plugin) refreshes the marketplace and reinstalls every plugin in one shot. Equivalent manual sequence:
 
 ```
 /plugin marketplace update jorgeiglopez-toolkit
 /plugin install <name>@jorgeiglopez-toolkit
 ```
 
-Why both steps: Claude Code keys each plugin's install cache on `version`. Without a version bump, `marketplace update` refreshes the marketplace clone but the installed plugin keeps serving stale, cached files. See [Updating a plugin](#updating-a-plugin) below.
+Why bumping matters: Claude Code keys each plugin's install cache on `version`. Without a bump, `marketplace update` refreshes the marketplace clone but the installed plugin keeps serving stale, cached files.
 
 ## Install (local dev)
 
@@ -49,18 +55,36 @@ Verify by asking Claude to commit something — the `commit` skill should engage
 
 ## Updating a plugin
 
-Every push that changes a plugin's behavior **must** bump that plugin's version. Claude Code caches each installed plugin under `~/.claude/plugins/cache/<marketplace>/<plugin>/<version>/`. Without a version bump, the cache key doesn't change and the installed plugin keeps serving the old code — even after `marketplace update`.
+The toolkit ships all plugins in lockstep — one unified version, stored at `toolkit/VERSION`. Every push that changes any plugin's behavior bumps that file, and `bin/set-version.sh` propagates the value into every `plugins/*/.claude-plugin/plugin.json` and every `.plugins[].version` in `marketplace.json`.
 
-1. Bump `version` in `plugins/<name>/.claude-plugin/plugin.json`.
-2. Bump the matching `version` in `.claude-plugin/marketplace.json`.
-3. Commit and push.
-4. In Claude Code:
-   ```
-   /plugin marketplace update jorgeiglopez-toolkit
-   /plugin install <name>@jorgeiglopez-toolkit
-   ```
+Claude Code caches each installed plugin under `~/.claude/plugins/cache/<marketplace>/<plugin>/<version>/`. Without a version bump the cache key doesn't change and the installed plugin keeps serving old code — even after `marketplace update`. The unified version means one bump per release.
 
-Use semver: patch for fixes, minor for additions, major for breaking changes. Trivial doc-only edits to a plugin's README can skip the bump.
+**Bumping rule — default to patch.**
+
+- **Patch** (0.2.1 → 0.2.2) — default. Every behavioral change.
+- **Minor** (0.2.x → 0.3.0) — substantive additions: a new skill, a new plugin, a meaningful rewrite.
+- **Major** (0.x.y → 1.0.0) — breaking changes. Rare.
+
+Trivial doc-only edits to a plugin's README can skip the bump.
+
+**Workflow:**
+
+```bash
+bin/set-version.sh 0.2.2     # bump VERSION and sync every manifest
+git add VERSION plugins .claude-plugin/marketplace.json
+git commit -m "..."
+git push
+```
+
+Then in Claude Code:
+
+```
+/sync
+```
+
+`/sync` runs `bin/sync.sh` from the using-toolkit plugin, which refreshes the marketplace clone and reinstalls every plugin at the new version. Restart Claude Code after.
+
+**Re-syncing without a version change** (e.g., if a `plugin.json` drifted out of sync): run `bin/set-version.sh` with no args. It reads VERSION and rewrites every manifest to match.
 
 ## Layout
 
