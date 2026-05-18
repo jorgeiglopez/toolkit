@@ -1,6 +1,6 @@
 {
   "name": "build",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Stages and crafts Conventional Commits messages, then stops for review.",
   "author": {
     "name": "Jorge Lopez",
