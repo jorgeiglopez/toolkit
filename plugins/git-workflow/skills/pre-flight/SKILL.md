@@ -1,6 +1,6 @@
 ---
 name: pre-flight
-description: "Generate a `pre-flight.sh` (or split `pre-flight-light.sh` + `pre-flight-full.sh`) that mirrors the project's quality gates locally — tests, linters, formatters, type checkers, security scanners, git hooks, CI steps. Use when the user asks for a preflight script, pre-PR checks, pre-commit checks, CI mirror, local CI, quality gate, or says things like 'set up the checks for this repo', 'run all the checks before I commit', 'replicate CI locally', 'generate a check script'. If a pre-flight script already exists in the repo, treat the invocation as an update."
+description: "Generate a `pre-flight.sh` that mirrors the project's local quality gates (tests, lint, format, type-check, security, hooks, CI steps). Use when the user asks for a preflight script, pre-PR checks, pre-commit checks, local CI, CI mirror, quality gate, or 'run all checks before I commit'. If a pre-flight script already exists, treat the invocation as an update."
 ---
 
 # Pre-flight

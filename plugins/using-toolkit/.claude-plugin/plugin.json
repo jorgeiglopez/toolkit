@@ -1,6 +1,6 @@
 {
   "name": "using-toolkit",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Bootstrap plugin: injects the toolkit's skill table-of-contents at session start so the model reliably reaches for domain skills instead of running raw actions.",
   "author": {
     "name": "Jorge Lopez",

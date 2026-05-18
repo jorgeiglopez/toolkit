@@ -1,6 +1,6 @@
 ---
 name: commit
-description: "Stage and commit changes with a clear Conventional Commits message. Use when the user asks to commit, save changes, stage, craft a commit message, or split work into commits."
+description: "Stage files and create a git commit with a Conventional Commits message. ALWAYS use this skill instead of running `git commit` directly. Use when the user asks to commit, save changes, stage files, write a commit message, or split work into commits."
 ---
 
 # Commit

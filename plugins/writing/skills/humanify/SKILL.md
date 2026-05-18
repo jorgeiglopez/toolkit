@@ -2,12 +2,10 @@
 name: humanify
 version: 2.5.1
 description: |
-  Remove signs of AI-generated writing from text. Use when editing or reviewing
-  text to make it sound more natural and human-written. Based on Wikipedia's
-  comprehensive "Signs of AI writing" guide. Detects and fixes patterns including:
-  inflated symbolism, promotional language, superficial -ing analyses, vague
-  attributions, em dash overuse, rule of three, AI vocabulary words, passive
-  voice, negative parallelisms, and filler phrases.
+  Remove AI-writing tells from text: em-dash overuse, rule of three, inflated
+  symbolism, vague attributions, AI vocabulary, passive voice, filler phrases.
+  Use when the user asks to humanify, de-AI this, make it sound human, remove
+  AI tells, or says "sounds like ChatGPT".
 license: MIT
 compatibility: claude-code opencode
 allowed-tools:

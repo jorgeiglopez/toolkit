@@ -1,6 +1,6 @@
 ---
 name: grill-me
-description: When the user asks grill me on X topic.
+description: "Quiz the user with progressively harder questions on a topic to test and deepen understanding. Use when the user says 'grill me on X', 'quiz me on X', 'test me on X', or 'drill me on X'."
 ---
 
 # Grill Me

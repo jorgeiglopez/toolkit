@@ -1,7 +1,7 @@
 {
-  "name": "build",
-  "version": "0.2.2",
-  "description": "Stages and crafts Conventional Commits messages, then stops for review.",
+  "name": "git-workflow",
+  "version": "0.2.3",
+  "description": "Git workflow actions: stage and commit, open pull requests, mirror CI locally before shipping.",
   "author": {
     "name": "Jorge Lopez",
     "email": "jorgeiglopez@gmail.com"
@@ -11,6 +11,8 @@
   "keywords": [
     "git",
     "commit",
+    "pull-request",
+    "ci",
     "conventional-commits"
   ]
 }

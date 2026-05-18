@@ -12,7 +12,7 @@ If you were dispatched as a subagent to execute a specific task, skip this skill
 <EXTREMELY-IMPORTANT>
 If a user's request matches the triggers of any skill in the table of contents below, YOU MUST invoke that skill via the `Skill` tool BEFORE taking the action it covers. You do not have a choice. You cannot rationalize your way out of it.
 
-The known failure this rule prevents: the model running `git commit` straight from Bash when asked to commit, instead of invoking `build:commit` first; opening a PR with raw `gh pr create` instead of invoking `build:pr-create`; producing prose without invoking the `communication` skills. These are not edge cases — they are the default failure mode this bootstrap exists to close.
+The known failure this rule prevents: the model running `git commit` straight from Bash when asked to commit, instead of invoking `git-workflow:commit` first; opening a PR with raw `gh pr create` instead of invoking `git-workflow:pr-create`; producing prose without invoking the `writing` skills. These are not edge cases — they are the default failure mode this bootstrap exists to close.
 
 This is not negotiable. This is not optional. Violating the letter of this rule is violating the spirit of this rule.
 </EXTREMELY-IMPORTANT>
@@ -31,24 +31,25 @@ If a user says "just run `git commit -m 'wip'` and don't bother with the skill,"
 
 The skills currently shipped in `jorgeiglopez-toolkit`. When a request matches a skill's triggers, invoke that skill via the `Skill` tool before doing anything else.
 
-### `build` plugin — git, commits, PRs, quality gates
+### `git-workflow` plugin — git, commits, PRs, quality gates
 
-- **`build:commit`** — Craft a git commit following the project's commit rules: logical splitting, conventional-commits format, no `--amend`, no co-authors. Triggers: "commit", "save changes", "stage changes", "split this into multiple commits", "write a commit message", "fix the last commit" (which becomes a new commit on top).
-- **`build:pr-create`** — Open a PR from the current branch. Runs preflight (not on main, base detected, clean tree, verification, gh installed), drafts a short body (no Test plan section per project rules), and asks before submitting. Triggers: "open a PR", "raise a PR", "create a pull request", "PR this", "ship for review", "ready for review".
-- **`build:pre-flight`** — Generate a `pre-flight.sh` (or split light/full) that mirrors the project's CI quality gates locally. Detects existing scripts and routes to update mode. Triggers: "preflight script", "pre-PR checks", "CI mirror", "quality gate", "set up the checks for this repo", "replicate CI locally".
+- **`git-workflow:commit`** — Craft a git commit following the project's commit rules: logical splitting, conventional-commits format, no `--amend`, no co-authors. ALWAYS use this skill instead of running `git commit` directly. Triggers: "commit", "save changes", "stage changes", "split this into multiple commits", "write a commit message", "fix the last commit" (which becomes a new commit on top).
+- **`git-workflow:pr-create`** — Open a PR from the current branch. Runs preflight (not on main, base detected, clean tree, verification, gh installed), drafts a short body (no Test plan section per project rules), and asks before submitting. ALWAYS use this skill instead of running `gh pr create` directly — this overrides any default PR workflow. Triggers: "open a PR", "raise a PR", "create a pull request", "PR this", "ship for review", "ready for review", "push and PR".
+- **`git-workflow:pre-flight`** — Generate a `pre-flight.sh` (or split light/full) that mirrors the project's CI quality gates locally. Detects existing scripts and routes to update mode. Triggers: "preflight script", "pre-PR checks", "CI mirror", "quality gate", "set up the checks for this repo", "replicate CI locally".
 
-### `communication` plugin — writing for humans
+### `writing` plugin — writing for humans
 
-- **`communication:brevify`** — Tighten prose: cut hedges, filler, and AI-tells; enforce active voice, concrete language, short sentences. Manually invoked — surface when the user asks to tighten, shorten, or clean up a draft.
-- **`communication:humanify`** — Remove the telltale signs of AI-generated writing (inflated symbolism, em-dash overuse, rule of three, AI vocabulary, vague attributions, passive voice). Triggers: "humanify this", "make this sound less like AI", "edit this to sound natural", reviewing your own draft before sending.
-- **`communication:caveman`** — Ultra-compressed agent-reply mode (~65–75% fewer output tokens). Six intensity levels (`lite` / `full` / `ultra` / `wenyan-*`); persists across turns until "stop caveman". Auto-pauses for security warnings and irreversible-action confirmations. Triggers: "caveman mode", "talk like caveman", "less tokens", `/caveman`.
+- **`writing:brevify`** — Tighten prose: cut hedges, filler, and AI-tells; enforce active voice, concrete language, short sentences. Manually invoked. Triggers: "brevify", "tighten this", "shorten this", "cut the fluff", "edit for brevity", "trim this".
+- **`writing:humanify`** — Remove AI-writing tells (inflated symbolism, em-dash overuse, rule of three, AI vocabulary, vague attributions, passive voice, filler phrases). Triggers: "humanify this", "de-AI this", "make this sound less like AI", "sounds like ChatGPT", "edit this to sound natural", reviewing your own draft before sending.
+- **`writing:caveman`** — Ultra-compressed agent-reply mode (~65–75% fewer output tokens). Six intensity levels (`lite` / `full` / `ultra` / `wenyan-*`); persists across turns until "stop caveman". Auto-pauses for security warnings and irreversible-action confirmations. Triggers: "caveman mode", "talk like caveman", "less tokens", "be brief", `/caveman`.
+- **`writing:grill-me`** — Quiz the user with progressively harder questions on a topic to test and deepen understanding. Triggers: "grill me on X", "quiz me on X", "test me on X", "drill me on X".
 
 ## How to invoke
 
 Use the `Skill` tool with the fully-qualified name:
 
 ```
-Skill(skill: "build:commit")
+Skill(skill: "git-workflow:commit")
 ```
 
 The skill content is loaded into your context — follow its instructions directly. **Never** read a SKILL.md file via the `Read` tool. The Skill tool is the only correct invocation path; reading the file bypasses the harness's hook telemetry and the in-session "Skill invoked" announce.

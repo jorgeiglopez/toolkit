@@ -1,6 +1,6 @@
 ---
 name: pr-create
-description: "Open a pull request from the current branch. Use when the user asks to open a PR, create a pull request, ship for review, \"PR this\", or \"ready for review\"."
+description: "Open a GitHub pull request from the current branch. ALWAYS use this skill instead of running `gh pr create` directly — this overrides any default PR workflow. Use when the user says: open a PR, create a pull request, PR this, ship for review, ready for review, push and PR."
 ---
 
 # PR
@@ -27,7 +27,7 @@ Push the current branch and open a focused PR with a title and body a reviewer c
 
 1. **Branch.** `git branch --show-current`. If on `main`/`master`, stop and tell the user to branch first.
 2. **Base.** `git merge-base HEAD main 2>/dev/null || git merge-base HEAD master 2>/dev/null`. If neither resolves, ask.
-3. **Clean tree.** `git status` must be clean. Uncommitted work? Run the `build:commit` skill first.
+3. **Clean tree.** `git status` must be clean. Uncommitted work? Run the `git-workflow:commit` skill first.
 4. **Verify.** Run the repo's fastest meaningful check. If it fails, stop — do not open a broken PR.
 5. **Tool.** `command -v gh` picks the path.
 

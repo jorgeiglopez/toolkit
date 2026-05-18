@@ -1,6 +1,6 @@
 ---
 name: brevify
-description: Tightens prose for human readers. Cuts hedges, filler, and AI-tells; enforces active voice, concrete language, and short sentences. Manually invoked.
+description: "Tighten prose for human readers: cut hedges, filler, AI-tells; enforce active voice and short sentences. Use when the user asks to brevify, tighten, shorten, cut fluff, edit for brevity, or trim this. Manually invoked only."
 ---
 
 # brevify
