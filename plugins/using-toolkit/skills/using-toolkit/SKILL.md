@@ -41,6 +41,7 @@ The skills currently shipped in `jorgeiglopez-toolkit`. When a request matches a
 
 - **`communication:brevify`** — Tighten prose: cut hedges, filler, and AI-tells; enforce active voice, concrete language, short sentences. Manually invoked — surface when the user asks to tighten, shorten, or clean up a draft.
 - **`communication:humanify`** — Remove the telltale signs of AI-generated writing (inflated symbolism, em-dash overuse, rule of three, AI vocabulary, vague attributions, passive voice). Triggers: "humanify this", "make this sound less like AI", "edit this to sound natural", reviewing your own draft before sending.
+- **`communication:caveman`** — Ultra-compressed agent-reply mode (~65–75% fewer output tokens). Six intensity levels (`lite` / `full` / `ultra` / `wenyan-*`); persists across turns until "stop caveman". Auto-pauses for security warnings and irreversible-action confirmations. Triggers: "caveman mode", "talk like caveman", "less tokens", `/caveman`.
 
 ## How to invoke
 

@@ -6,6 +6,7 @@ Skills for clearer, more human writing and communication.
 
 - **humanify** — Remove signs of AI-generated writing from text. Detects and fixes inflated symbolism, promotional language, em dash overuse, rule-of-three, AI vocabulary, passive voice, and filler phrases.
 - **brevify** — Tighten prose. Cuts hedges, filler, and AI-tells; enforces active voice, concrete language, and short sentences. Manually invoked.
+- **caveman** — Ultra-compressed agent-output mode. Cuts ~65–75% of response tokens while keeping technical accuracy. Six intensity levels (`lite` / `full` / `ultra` / `wenyan-*`). Persists across turns until "stop caveman". Imported from [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman) (MIT).
 
 ## Install
 
