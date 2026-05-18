@@ -39,7 +39,7 @@ The skills currently shipped in `jorgeiglopez-toolkit`. When a request matches a
 
 ### `communication` plugin — writing for humans
 
-- **`communication:writing-clearly-and-concisely`** — Apply Strunk's rules to prose. Triggers: writing documentation, commit message bodies, error messages, reports, UI text — anywhere a human is going to read what you produced.
+- **`communication:brevify`** — Tighten prose: cut hedges, filler, and AI-tells; enforce active voice, concrete language, short sentences. Manually invoked — surface when the user asks to tighten, shorten, or clean up a draft.
 - **`communication:humanify`** — Remove the telltale signs of AI-generated writing (inflated symbolism, em-dash overuse, rule of three, AI vocabulary, vague attributions, passive voice). Triggers: "humanify this", "make this sound less like AI", "edit this to sound natural", reviewing your own draft before sending.
 
 ## How to invoke

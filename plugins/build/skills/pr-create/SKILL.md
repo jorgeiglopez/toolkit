@@ -9,8 +9,6 @@ description: "Open a pull request from the current branch. Use when the user ask
 If the user asks to open a PR, create a pull request, ship for review, "PR this", or "ready for review", follow this skill end-to-end before running `gh pr create` or pushing.
 
 Not negotiable. Not optional. You cannot rationalize your way out of it.
-
-Violating the letter violates the spirit.
 </EXTREMELY-IMPORTANT>
 
 ## Announce first
@@ -29,7 +27,7 @@ Push the current branch and open a focused PR with a title and body a reviewer c
 
 1. **Branch.** `git branch --show-current`. If on `main`/`master`, stop and tell the user to branch first.
 2. **Base.** `git merge-base HEAD main 2>/dev/null || git merge-base HEAD master 2>/dev/null`. If neither resolves, ask.
-3. **Clean tree.** `git status` must be clean. Uncommitted work? Run the `commit` skill first.
+3. **Clean tree.** `git status` must be clean. Uncommitted work? Run the `build:commit` skill first.
 4. **Verify.** Run the repo's fastest meaningful check. If it fails, stop — do not open a broken PR.
 5. **Tool.** `command -v gh` picks the path.
 
@@ -46,20 +44,19 @@ Push the current branch and open a focused PR with a title and body a reviewer c
 ```
 ## Summary
 - <what changed, 2-4 bullets>
-- <why it matters>
 
 Closes #<issue> (if applicable)
 ```
 
 Keep the body short. No test plan, testing strategy, or verification checklist — that belongs in CI and the diff.
 
-**Run the draft through `writing-clearly-and-concisely` before showing it** — see Writing pass. PR bodies live forever on the merge commit.
+**Run the draft through `brevify` before showing it** — see Writing pass. PR bodies live forever on the merge commit.
 
 Show the cleaned draft. Ask: "Open this PR?" Wait for "yes."
 
 ## Writing pass — mandatory
 
-Before showing the draft, invoke `writing-clearly-and-concisely` on title and body. A first draft is a draft, not the PR.
+Before showing the draft, invoke `brevify` on title and body. A first draft is a draft, not the PR.
 
 The body is the shortest text that lets a reviewer understand intent and decide where to look — not a changelog of the diff.
 

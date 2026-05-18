@@ -53,7 +53,7 @@ Commits that are easy to review and safe to ship:
 
 5. **Describe the change in one sentence — what + why.** If you can't, the commit is too big or mixed; go back to step 2.
 
-6. **Write the message** (format below), then run it through `writing-clearly-and-concisely` — see Writing pass. `git log` is forever.
+6. **Write the message** (format below), then run it through `brevify` — see Writing pass. `git log` is forever.
 
 7. **Run the smallest meaningful check** — tests, lint, or build.
 
@@ -61,7 +61,7 @@ Commits that are easy to review and safe to ship:
 
 ## Writing pass — mandatory
 
-Before `git commit`, invoke `writing-clearly-and-concisely` on the drafted message. A first draft is a draft, not the commit.
+Before `git commit`, invoke `brevify` on the drafted message. A first draft is a draft, not the commit.
 
 A commit message is the shortest text that lets a future reviewer understand the change and decide whether to revert it. Cut any sentence that wouldn't change what a reader does.
 
