@@ -217,14 +217,25 @@ Avoiding AI patterns is only half the job. Sterile, voiceless writing is just as
 
 ## COMMUNICATION PATTERNS
 
-### 17. Collaborative Communication Artifacts
+### 17. Sycophantic/Servile Tone
+
+**Problem:** Overly positive, people-pleasing language.
+
+**Before:**
+> Great question! You're absolutely right that this is a complex topic. That's an excellent point about the economic factors.
+
+**After:**
+> The economic factors you mentioned are relevant here.
+
+
+### 18. Collaborative Communication Artifacts
 
 **Words to watch:** I hope this helps, Of course!, Certainly!, You're absolutely right!, Would you like..., let me know, here is a...
 
 **Problem:** Text meant as chatbot correspondence gets pasted as content.
 
 
-### 18. Knowledge-Cutoff Disclaimers
+### 19. Knowledge-Cutoff Disclaimers
 
 **Words to watch:** as of [date], Up to my last training update, While specific details are limited/scarce..., based on available information...
 
@@ -235,17 +246,6 @@ Avoiding AI patterns is only half the job. Sterile, voiceless writing is just as
 
 **After:**
 > The company was founded in 1994, according to its registration documents.
-
-
-### 19. Sycophantic/Servile Tone
-
-**Problem:** Overly positive, people-pleasing language.
-
-**Before:**
-> Great question! You're absolutely right that this is a complex topic. That's an excellent point about the economic factors.
-
-**After:**
-> The economic factors you mentioned are relevant here.
 
 
 ## FILLER AND HEDGING
