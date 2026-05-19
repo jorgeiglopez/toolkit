@@ -50,13 +50,13 @@ Closes #<issue> (if applicable)
 
 Keep the body short. No test plan, testing strategy, or verification checklist — that belongs in CI and the diff.
 
-**Run the draft through `brevify` before showing it** — see Writing pass. PR bodies live forever on the merge commit.
+**Run the draft through `brevify` before opening the PR** — see Writing pass. PR bodies live forever on the merge commit.
 
-Show the cleaned draft. Ask: "Open this PR?" Wait for "yes."
+Do **not** ask "Open this PR?" first. Open it, then surface the result.
 
 ## Writing pass — mandatory
 
-Before showing the draft, invoke `brevify` on title and body. A first draft is a draft, not the PR.
+Before opening the PR, invoke `brevify` on title and body. A first draft is a draft, not the PR.
 
 The body is the shortest text that lets a reviewer understand intent and decide where to look — not a changelog of the diff.
 
@@ -80,7 +80,7 @@ EOF
 )"
 ```
 
-Return the PR URL `gh` prints.
+Then report the result using the **Post-creation message** format below.
 
 ## Path B — `gh` not installed (fallback)
 
@@ -107,6 +107,24 @@ Return the PR URL `gh` prints.
    ```
    ````
 
+## Post-creation message
+
+After the PR is open, send one compact message with the link, title, and body — then offer to edit the body. Example:
+
+```
+PR opened → <url>
+
+**<title>**
+
+## Summary
+- <bullet>
+- <bullet>
+
+Want to tweak the description?
+```
+
+If the user asks for changes, update with `gh pr edit <url> --body "$(cat <<'EOF' … EOF)"` and reprint the new body. Don't ask before opening; only ask after.
+
 ## Red Flags — STOP
 
 If you catch yourself thinking any of these, you're rationalizing. Stop and follow the workflow.
@@ -115,7 +133,7 @@ If you catch yourself thinking any of these, you're rationalizing. Stop and foll
 |---|---|
 | "Skip verification, tests probably pass" | Probably ≠ passing. Run them. A broken PR wastes the reviewer's time. |
 | "The diff is obvious, no body needed" | The reviewer isn't in your head. Fill in the Summary. |
-| "Open it now, edit the body in GitHub" | Show the draft and get a "yes" first. |
+| "Ask the user to approve the draft first" | No. Open the PR, then offer to edit the body. Approval up front wastes time. |
 | "Branch is fine, skip `git status`" | Uncommitted work breaks the PR. Run preflight. |
 | "I'll force-push to clean up real quick" | Never `--force` without an explicit ask. |
 | "main is fine for this tiny fix" | Never PR from `main`/`master`. Branch first. |
