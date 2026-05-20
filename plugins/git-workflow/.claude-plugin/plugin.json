@@ -1,6 +1,6 @@
 {
   "name": "git-workflow",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "Git workflow actions: stage and commit, open pull requests, mirror CI locally before shipping.",
   "author": {
     "name": "Jorge Lopez",
