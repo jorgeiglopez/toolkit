@@ -1,6 +1,6 @@
 {
   "name": "dev-tools",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Developer utilities for working in unfamiliar repos. Ships ramp-up: a fast, methodical onboarding pass that builds a complete picture of a project before you touch it.",
   "author": {
     "name": "Jorge Lopez",
