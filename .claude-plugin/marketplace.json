@@ -11,25 +11,25 @@
       "name": "using-toolkit",
       "source": "./plugins/using-toolkit",
       "description": "Bootstrap plugin: injects the toolkit's skill table-of-contents at session start so domain skills get reliably invoked. Ships a /sync slash command and bin/sync.sh to keep the toolkit current.",
-      "version": "0.2.7"
+      "version": "0.2.8"
     },
     {
       "name": "writing",
       "source": "./plugins/writing",
       "description": "Skills for clearer, more human writing: tighten prose, strip AI-tells, caveman mode, interview drills.",
-      "version": "0.2.7"
+      "version": "0.2.8"
     },
     {
       "name": "git-workflow",
       "source": "./plugins/git-workflow",
       "description": "Git workflow actions: stage and commit, open pull requests, mirror CI locally before shipping.",
-      "version": "0.2.7"
+      "version": "0.2.8"
     },
     {
       "name": "dev-tools",
       "source": "./plugins/dev-tools",
       "description": "Developer utilities for working in unfamiliar repos. Ships ramp-up: a fast, methodical onboarding pass.",
-      "version": "0.2.7"
+      "version": "0.2.8"
     }
   ]
 }
