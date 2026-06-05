@@ -7,9 +7,9 @@ Personal Claude Code plugin marketplace. macOS only, Claude Code only, single-us
 | Plugin | Skills | What it does |
 |---|---|---|
 | [writing](./plugins/writing) | `brevify`, `humanify`, `caveman`, `grill-me` | Clearer, more human writing: tighten prose, strip AI-tells, caveman mode, interview drills |
-| [git-workflow](./plugins/git-workflow) | `commit`, `pr-create`, `pre-flight` | Stage & commit, open PRs, mirror CI locally before shipping — plus a hook that logs every skill invocation |
+| [git-workflow](./plugins/git-workflow) | `commit`, `pr-create`, `pre-flight` | Stage & commit, open PRs, mirror CI locally before shipping |
 | [dev-workflow](./plugins/dev-workflow) | `ramp-up`, `debate-team`, `recall-agent` | Working in unfamiliar repos: onboard fast, run a 3-agent adversarial debate, recover a subagent's transcript |
-| [mgt-workflow](./plugins/mgt-workflow) | `project-cost` | Management & reporting: estimate a project's total Claude Code cost from its transcripts |
+| [mgt-workflow](./plugins/mgt-workflow) | `project-cost` | Management & observability: estimate a project's Claude Code token cost from transcripts; plus a hook that logs every skill invocation |
 
 ## Install (from GitHub)
 
