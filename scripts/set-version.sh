@@ -7,8 +7,8 @@
 # in `.claude-plugin/marketplace.json`.
 #
 # Usage:
-#   bin/set-version.sh              # sync everything to whatever VERSION says
-#   bin/set-version.sh 0.2.2        # set VERSION to 0.2.2 first, then sync
+#   scripts/set-version.sh          # sync everything to whatever VERSION says
+#   scripts/set-version.sh 0.2.2    # set VERSION to 0.2.2 first, then sync
 #
 # Requires: jq.
 
