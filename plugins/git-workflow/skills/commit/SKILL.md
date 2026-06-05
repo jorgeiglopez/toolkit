@@ -65,7 +65,7 @@ Commits that are easy to review and safe to ship:
 
 Before `git commit`, invoke `brevify` on the drafted message. A first draft is a draft, not the commit.
 
-A commit message is the shortest text that lets a future reviewer understand the change and decide whether to revert it. Cut any sentence that wouldn't change what a reader does.
+A commit message is the shortest text that lets a reviewer understand the change and decide whether to revert it. Cut any sentence that wouldn't change what a reader does.
 
 Targets:
 - **Subject ≤ 50 chars** (hard cap 72)
@@ -108,7 +108,7 @@ Fixes #234
 
 ## Report back
 
-After the commit(s) land, print this box so the result is easy to spot in the CLI. One line per commit (`<short-hash>  <subject>`):
+After the commit(s) land, print this box. One line per commit (`<short-hash>  <subject>`):
 
 ```
 ╭─ ✅ Committed ──────────────────────────────╮
