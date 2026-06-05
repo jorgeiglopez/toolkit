@@ -42,9 +42,8 @@ printf '%s | %-15s | %-20s | %s | %s\n' \
 
 if [ "$hook_event" = "PreToolUse" ]; then
   if command -v jq >/dev/null 2>&1; then
-    jq -nc --arg msg "Skill invoked: $skill_name" \
-      '{hookSpecificOutput:{hookEventName:"PreToolUse",systemMessage:$msg}}'
+    jq -nc --arg msg "🎹 Skill invoked: $skill_name" '{systemMessage:$msg}'
   else
-    printf '{"hookSpecificOutput":{"hookEventName":"PreToolUse","systemMessage":"Skill invoked: %s"}}\n' "$skill_name"
+    printf '{"systemMessage":"🎹 Skill invoked: %s"}\n' "$skill_name"
   fi
 fi
