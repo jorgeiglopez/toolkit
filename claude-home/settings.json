@@ -1,0 +1,163 @@
+{
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "ENABLE_LSP_TOOL": "1"
+  },
+  "permissions": {
+    "allow": [
+      "Read",
+      "Edit",
+      "Write",
+      "MultiEdit",
+      "Bash(git *)",
+      "Bash(npm *)",
+      "Bash(pnpm *)",
+      "Bash(yarn *)",
+      "Bash(node *)",
+      "Bash(npx *)",
+      "Bash(python *)",
+      "Bash(pip *)",
+      "Bash(ls *)",
+      "Bash(cat *)",
+      "Bash(grep *)",
+      "Bash(find *)",
+      "Bash(mkdir *)",
+      "Bash(cp *)",
+      "Bash(mv *)",
+      "Bash(touch *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(wc *)",
+      "Bash(sort *)",
+      "Bash(sed *)",
+      "Bash(awk *)",
+      "Bash(docker *)",
+      "Bash(gh *)",
+      "Bash(cargo *)",
+      "Bash(make *)",
+      "Bash(cd *)",
+      "Bash(echo *)",
+      "Bash(pwd *)",
+      "Bash(which *)",
+      "Bash(env *)",
+      "Bash(tree *)",
+      "WebFetch",
+      "WebSearch",
+      "TodoWrite",
+      "Glob",
+      "Grep",
+      "LS",
+      "Task",
+      "Bash(bash:*)",
+      "Bash(cursor:*)",
+      "Bash(npm audit:*)",
+      "Bash(npx eslint:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npm install:*)",
+      "Bash(npm ls:*)",
+      "Bash(npm run:*)",
+      "Bash(git add:*)",
+      "Bash(claude mcp:*)"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(rm -fr *)",
+      "Bash(sudo *)",
+      "Bash(mkfs *)",
+      "Bash(dd *)",
+      "Bash(chmod 777 *)",
+      "Bash(git push --force*)",
+      "Bash(git push *--force*)",
+      "Bash(git reset --hard*)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Read(**/secrets/**)",
+      "Edit(~/.bashrc)",
+      "Edit(~/.zshrc)",
+      "Edit(~/.ssh/**)"
+    ],
+    "defaultMode": "auto"
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ \"$(uname)\" = \"Darwin\" ]; then afplay /System/Library/Sounds/Sosumi.aiff; else paplay /usr/share/sounds/freedesktop/stereo/complete.oga; fi",
+            "timeout": 5000
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Skill",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/log-skill-use.sh"
+          }
+        ]
+      }
+    ],
+    "UserPromptExpansion": [
+      {
+        "matcher": "^/",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/log-skill-use.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "BASH ~/.claude/statusline.sh",
+    "padding": 2
+  },
+  "enabledPlugins": {
+    "skill-creator@claude-plugins-official": false,
+    "superpowers@claude-plugins-official": false,
+    "context7@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "impeccable@impeccable": true
+  },
+  "extraKnownMarketplaces": {
+    "jorgeiglopez-toolkit": {
+      "source": {
+        "source": "github",
+        "repo": "jorgeiglopez/toolkit"
+      },
+      "autoUpdate": true
+    },
+    "impeccable": {
+      "source": {
+        "source": "github",
+        "repo": "pbakaus/impeccable"
+      }
+    }
+  },
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true,
+    "filesystem": {
+      "allowWrite": ["~/.claude/toolkit"]
+    }
+  },
+  "effortLevel": "high",
+  "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
+  "preferredNotifChannel": "iterm2",
+  "autoCompactEnabled": true,
+  "teammateMode": "tmux",
+  "remoteControlAtStartup": true,
+  "inputNeededNotifEnabled": true,
+  "agentPushNotifEnabled": true,
+  "skipAutoPermissionPrompt": true,
+  "voiceEnabled": true
+}
