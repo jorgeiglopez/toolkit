@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Observability hook (mgt-workflow): record every skill invocation.
-# Fires on PreToolUse(Skill) and UserPromptExpansion(^/). Reads the hook JSON
+# Fires on PreToolUse(Skill) and UserPromptExpansion (all slash commands). Reads the hook JSON
 # from stdin and appends one line to the mgt-workflow log:
 #   timestamp | skill | event | project (cwd) | session id
 set -euo pipefail
@@ -10,13 +10,11 @@ input=$(cat)
 if command -v jq >/dev/null 2>&1; then
   session_id=$(printf '%s' "$input" | jq -r '.session_id // "-"')
   cwd=$(printf '%s' "$input" | jq -r '.cwd // "-"')
-  if printf '%s' "$input" | grep -q '"tool_input"'; then
-    hook_event="PreToolUse"
+  hook_event=$(printf '%s' "$input" | jq -r '.hook_event_name // "UserPromptExpansion"')
+  if [ "$hook_event" = "PreToolUse" ]; then
     skill_name=$(printf '%s' "$input" | jq -r '.tool_input.skill // "unknown"')
   else
-    hook_event="UserPromptExpansion"
-    prompt=$(printf '%s' "$input" | jq -r '.prompt // ""')
-    skill_name=$(printf '%s' "$prompt" | sed 's|^/\([^ ]*\).*|\1|')
+    skill_name=$(printf '%s' "$input" | jq -r '.command_name // "unknown"')
   fi
 else
   # Fallback when jq is absent. Tab-delimited so paths with spaces survive.
@@ -25,12 +23,11 @@ import json, sys
 d = json.load(sys.stdin)
 sid = d.get("session_id") or "-"
 cwd = d.get("cwd") or "-"
-if "tool_input" in d:
-    ev, sk = "PreToolUse", (d.get("tool_input") or {}).get("skill", "unknown")
+ev = d.get("hook_event_name") or "UserPromptExpansion"
+if ev == "PreToolUse":
+    sk = (d.get("tool_input") or {}).get("skill", "unknown")
 else:
-    ev = "UserPromptExpansion"
-    p = d.get("prompt", "") or ""
-    sk = p[1:].split()[0] if p.startswith("/") else "unknown"
+    sk = d.get("command_name") or "unknown"
 print("\t".join([ev, sk, sid, cwd]))')
 fi
 
