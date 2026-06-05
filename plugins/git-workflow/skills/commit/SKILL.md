@@ -59,6 +59,8 @@ Commits that are easy to review and safe to ship:
 
 8. **Repeat** until the tree is clean.
 
+9. **Report back** — print the result box (see Report back).
+
 ## Writing pass — mandatory
 
 Before `git commit`, invoke `brevify` on the drafted message. A first draft is a draft, not the commit.
@@ -90,7 +92,7 @@ Types: `feat`, `fix`, `refactor`, `perf`, `test`, `docs`, `chore`, `build`, `ci`
 **Subject rules:**
 - Imperative: "add", not "added" or "adds"
 - No trailing period
-- Under 72 chars, ideally under 50
+- Length budget: see Writing pass
 
 **Example:**
 
@@ -103,6 +105,21 @@ around the upsert.
 
 Fixes #234
 ```
+
+## Report back
+
+After the commit(s) land, print this box so the result is easy to spot in the CLI. One line per commit (`<short-hash>  <subject>`):
+
+```
+╭─ ✅ Committed ──────────────────────────────╮
+│ 9680cdf  refactor(home): rename statusline  │
+│ b64b1ea  feat(home): add minimal statusline │
+╰─────────────────────────────────────────────╯
+```
+
+- Pad the top border to the widest line; keep it tight.
+- Pushed too? Swap the title to `✅ Committed & pushed 🚀`.
+- Nothing to commit? `╰─ 🟰 Working tree already clean ─╯` (single line, no box).
 
 ## Red Flags — STOP
 
