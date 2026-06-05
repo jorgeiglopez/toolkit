@@ -4,11 +4,12 @@ Personal Claude Code plugin marketplace. macOS only, Claude Code only, single-us
 
 ## Plugins
 
-| Plugin | Description |
-|---|---|
-| [using-toolkit](./plugins/using-toolkit) | Bootstrap: injects the toolkit's skill TOC at session start so domain skills get invoked reliably |
-| [communication](./plugins/communication) | Skills for clearer, more human writing and communication |
-| [build](./plugins/build) | Commit, PR, and pre-flight skills, with skill-usage logging hook |
+| Plugin | Skills | What it does |
+|---|---|---|
+| [writing](./plugins/writing) | `brevify`, `humanify`, `caveman`, `grill-me` | Clearer, more human writing: tighten prose, strip AI-tells, caveman mode, interview drills |
+| [git-workflow](./plugins/git-workflow) | `commit`, `pr-create`, `pre-flight` | Stage & commit, open PRs, mirror CI locally before shipping — plus a hook that logs every skill invocation |
+| [dev-workflow](./plugins/dev-workflow) | `ramp-up`, `debate-team`, `recall-agent` | Working in unfamiliar repos: onboard fast, run a 3-agent adversarial debate, recover a subagent's transcript |
+| [mgt-workflow](./plugins/mgt-workflow) | `project-cost` | Management & reporting: estimate a project's total Claude Code cost from its transcripts |
 
 ## Install (from GitHub)
 
@@ -16,80 +17,50 @@ From inside Claude Code:
 
 ```
 /plugin marketplace add jorgeiglopez/toolkit
-/plugin install communication@jorgeiglopez-toolkit
-/plugin install build@jorgeiglopez-toolkit
+/plugin install writing@jorgeiglopez-toolkit
+/plugin install git-workflow@jorgeiglopez-toolkit
+/plugin install dev-workflow@jorgeiglopez-toolkit
+/plugin install mgt-workflow@jorgeiglopez-toolkit
 ```
 
-To pull updates after pushing new commits, **first bump the toolkit version** (`bin/set-version.sh <new-version>` — see [Updating a plugin](#updating-a-plugin) below), then from inside Claude Code:
-
-```
-/sync
-```
-
-`/sync` (from the using-toolkit plugin) refreshes the marketplace and reinstalls every plugin in one shot. Equivalent manual sequence:
+To pull updates after new commits:
 
 ```
 /plugin marketplace update jorgeiglopez-toolkit
-/plugin install <name>@jorgeiglopez-toolkit
+/reload-plugins
 ```
 
-Why bumping matters: Claude Code keys each plugin's install cache on `version`. Without a bump, `marketplace update` refreshes the marketplace clone but the installed plugin keeps serving stale, cached files.
+Claude Code caches each installed plugin under `~/.claude/plugins/cache/<marketplace>/<plugin>/<version>/` and keys the cache on `version` — so `marketplace update` only serves new code once the version is bumped (see [Versioning](#versioning)).
 
-## Install (local dev)
+## Versioning
 
-If working on the marketplace locally:
+All plugins ship in lockstep at the value in `VERSION`. `scripts/set-version.sh` propagates that value into every `plugins/*/.claude-plugin/plugin.json` and every `.plugins[].version` in `.claude-plugin/marketplace.json`.
 
+```bash
+scripts/set-version.sh 0.2.12   # bump VERSION, then sync every manifest
+scripts/set-version.sh          # no args: re-sync manifests to whatever VERSION says
 ```
-/plugin marketplace add /Users/jorgeilopez/repo/claude-sample-plugins/toolkit
-/plugin install build@jorgeiglopez-toolkit
-```
 
-Verify by asking Claude to commit something — the `commit` skill should engage.
+Bump rule — default to **patch**; **minor** for a new skill/plugin or a meaningful rewrite; **major** for breaking changes.
 
 ## Add a new plugin
 
-1. Create `plugins/<name>/.claude-plugin/plugin.json` (copy `communication` as a template).
+1. Create `plugins/<name>/.claude-plugin/plugin.json` (copy an existing plugin as a template).
 2. Add skills under `plugins/<name>/skills/<skill>/SKILL.md` with frontmatter `name` + `description`.
 3. Append the plugin entry to `.claude-plugin/marketplace.json`.
-4. Reload: `/plugin marketplace update jorgeiglopez-toolkit` then `/plugin install <name>@jorgeiglopez-toolkit`.
+4. Run `scripts/set-version.sh` to sync the new manifest, then reload.
 
-## Updating a plugin
+## Local development
 
-The toolkit ships all plugins in lockstep — one unified version, stored at `toolkit/VERSION`. Every push that changes any plugin's behavior bumps that file, and `bin/set-version.sh` propagates the value into every `plugins/*/.claude-plugin/plugin.json` and every `.plugins[].version` in `marketplace.json`.
-
-Claude Code caches each installed plugin under `~/.claude/plugins/cache/<marketplace>/<plugin>/<version>/`. Without a version bump the cache key doesn't change and the installed plugin keeps serving old code — even after `marketplace update`. The unified version means one bump per release.
-
-**Bumping rule — default to patch.**
-
-- **Patch** (0.2.1 → 0.2.2) — default. Every behavioral change.
-- **Minor** (0.2.x → 0.3.0) — substantive additions: a new skill, a new plugin, a meaningful rewrite.
-- **Major** (0.x.y → 1.0.0) — breaking changes. Rare.
-
-Trivial doc-only edits to a plugin's README can skip the bump.
-
-**Workflow:**
-
-```bash
-bin/set-version.sh 0.2.2     # bump VERSION and sync every manifest
-git add VERSION plugins .claude-plugin/marketplace.json
-git commit -m "..."
-git push
-```
-
-Then in Claude Code:
-
-```
-/sync
-```
-
-`/sync` runs `bin/sync.sh` from the using-toolkit plugin, which refreshes the marketplace clone and reinstalls every plugin at the new version. Restart Claude Code after.
-
-**Re-syncing without a version change** (e.g., if a `plugin.json` drifted out of sync): run `bin/set-version.sh` with no args. It reads VERSION and rewrites every manifest to match.
+Day-to-day, changes are dogfooded by symlinking each plugin's skills (and merging its hooks) straight into `~/.claude` via a local, gitignored `dogfooding/` harness — so edits take effect in the next session with no marketplace round-trip. Automated releases are paused while the plugins stabilize.
 
 ## Layout
 
 ```
 toolkit/
+├── VERSION                     # single source of truth for the marketplace version
+├── scripts/
+│   └── set-version.sh          # propagate VERSION → every manifest
 ├── .claude-plugin/
 │   └── marketplace.json        # lists every plugin in this repo
 ├── README.md
@@ -97,7 +68,6 @@ toolkit/
     └── <plugin-name>/
         ├── .claude-plugin/
         │   └── plugin.json     # this plugin's manifest
-        ├── README.md
         └── skills/
             └── <skill-name>/
                 └── SKILL.md    # the skill body, with YAML frontmatter
