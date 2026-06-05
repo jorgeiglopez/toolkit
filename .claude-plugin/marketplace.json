@@ -8,12 +8,6 @@
   },
   "plugins": [
     {
-      "name": "using-toolkit",
-      "source": "./plugins/using-toolkit",
-      "description": "Bootstrap plugin: injects the toolkit's skill table-of-contents at session start so domain skills get reliably invoked. Ships a /sync slash command and bin/sync.sh to keep the toolkit current.",
-      "version": "0.2.11"
-    },
-    {
       "name": "writing",
       "source": "./plugins/writing",
       "description": "Skills for clearer, more human writing: tighten prose, strip AI-tells, caveman mode, interview drills.",
