@@ -1,6 +1,6 @@
 {
   "name": "mgt-workflow",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "description": "Management & reporting workflows. Ships project-cost: estimate the total Claude Code cost of a project from its transcripts.",
   "author": {
     "name": "Jorge Lopez",

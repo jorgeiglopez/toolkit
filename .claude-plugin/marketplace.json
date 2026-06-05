@@ -11,25 +11,25 @@
       "name": "writing",
       "source": "./plugins/writing",
       "description": "Skills for clearer, more human writing: tighten prose, strip AI-tells, caveman mode, interview drills.",
-      "version": "0.2.11"
+      "version": "0.2.12"
     },
     {
       "name": "git-workflow",
       "source": "./plugins/git-workflow",
       "description": "Git workflow actions: stage and commit, open pull requests, mirror CI locally before shipping.",
-      "version": "0.2.11"
+      "version": "0.2.12"
     },
     {
       "name": "dev-workflow",
       "source": "./plugins/dev-workflow",
       "description": "Developer utilities for working in unfamiliar repos. Ships ramp-up: a fast, methodical onboarding pass.",
-      "version": "0.2.11"
+      "version": "0.2.12"
     },
     {
       "name": "mgt-workflow",
       "source": "./plugins/mgt-workflow",
       "description": "Management & reporting workflows. Ships project-cost: estimate the total Claude Code cost of a project from its transcripts.",
-      "version": "0.2.11"
+      "version": "0.2.12"
     }
   ]
 }
