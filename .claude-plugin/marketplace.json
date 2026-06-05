@@ -20,9 +20,15 @@
       "version": "0.2.11"
     },
     {
-      "name": "dev-tools",
-      "source": "./plugins/dev-tools",
+      "name": "dev-workflow",
+      "source": "./plugins/dev-workflow",
       "description": "Developer utilities for working in unfamiliar repos. Ships ramp-up: a fast, methodical onboarding pass.",
+      "version": "0.2.11"
+    },
+    {
+      "name": "mgt-workflow",
+      "source": "./plugins/mgt-workflow",
+      "description": "Management & reporting workflows. Ships project-cost: estimate the total Claude Code cost of a project from its transcripts.",
       "version": "0.2.11"
     }
   ]
