@@ -2,18 +2,25 @@
 
 Personal Claude Code plugin marketplace. One marketplace, several domain-focused plugins, all shipped in lockstep at one version.
 
-## What ships today
+## Repo map
 
 ```
 toolkit/
 ├── VERSION                              # single source of truth for the marketplace version
-├── bin/set-version.sh                   # propagates VERSION → every plugin.json + marketplace.json
-├── .claude-plugin/marketplace.json
+├── scripts/set-version.sh               # propagates VERSION → every plugin.json + marketplace.json
+├── .claude-plugin/marketplace.json      # the marketplace catalog
+├── claude-home/                         # versioned ~/.claude config (settings.json, statuslines)
+├── dogfooding/                          # GITIGNORED, local-only: symlinks skills/hooks/agents into ~/.claude
 └── plugins/
-    ├── using-toolkit/   # SessionStart bootstrap that injects the skill TOC into context
-    ├── writing/         # brevify, humanify, caveman, grill-me
-    └── git-workflow/    # commit, pr-create, pre-flight + PreToolUse skill-use logger
+    ├── writing/         # skills: brevify, humanify, caveman, grill-me
+    ├── git-workflow/    # skills: commit, pr-create, pre-flight
+    ├── dev-workflow/    # skills: ramp-up, debate-team, recall-agent
+    └── mgt-workflow/    # skills: project-cost · hooks/ (skill-use logger)
+                         # agents/ (toolkit-manager) · templates/ (bug-report)
 ```
+
+Layout inside a plugin: `plugins/<plugin>/skills/<skill>/SKILL.md` (+ optional `RULES.md`),
+`hooks/*.sh`, `agents/*.md`, `.claude-plugin/plugin.json`.
 
 ## `RULES.md` inside skills — the user's contract
 
@@ -35,7 +42,7 @@ A skill (`plugins/<plugin>/skills/<skill>/`) may contain a `RULES.md` next to `S
 
 Every plugin ships at the value in `VERSION`. Claude Code caches plugins under `~/.claude/plugins/cache/<marketplace>/<plugin>/<version>/`; **the version string is the cache key**, so pushing changes without a bump serves stale code.
 
-`bin/set-version.sh <new-version>` writes `VERSION` and syncs every `plugins/*/.claude-plugin/plugin.json` + every `.plugins[].version` in `marketplace.json`. Running it with no args re-syncs from `VERSION`.
+`scripts/set-version.sh <new-version>` writes `VERSION` and syncs every `plugins/*/.claude-plugin/plugin.json` + every `.plugins[].version` in `marketplace.json`. Running it with no args re-syncs from `VERSION`.
 
 **Bump rule of thumb — default to patch, increase slowly.**
 
@@ -54,7 +61,7 @@ When auditing any plugin change, **verify VERSION was bumped and every plugin.js
 When the user gives a single instruction of the form *"change X in skill/plugin Z"*, treat the whole ship-to-prod pipeline as implied. **Do not pause for confirmation between steps.**
 
 1. **Edit** the target file(s).
-2. **Bump** with `bin/set-version.sh <new-version>` — patch by default.
+2. **Bump** with `scripts/set-version.sh <new-version>` — patch by default.
 3. **Commit** via the `git-workflow:commit` skill (one focused commit).
 4. **Push** to `origin/main`.
 5. **Print the refresh commands and the ship-summary template** below. The agent cannot invoke `/plugin` or `/reload-plugins` on the user's behalf — these are the user's keystrokes.

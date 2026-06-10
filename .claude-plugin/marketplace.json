@@ -28,7 +28,7 @@
     {
       "name": "mgt-workflow",
       "source": "./plugins/mgt-workflow",
-      "description": "Management & reporting workflows. Ships project-cost: estimate the total Claude Code cost of a project from its transcripts.",
+      "description": "Management & reporting workflows. Ships project-cost (estimate Claude Code spend from transcripts) and the toolkit-manager agent (triage toolkit bug reports, stage fixes for review).",
       "version": "0.2.12"
     }
   ]
