@@ -50,13 +50,13 @@ Closes #<issue> (if applicable)
 
 Keep the body short. No test plan, testing strategy, or verification checklist — that belongs in CI and the diff.
 
-**Run the draft through `brevify` before opening the PR** — see Writing pass. PR bodies live forever on the merge commit.
+**Apply the Writing pass below before opening the PR** — PR bodies live forever on the merge commit.
 
 Do **not** ask "Open this PR?" first. Open it, then surface the result.
 
 ## Writing pass — mandatory
 
-Before opening the PR, invoke `brevify` on title and body. A first draft is a draft, not the PR.
+Rewrite title and body once before opening: active voice, lead with the change, cut filler, hedges, and diff-narration. A first draft is a draft, not the PR.
 
 The body is the shortest text that lets a reviewer understand intent and decide where to look — not a changelog of the diff.
 
