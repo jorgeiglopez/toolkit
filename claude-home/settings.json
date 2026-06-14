@@ -1,91 +1,7 @@
 {
-  "model": "claude-opus-4-6",
-  "effortLevel": "xhigh",
-  "skipDangerousModePermissionPrompt": true,
-  "skipWorkflowUsageWarning": true,
-  "preferredNotifChannel": "iterm2",
-  "autoCompactEnabled": true,
-  "teammateMode": "tmux",
-  "remoteControlAtStartup": true,
-  "inputNeededNotifEnabled": true,
-  "agentPushNotifEnabled": true,
-  "skipAutoPermissionPrompt": true,
-  "voiceEnabled": true,
   "env": {
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
     "ENABLE_LSP_TOOL": "1"
-  },
-  "statusLine": {
-    "type": "command",
-    "command": "BASH ~/.claude/statusline.sh",
-    "padding": 2
-  },
-  "sandbox": {
-    "enabled": true,
-    "autoAllowBashIfSandboxed": true,
-    "filesystem": {
-      "allowWrite": [
-        "~/.claude/toolkit",
-        "/tmp"
-      ]
-    }
-  },
-  "hooks": {
-    "Notification": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "if [ \"$(uname)\" = \"Darwin\" ]; then afplay /System/Library/Sounds/Sosumi.aiff; else paplay /usr/share/sounds/freedesktop/stereo/complete.oga; fi",
-            "timeout": 5000
-          }
-        ]
-      }
-    ],
-    "PreToolUse": [
-      {
-        "matcher": "Skill",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/log-skill-use.sh"
-          }
-        ]
-      }
-    ],
-    "UserPromptExpansion": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/log-skill-use.sh"
-          }
-        ]
-      }
-    ]
-  },
-  "enabledPlugins": {
-    "skill-creator@claude-plugins-official": true,
-    "superpowers@claude-plugins-official": false,
-    "context7@claude-plugins-official": true,
-    "frontend-design@claude-plugins-official": true,
-    "impeccable@impeccable": true
-  },
-  "extraKnownMarketplaces": {
-    "jorgeiglopez-toolkit": {
-      "source": {
-        "source": "github",
-        "repo": "jorgeiglopez/toolkit"
-      },
-      "autoUpdate": true
-    },
-    "impeccable": {
-      "source": {
-        "source": "github",
-        "repo": "pbakaus/impeccable"
-      }
-    }
   },
   "permissions": {
     "allow": [
@@ -163,5 +79,124 @@
       "Edit(~/.ssh/**)"
     ],
     "defaultMode": "auto"
-  }
+  },
+  "model": "claude-opus-4-6",
+  "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ \"$(uname)\" = \"Darwin\" ]; then afplay /System/Library/Sounds/Sosumi.aiff; else paplay /usr/share/sounds/freedesktop/stereo/complete.oga; fi",
+            "timeout": 5000
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Skill",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/log-skill-use.sh"
+          }
+        ]
+      }
+    ],
+    "UserPromptExpansion": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/log-skill-use.sh"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/tts-instructions.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/speak.sh",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/tts-interrupt.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "BASH ~/.claude/statusline.sh",
+    "padding": 2
+  },
+  "enabledPlugins": {
+    "skill-creator@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": false,
+    "context7@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "impeccable@impeccable": true
+  },
+  "extraKnownMarketplaces": {
+    "jorgeiglopez-toolkit": {
+      "source": {
+        "source": "github",
+        "repo": "jorgeiglopez/toolkit"
+      },
+      "autoUpdate": true
+    },
+    "impeccable": {
+      "source": {
+        "source": "github",
+        "repo": "pbakaus/impeccable"
+      }
+    }
+  },
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true,
+    "filesystem": {
+      "allowWrite": [
+        "~/.claude/toolkit",
+        "/tmp"
+      ]
+    }
+  },
+  "effortLevel": "xhigh",
+  "voice": {
+    "enabled": true,
+    "mode": "hold"
+  },
+  "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
+  "preferredNotifChannel": "iterm2",
+  "autoCompactEnabled": true,
+  "teammateMode": "tmux",
+  "remoteControlAtStartup": true,
+  "inputNeededNotifEnabled": true,
+  "agentPushNotifEnabled": true,
+  "skipAutoPermissionPrompt": true,
+  "voiceEnabled": true
 }
