@@ -80,7 +80,7 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "claude-opus-4-6",
+  "model": "sonnet",
   "hooks": {
     "Notification": [
       {
@@ -175,7 +175,7 @@
     }
   },
   "sandbox": {
-    "enabled": true,
+    "enabled": false,
     "autoAllowBashIfSandboxed": true,
     "filesystem": {
       "allowWrite": [
@@ -184,7 +184,7 @@
       ]
     }
   },
-  "effortLevel": "xhigh",
+  "effortLevel": "high",
   "voice": {
     "enabled": true,
     "mode": "hold"
