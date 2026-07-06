@@ -132,6 +132,20 @@
             "type": "command",
             "command": "$HOME/.claude/hooks/speak.sh",
             "async": true
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/usage-warn.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/usage-warn.sh"
           }
         ]
       }

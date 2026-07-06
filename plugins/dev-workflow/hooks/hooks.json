@@ -17,6 +17,20 @@
             "type": "command",
             "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/speak.sh\"",
             "async": true
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/usage-warn.sh\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/usage-warn.sh\""
           }
         ]
       }
