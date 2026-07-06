@@ -55,12 +55,14 @@ if [ -n "$reset_epoch" ]; then
     reset_time_str=$(date -j -r "$reset_epoch" +"%l:%M%p" 2>/dev/null | sed 's/^ //; s/\.//g' | tr '[:upper:]' '[:lower:]')
 fi
 
-msg="SESSION USAGE WARNING: ${five_hour_pct}% of the 5-hour rate-limit window used."
+remaining_pct=$(( 100 - five_hour_pct ))
+
+msg="⚠️ SESSION USAGE WARNING: ⚠️ ${five_hour_pct}% of the 5-hour rate-limit window used, ${remaining_pct}% of budget left."
 [ -n "$reset_time_str" ] && msg="${msg} Resets at ${reset_time_str}"
 [ -n "$countdown" ] && msg="${msg} (in ${countdown})"
-msg="${msg}. If a long-running task is in progress, wrap up cleanly, tell the user, and offer to resume after the reset (e.g. via /schedule) rather than risk running into the limit mid-task."
+msg="${msg}. This applies ONLY to a long-running, multi-step, or orchestrated task (a Workflow, background Agent/Task run, /loop, /goal, or an extended tool-call sequence) currently in progress. It does NOT apply to a one-off prompt or question, which should just finish normally with no scheduling. If it applies, use the remaining ${remaining_pct}% of budget to wrap up cleanly: persist current progress/state and close any open processes, at your best judgment. Do not wait for user confirmation. Then self-schedule to resume the task at ${reset_time_str:-the reset time} (via ScheduleWakeup, /schedule, or CronCreate, whichever fits) and continue from where you left off."
 
-jq -n --arg event "$hook_event" --arg ctx "$msg" \
-  '{hookSpecificOutput: {hookEventName: $event, additionalContext: $ctx}}'
+jq -n --arg event "$hook_event" --arg msg "$msg" \
+  '{systemMessage: $msg, hookSpecificOutput: {hookEventName: $event, additionalContext: $msg}}'
 
 exit 0
