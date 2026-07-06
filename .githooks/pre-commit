@@ -1,0 +1,8 @@
+#!/bin/bash
+# Hard rule: dogfooding/ (private, personal CLAUDE.md and notes) must
+# never enter the public toolkit repo, even via `git add -f`.
+if git diff --cached --name-only | grep -q '^dogfooding/'; then
+    echo "BLOCKED: staged files under dogfooding/ - this is private and must never be committed here." >&2
+    git diff --cached --name-only | grep '^dogfooding/' >&2
+    exit 1
+fi

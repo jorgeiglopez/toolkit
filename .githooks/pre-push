@@ -1,0 +1,21 @@
+#!/bin/bash
+# Hard rule: dogfooding/ must never be pushed to the public toolkit repo,
+# even if a commit slipped past pre-commit (e.g. hooks bypassed with --no-verify
+# on another clone). Checks every commit in the push range.
+empty_tree=4b825dc642cb6eb9a060e54bf8d69288fbee4904
+z40=0000000000000000000000000000000000000000
+
+while read -r local_ref local_sha remote_ref remote_sha; do
+    [ "$local_sha" = "$z40" ] && continue
+
+    if [ "$remote_sha" = "$z40" ]; then
+        range="$empty_tree..$local_sha"
+    else
+        range="$remote_sha..$local_sha"
+    fi
+
+    if git diff --name-only "$range" 2>/dev/null | grep -q '^dogfooding/'; then
+        echo "BLOCKED: push includes commits touching dogfooding/ - this is private and must never reach the public repo." >&2
+        exit 1
+    fi
+done
