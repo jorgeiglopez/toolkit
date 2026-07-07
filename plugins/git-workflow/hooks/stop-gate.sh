@@ -37,11 +37,23 @@ if git -C "$proj" rev-parse --git-dir >/dev/null 2>&1; then
 fi
 
 timeout_s=$(jq -r '.timeout // 300' "$cfg" 2>/dev/null)
-runner=(bash -c "$gate_cmd")
-command -v timeout >/dev/null 2>&1 && runner=(timeout "$timeout_s" bash -c "$gate_cmd")
-
-out=$(cd "$proj" && "${runner[@]}" 2>&1)
-status=$?
+# GNU timeout when present; perl alarm on stock macOS (no coreutils). A gate
+# that never exits (watch mode, hung server) must not block Stop forever.
+# Output goes to a temp file, not command substitution: orphaned grandchildren
+# of a killed gate would hold a $() pipe open past the timeout.
+tmp_out=$(mktemp /tmp/claude-stop-gate.XXXXXX)
+if command -v timeout >/dev/null 2>&1; then
+  ( cd "$proj" && timeout "$timeout_s" bash -c "$gate_cmd" >"$tmp_out" 2>&1 ) 2>/dev/null
+  status=$?
+elif command -v perl >/dev/null 2>&1; then
+  ( cd "$proj" && perl -e 'alarm shift; exec @ARGV' "$timeout_s" bash -c "$gate_cmd" >"$tmp_out" 2>&1 ) 2>/dev/null
+  status=$?
+else
+  ( cd "$proj" && bash -c "$gate_cmd" >"$tmp_out" 2>&1 ) 2>/dev/null
+  status=$?
+fi
+out=$(tail -30 "$tmp_out" 2>/dev/null)
+rm -f "$tmp_out"
 [ "$status" -eq 0 ] && exit 0
 
 mkdir -p /tmp/claude
@@ -49,6 +61,6 @@ touch "$marker"
 {
   echo "Quality gate failed: '$gate_cmd' exited $status. Fix it before finishing."
   echo "This gate blocks once per session (marker: $marker). Last output:"
-  printf '%s\n' "$out" | tail -30
+  printf '%s\n' "$out"
 } >&2
 exit 2
