@@ -15,6 +15,19 @@ Before any other tool call, send one line:
 
 > Using the `worktree-workflow` skill to <one-line summary>.
 
+## Step 0: know where you are
+
+Before anything, detect whether you are already inside a worktree:
+
+```bash
+[ "$(git rev-parse --git-dir)" != "$(git rev-parse --git-common-dir)" ] && echo "inside a worktree"
+```
+
+Inside a worktree, a request to "work directly on main" cannot be honored
+from here: say so immediately and offer the two real options (commit on this
+worktree's branch and merge, or switch to the main checkout). Do not attempt
+it and explain after.
+
 ## source_of_truth: pick it before anything else
 
 The source_of_truth is whichever branch you're on when you start — often `main`,
@@ -79,6 +92,16 @@ ln -s "$MAIN/.cache" .cache
 Need a new dependency? Don't `npm install` in the worktree — coordinate with the
 source_of_truth agent to install it there; your symlink picks it up.
 
+**Gitignored config the worktree needs** (`.env`, keys): list the patterns in a
+`.worktreeinclude` file at the repo root — Claude Code's native worktree flow
+symlinks matching gitignored files into new worktrees automatically. Without
+it, symlink them explicitly like any other artifact. Never hand-copy secrets.
+
+**Unique runtime resources.** Two worktrees sharing a fixed dev-server port
+silently test each other's bundles. Give each worktree its own port, DB name,
+and temp dir (e.g. `QA_PORT=81<NN>`, one NN per worktree) and pass it to every
+test/server command run there.
+
 Why this is safe:
 
 - Gitignored artifacts are never committed, so a symlink is never committed either.
@@ -136,6 +159,29 @@ git switch "$SOURCE_OF_TRUTH" && git pull
 #    revert the status board: <task> back to PENDING
 git add <status-file> && git commit -m "chore: un-claim <task>" && git push
 ```
+
+## Cleanup sweep (run on demand or after any wave)
+
+Merged work must lose its branch AND its worktree dir together; either one
+alone is an orphan. Audit and sweep:
+
+```bash
+cd "$MAIN"
+git worktree list                     # anything besides the main checkout?
+git branch --merged "$SOURCE_OF_TRUTH" | grep -v "$SOURCE_OF_TRUTH"
+
+# For each merged leftover:
+git worktree remove .claude/worktrees/<name>
+git branch -d <branch>
+
+# Unmerged leftovers: check for salvageable commits before -D
+git log "$SOURCE_OF_TRUTH"..<branch> --oneline
+git worktree prune
+```
+
+Pass bar: `git worktree list` shows only the main checkout and no merged
+branches remain. Anything unmerged gets surfaced to the user, not silently
+deleted.
 
 ## Red Flags — STOP
 
