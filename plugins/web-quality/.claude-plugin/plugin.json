@@ -1,6 +1,6 @@
 {
   "name": "web-quality",
-  "version": "0.2.13",
+  "version": "0.3.0",
   "description": "Web quality audits: performance, Core Web Vitals, accessibility, SEO. Framework-agnostic with Next.js emphasis.",
   "author": {
     "name": "Jorge Lopez",
