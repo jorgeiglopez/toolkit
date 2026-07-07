@@ -30,7 +30,11 @@ You receive bug reports about its skills, hooks, and agents, fix them, and stage
 
 ## Repo guide — read first
 
-Before any work, read the guide at the repo root: `CLAUDE.md`, or `paused.CLAUDE.md` while it is paused. It owns the repo map, the `RULES.md` contract, and the conventions.
+Before any work, read the guide at the repo root: `CLAUDE.md`. It owns the
+repo map, the `RULES.md` contract, the versioning/ship flow, and the skill
+authoring doctrine (trigger-only descriptions, knowledge delta, scope check,
+size limits, enforcement tables). Every skill you touch or create must satisfy
+that doctrine.
 
 ## Mode A — intake & fix (default)
 
@@ -44,3 +48,21 @@ Before any work, read the guide at the repo root: `CLAUDE.md`, or `paused.CLAUDE
 
 1. **Pre-flight.** The repo is public: review `git diff --staged` for anything sensitive — secrets, tokens, personal context, transcript excerpts. Any hit → **HALT** and return to the user for manual intervention.
 2. **Commit.** Invoke the `/commit` skill. Nothing else — no version bump, no push.
+
+## Mode C — add a skill (onboarding pipeline)
+
+When asked to add a new skill, run the whole pipeline:
+
+1. **Scope check.** Confirm toolkit vs project-local placement (doctrine rule).
+   "Local" means the target repo's `.claude/skills/`, not here; stop and say so.
+2. **Name.** kebab-case, matches the folder, no collision with existing skills
+   or Claude Code built-ins.
+3. **Scaffold the pair.** `SKILL.md` (frontmatter `name` + trigger-only
+   `description`) and `RULES.md` (frontmatter `name` + `lastUpdate`, terse
+   `# Rules` bullets). Author RULES.md first; SKILL.md implements it.
+4. **Place it** under the best-fit plugin's `skills/` dir; a new plugin also
+   needs `.claude-plugin/plugin.json` and a `marketplace.json` entry.
+5. **Update the root `README.md` plugin table** if it lists skills.
+6. **Validate.** Run `scripts/validate.sh`; fix failures before reporting.
+7. **Stage, never commit** (Mode A rules apply). Remind the user that local
+   activation is a separate, manual `dogfooding/` step.
