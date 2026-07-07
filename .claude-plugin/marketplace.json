@@ -10,25 +10,37 @@
     {
       "name": "writing",
       "source": "./plugins/writing",
-      "description": "Skills for clearer, more human writing: tighten prose, strip AI-tells, caveman mode, interview drills.",
+      "description": "Skills for clearer, more human writing: tighten prose, strip AI-tells, trim existing docs, interview drills.",
       "version": "0.2.13"
     },
     {
       "name": "git-workflow",
       "source": "./plugins/git-workflow",
-      "description": "Git workflow actions: stage and commit, open pull requests, mirror CI locally before shipping.",
+      "description": "Git workflow actions and guardrails: commit, open PRs, mirror CI locally, worktree lifecycle, finish branches, receive review; hooks that block bad commands and gate session end on quality.",
       "version": "0.2.13"
     },
     {
       "name": "dev-workflow",
       "source": "./plugins/dev-workflow",
-      "description": "Developer utilities for working in unfamiliar repos. Ships ramp-up: a fast, methodical onboarding pass.",
+      "description": "Developer utilities: repo ramp-up, systematic debugging, bake-offs between candidate approaches, doc audits, subagent dispatch discipline, git-history diagnostics, adversarial debates.",
       "version": "0.2.13"
     },
     {
       "name": "mgt-workflow",
       "source": "./plugins/mgt-workflow",
-      "description": "Management & reporting workflows. Ships project-cost (estimate Claude Code spend from transcripts) and the toolkit-manager agent (triage toolkit bug reports, stage fixes for review).",
+      "description": "Management & observability: project cost, backlog tickets, agent lifecycle control, weekly reviews, CLAUDE.md hygiene; ships the toolkit-manager and staff-engineer-reviewer agents.",
+      "version": "0.2.13"
+    },
+    {
+      "name": "nextjs",
+      "source": "./plugins/nextjs",
+      "description": "Next.js/React engineering skills: React 19 patterns and useEffect discipline.",
+      "version": "0.2.13"
+    },
+    {
+      "name": "web-quality",
+      "source": "./plugins/web-quality",
+      "description": "Lighthouse-style web quality audits: performance, Core Web Vitals, accessibility, SEO.",
       "version": "0.2.13"
     }
   ]
