@@ -22,15 +22,17 @@ Before spawning anything, write down:
 
 ## 2. Dispatch
 
-Spawn one agent per candidate, in parallel, each with worktree isolation:
+Spawn one agent per candidate, in parallel, each with worktree isolation.
+Dispatch mechanics (budgets, file handoffs, completion contract) follow the
+`dispatch` skill; worktree mechanics follow `worktree-workflow`. Bake-off
+specifics on top:
 
 - Identical task prompt; only the "your approach" section differs.
 - Unique resources per candidate: pass a distinct port / DB name / temp dir
   in the prompt so parallel dev servers never collide.
-- Budget: state a file-count and time ceiling.
-- Completion contract: "Implement, run the rubric measurements yourself,
-  commit on your worktree branch, and return your final message as:
-  scores per rubric dimension + evidence (test output, timings) + branch name."
+- Completion contract addition: "run the rubric measurements yourself, commit
+  on your worktree branch, and report scores per dimension + evidence
+  (test output, timings) + branch name as your final message."
 
 ## 3. Score and pick
 
@@ -49,16 +51,10 @@ Collect results into one table: candidate x rubric dimension, plus total.
 
 ## 5. Teardown (not optional)
 
-For EVERY candidate, winner included:
-
-```bash
-git worktree remove <path>        # or --force after confirming no unmerged work
-git branch -d <branch>            # -D only for confirmed losers
-```
-
-Before deleting a loser, check for unmerged commits worth salvaging
-(`git log <source>..<branch> --oneline`); flag anything interesting to the
-user first.
+Run `worktree-workflow`'s cleanup sweep over EVERY candidate, winner
+included: merged branches and their worktree dirs die together; before
+deleting a loser, check `git log <source>..<branch> --oneline` for
+salvageable commits and flag anything interesting to the user first.
 
 Exit check, mechanical: `git worktree list` shows only the main checkout;
 `git branch --list '*<candidate-prefix>*'` is empty. Report the final table,

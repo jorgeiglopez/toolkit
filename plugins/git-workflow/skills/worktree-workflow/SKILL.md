@@ -93,7 +93,7 @@ Need a new dependency? Don't `npm install` in the worktree — coordinate with t
 source_of_truth agent to install it there; your symlink picks it up.
 
 **Gitignored config the worktree needs** (`.env`, keys): list the patterns in a
-`.worktreeinclude` file at the repo root — Claude Code's native worktree flow
+`.worktreeinclude` file at the repo root; Claude Code's native worktree flow
 symlinks matching gitignored files into new worktrees automatically. Without
 it, symlink them explicitly like any other artifact. Never hand-copy secrets.
 
@@ -208,3 +208,11 @@ deleted.
 - Multi-file change → PR. Cherry-pick only for a one-file hotfix.
 - Always rebase on latest `source_of_truth` and run the gate before merging.
 - Remove the worktree and delete the branch once merged or abandoned.
+- Detect context first (Step 0): inside a worktree, redirect "work directly on
+  main" requests instead of attempting them.
+- Unique runtime resources per worktree (port, DB name, temp dir); two
+  worktrees never share a running server.
+- Gitignored config enters via `.worktreeinclude` or explicit symlink, never
+  hand-copied.
+- Cleanup sweep: merged branches and their worktree dirs die together;
+  `git worktree list` + `git branch --merged` is the audit, zero orphans.

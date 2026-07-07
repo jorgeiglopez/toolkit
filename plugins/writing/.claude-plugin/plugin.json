@@ -1,7 +1,7 @@
 {
   "name": "writing",
   "version": "0.3.0",
-  "description": "Skills for clearer, more human writing: tighten prose, strip AI-tells, caveman mode, interview drills.",
+  "description": "Skills for clearer, more human writing: tighten prose, strip AI-tells, trim existing docs, interview drills.",
   "author": {
     "name": "Jorge Lopez",
     "email": "jorgeiglopez@gmail.com"

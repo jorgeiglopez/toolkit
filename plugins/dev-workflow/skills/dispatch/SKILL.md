@@ -59,5 +59,7 @@ trusting conversation memory. The ledger, not the transcript, is the state.
 
 ## 6. Reap
 
-When an agent's work is merged and it has nothing assigned, stop it
-(TaskStop, then verify). Finished waves end with zero idle teammates.
+When an agent's work is merged and it has nothing assigned, stop it. The
+procedure (TaskStop, verify, recover partial work) is the `agents-ctl`
+skill's; the rule here is only WHEN: finished waves end with zero idle
+teammates.

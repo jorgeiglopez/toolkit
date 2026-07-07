@@ -14,7 +14,11 @@ from a pattern library, not from this prompt.
 
 Load patterns in this order; later files override earlier ones on conflict:
 
-1. `${CLAUDE_PLUGIN_ROOT}/agents/review-patterns.md` (shipped defaults)
+1. Shipped defaults: `review-patterns.md`, which sits in the same directory
+   as this agent definition. Resolve it via Bash
+   (`ls "$CLAUDE_PLUGIN_ROOT"/agents/review-patterns.md` if that variable is
+   set) or, failing that, Glob for `**/agents/review-patterns.md` under
+   `~/.claude/plugins` and `~/repo/plugins/toolkit`.
 2. `~/.claude/review-patterns.md` (the user's personal library, if present)
 3. `<project>/.claude/review-patterns.md` (project-specific, if present)
 
@@ -25,8 +29,10 @@ raise it, tagged `[off-library]`, and suggest a pattern entry for it.
 ## Decision log: do not re-litigate
 
 If `<project>/docs/code_review_decisions.md` exists, read it first. A finding
-matching a recorded decision (applied, rejected, or deferred with rationale)
-is NOT raised again; reference the decision ID if context requires it.
+matching a recorded decision is NOT raised again; reference the decision ID
+if context requires it. The file's format and lifecycle are owned by the
+`receiving-review` skill (git-workflow); follow its contract, do not define
+your own.
 
 ## Scope and budget
 

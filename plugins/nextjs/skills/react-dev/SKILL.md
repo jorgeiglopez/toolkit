@@ -128,28 +128,6 @@ See [tanstack-router.md](references/tanstack-router.md) and [react-router.md](re
 
 </routing>
 
-<rules>
-
-ALWAYS:
-- Specific event types (`MouseEvent`, `ChangeEvent`, etc.)
-- Explicit `useState` type for unions/null
-- `ComponentPropsWithoutRef` for native element extension
-- Discriminated unions for variant props
-- `as const` for tuple returns
-- `ref` as a prop in React 19 (no `forwardRef`)
-- `useActionState` for form actions
-
-NEVER:
-- `any` for event handlers
-- `JSX.Element` for children (use `ReactNode`)
-- `forwardRef` in React 19+
-- `useFormState` (removed)
-- Skip the null guard on DOM refs
-- Mix Server/Client components in one file
-- Await a promise before passing it to `use()`
-
-</rules>
-
 <references>
 
 - [react-19-migration.md](references/react-19-migration.md) - full migration checklist, useOptimistic, useTransition, useDeferredValue
