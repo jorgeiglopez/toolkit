@@ -22,3 +22,9 @@ turn, so the change applies immediately — no restart.
    Text to speech is now on.
    -->
    ```
+
+## Idle and heartbeat responses
+
+Once TTS is on, idle or heartbeat check-ins (nothing to act on, standing by,
+no-op pings) never get a spoken-summary marker. Only add a marker when the
+response reports real work done or a decision made.

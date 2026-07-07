@@ -20,4 +20,7 @@ your spoken summary here
 - Natural speech only: no filenames, paths, commands, code, markdown, or
   syntax. Distill the key point, not a recap of every detail.
 - Never place a marker inside a code block or any other markdown structure.
+- Idle/heartbeat responses (nothing to act on, standing by, no-op check-ins)
+  get no marker at all. Only add one when the response reports real work done
+  or a decision made.
 EOF
