@@ -24,10 +24,37 @@ MUST check it against that skill's `RULES.md` for drift in the same turn.
 - A skill with only one of the two files is incomplete — create the missing
   one from the existing content before moving on.
 
-## Other conventions
+## Versioning & shipping
 
-Not yet written up (versioning, ship workflow, plugin layout). Add sections
-here as they get settled, rather than leaving them tribal.
+All plugins version in lockstep. `VERSION` at the repo root is the single
+source of truth; `scripts/set-version.sh` propagates it into every
+`plugin.json` and `marketplace.json` entry.
+
+Ship flow, in order:
+
+1. `scripts/validate.sh` must pass (structural invariants; `--strict` also
+   fails on warnings).
+2. Bump once per shipped batch, not per commit: `scripts/set-version.sh X.Y.Z`.
+3. Commit the bump, push `main`. Installed marketplaces pull it via
+   `autoUpdate`.
+
+## Skill authoring doctrine
+
+- **Description = trigger, never a workflow summary.** The description decides
+  when the skill fires; summarizing the procedure invites the model to follow
+  the summary and skip the body.
+- **Knowledge delta.** A skill earns its context cost with expert-only content:
+  what Claude does not already do reliably. Cut anything a good model does by
+  default.
+- **Scope check before creating.** Confirm placement first: project-local
+  (`.claude/skills/` in the target repo) vs toolkit. When the user says
+  "local", it never goes here.
+- **Size.** Target under ~150 lines per SKILL.md; push the long tail into a
+  `references/` (or similar) subfolder loaded on demand.
+- **Gated skills carry enforcement.** Skills that must not be talked past
+  (commit, pre-flight) include a rationalization table (Excuse vs Reality) and
+  a red-flag phrase list.
+- **No em dashes** in authored content, matching the global writing rule.
 
 
 ## Adding skills
