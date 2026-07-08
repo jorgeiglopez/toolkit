@@ -8,10 +8,10 @@ Maintained by [Jorge I. Lopez](https://jorgeiglopez.com).
 
 | Plugin | Ships | What it does |
 |---|---|---|
-| [writing](./plugins/writing) | skills: `brevify`, `humanify`, `grill-me`, `doc-trim` | Clearer, more human writing: tighten prose, strip AI-tells, trim existing docs, interview drills |
-| [git-workflow](./plugins/git-workflow) | skills: `commit`, `pr-create`, `pre-flight`, `worktree-workflow` | Git actions plus guardrails: staged reviewable commits, PRs, local CI mirror, full worktree lifecycle |
-| [dev-workflow](./plugins/dev-workflow) | skills: `ramp-up`, `systematic-debugging`, `compare-approaches`, `dispatch`, `debate-team`, `recall-agent`, `check-exit-code`, `schedule-one-off-agent`, `tts-enable`, `tts-disable` · hooks: TTS trio, usage warning | Working effectively in repos: onboard fast, debug by root cause, compare approaches head-to-head, delegate to subagents with discipline |
-| [mgt-workflow](./plugins/mgt-workflow) | skills: `project-cost`, `on-call-agents`, `weekly-review`, `claude-deslop`, `improve-claude-from-ctx` · agents: `toolkit-manager`, `staff-engineer-reviewer` · hook: skill-use logging | Management & observability: token spend, on-call agents, weekly digests, CLAUDE.md hygiene, pattern-library code review |
+| [writing](./plugins/writing) | skills: `lpz-brevify`, `lpz-humanify`, `lpz-grill-me`, `lpz-doc-trim` | Clearer, more human writing: tighten prose, strip AI-tells, trim existing docs, interview drills |
+| [git-workflow](./plugins/git-workflow) | skills: `lpz-commit`, `lpz-pr-create`, `lpz-pre-flight`, `lpz-git-worktree` | Git actions plus guardrails: staged reviewable commits, PRs, local CI mirror, full worktree lifecycle |
+| [dev-workflow](./plugins/dev-workflow) | skills: `lpz-ramp-up`, `lpz-systematic-debugging`, `lpz-agent-parallel-exec`, `lpz-agent-dispatch`, `lpz-agent-teams-debate`, `lpz-agent-recall-exec`, `lpz-agent-schedule-oneoff`, `lpz-tts-enable`, `lpz-tts-disable` · hooks: TTS trio, usage warning | Working effectively in repos: onboard fast, debug by root cause, compare approaches head-to-head, delegate to subagents with discipline |
+| [mgt-workflow](./plugins/mgt-workflow) | skills: `lpz-project-cost`, `lpz-agent-tmux-helpers`, `lpz-project-report-week`, `lpz-claudemd-deslop`, `lpz-claudemd-ctx-mining` · agents: `toolkit-manager`, `staff-engineer-reviewer` · hook: skill-use logging | Management & observability: token spend, on-call agents, weekly digests, CLAUDE.md hygiene, pattern-library code review |
 
 ## Install (from GitHub)
 

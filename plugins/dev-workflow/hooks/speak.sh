@@ -1,14 +1,14 @@
 #!/bin/bash
 # Stop hook (async): speaks the 📢 marker of the final assistant message
-# via macOS `say`. No-op unless the flag file exists. Toggled by /tts-enable and
-# /tts-disable. Marker format (HTML comment so markdown rendering survives):
+# via macOS `say`. No-op unless the flag file exists. Toggled by /lpz-tts-enable and
+# /lpz-tts-disable. Marker format (HTML comment so markdown rendering survives):
 #   <!--📢 spoken summary -->
 #
 # Sandbox constraints:
 #   - only ~/.claude/toolkit is writable inside the hook sandbox
 #   - signals to other processes are blocked -> interruption is cooperative:
 #     one sentence per `say` call, checking the token file between sentences;
-#     rewriting the token (new speaker, tts-interrupt.sh, /tts-disable) stops
+#     rewriting the token (new speaker, tts-interrupt.sh, /lpz-tts-disable) stops
 #     the loop at the next sentence boundary.
 #
 # The final assistant message is flushed to the transcript slightly after Stop

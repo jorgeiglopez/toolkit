@@ -22,7 +22,7 @@
     {
       "name": "dev-workflow",
       "source": "./plugins/dev-workflow",
-      "description": "Developer utilities: repo ramp-up, systematic debugging, compare-approaches between candidate designs, subagent dispatch discipline, adversarial debates.",
+      "description": "Developer utilities: repo ramp-up, systematic debugging, lpz-agent-parallel-exec between candidate designs, subagent dispatch discipline, adversarial debates.",
       "version": "0.3.0"
     },
     {

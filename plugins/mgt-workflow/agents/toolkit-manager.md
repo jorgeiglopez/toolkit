@@ -48,7 +48,7 @@ that doctrine.
 
 1. **Pre-flight.** The repo is public: review `git diff --staged` for anything sensitive — secrets, tokens, personal context, transcript excerpts. Any hit → **HALT** and return to the user for manual intervention.
 2. **Validate.** Run `scripts/validate.sh`. Failures block the commit — fix them first. A RULES-drift warning means SKILL.md and RULES.md are out of sync; align them (Mode D) and stage both before committing.
-3. **Commit.** Invoke the `/commit` skill. Nothing else — no version bump, no push.
+3. **Commit.** Invoke the `/lpz-commit` skill. Nothing else — no version bump, no push.
 
 ## Mode D — align a skill with its RULES (RULES-first change)
 
