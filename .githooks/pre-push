@@ -19,3 +19,12 @@ while read -r local_ref local_sha remote_ref remote_sha; do
         exit 1
     fi
 done
+
+# Structural invariants must hold before anything reaches the remote.
+repo_root=$(git rev-parse --show-toplevel)
+if [ -x "$repo_root/scripts/validate.sh" ]; then
+    "$repo_root/scripts/validate.sh" || {
+        echo "BLOCKED: scripts/validate.sh failed - fix the reported issues before pushing." >&2
+        exit 1
+    }
+fi
