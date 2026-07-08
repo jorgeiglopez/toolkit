@@ -38,9 +38,8 @@ CronCreate({cron: "<M H DoM Mon DoW>", recurring: false, prompt: "Spawn an Agent
 ## Step 6: disclose the caveats
 
 Always state, don't bury:
-- Session-only: lives in this session's memory, not written to disk, dies if the session or terminal closes before fire time.
-- Fires only while the session is idle (not mid-query).
-- Not a real OS cronjob.
+- ⚠️ WARNING: session-only. It lives in this session's memory, is not written to disk, and dies if the session or terminal closes before the fire time.
+- Make sure the delegated agent has enough permissions to complete the task; a permission prompt at fire time with nobody watching will stall it.
 
 ## Not this skill
 

@@ -106,8 +106,9 @@ If you catch yourself thinking any of these, stop and return to Phase 1:
 
 ## Rules
 
-- No fix without completing Phase 1 first.
+- No fix without completing root cause investigation (Phase 1) first. Symptom fixes are failure, not progress.
+- Don't reason your way out of root cause analysis. "Simple" or "urgent" is never a reason to skip it; it's faster than thrashing.
 - Phases run in order: reproduce, isolate, root cause, fix. Don't skip ahead.
 - One change at a time when testing a hypothesis or applying a fix.
-- Write the failing test before the fix.
+- Write a failing test before the fix. TDD approach.
 - 3+ failed fixes -> stop and question the architecture with the user, don't attempt a 4th.
