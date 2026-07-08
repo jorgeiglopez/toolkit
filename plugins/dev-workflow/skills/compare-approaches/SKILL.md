@@ -1,16 +1,26 @@
 ---
-name: bake-off
-description: Run N candidate approaches head-to-head in isolated worktrees, score them, merge the winner, delete the losers. Use when the user wants to compare implementations or approaches, says bake-off, try both ways, spawn a few and pick a winner, or asks which of several techniques works best in practice.
+name: compare-approaches
+description: Run N candidate approaches head-to-head in isolated worktrees, score them, merge the winner, delete the losers. Use when the user wants to compare implementations or approaches, says compare approaches, try both ways, spawn a few and pick a winner, or asks which of several techniques works best in practice.
 ---
 
-# bake-off
+# compare-approaches
 
 Competitive evaluation with mechanical cleanup. One invocation covers
 dispatch, scoring, comparison, merge, and teardown.
 
+## 0. Make the contest crystal clear FIRST
+
+Do not spawn anything, do not burn tokens, until you and the user agree on
+exactly what is being compared. Vague candidates waste every agent you launch.
+
+Ask questions, get answers, propose the approaches back, and refine until each
+candidate is a distinct, well-defined approach the user has confirmed. If the
+approaches aren't clearly different from one another, say so and pin down the
+difference before moving on.
+
 ## 1. Frame the contest
 
-Before spawning anything, write down:
+Once the candidates are confirmed, write down:
 
 - **Candidates**: the distinct approaches (2 to 5). Name each.
 - **Rubric**: measurable criteria and weights, fixed now. Good dimensions:
@@ -64,6 +74,7 @@ the merge commit, and this proof.
 
 | Excuse | Reality |
 |---|---|
+| "I'll spawn now and figure out the differences later" | Undefined candidates waste every agent. Nail the differences in step 0 first. |
 | "The winner is obvious, skip measuring" | Unmeasured winners are opinions. Run the rubric. |
 | "I'll clean the worktrees up later" | Later never comes; orphans linger for weeks. Teardown is part of the skill. |
 | "Let me tweak the rubric now that I see results" | Post-hoc criteria pick your favorite, not the best. The rubric is frozen at step 1. |
