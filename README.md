@@ -2,6 +2,8 @@
 
 Personal Claude Code plugin marketplace. macOS only, Claude Code only, single-user.
 
+Maintained by [Jorge I. Lopez](https://jorgeiglopez.com).
+
 ## Plugins
 
 | Plugin | Ships | What it does |
