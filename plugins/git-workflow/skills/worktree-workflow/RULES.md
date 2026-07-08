@@ -1,6 +1,6 @@
 ---
 name: worktree-workflow
-lastUpdate: 2026-07-02 00:00
+lastUpdate: 2026-07-04 00:00
 ---
 
 # Rules
@@ -13,3 +13,7 @@ lastUpdate: 2026-07-02 00:00
 - Land multi-file work via a PR (rebase on source_of_truth, run the gate, then merge).
 - On abandon, remove the worktree and revert the claim to pending on source_of_truth.
 - Clean up after the work is done.
+- Detect context first: GIT_DIR differing from GIT_COMMON_DIR means you are inside a worktree; redirect "work directly on main" requests instead of attempting them.
+- Unique runtime resources per worktree (dev-server port, DB name, temp dir); two worktrees never share a running server.
+- Gitignored files a worktree needs (.env, keys) arrive via `.worktreeinclude` or explicit symlink, never hand-copied.
+- Cleanup sweep on demand: every branch merged into source_of_truth loses its branch AND its worktree dir together; `git worktree list` + `git branch --merged` is the audit, zero orphans is the pass bar.

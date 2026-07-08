@@ -15,6 +15,19 @@ Before any other tool call, send one line:
 
 > Using the `worktree-workflow` skill to <one-line summary>.
 
+## Step 0: know where you are
+
+Before anything, detect whether you are already inside a worktree:
+
+```bash
+[ "$(git rev-parse --git-dir)" != "$(git rev-parse --git-common-dir)" ] && echo "inside a worktree"
+```
+
+Inside a worktree, a request to "work directly on main" cannot be honored
+from here: say so immediately and offer the two real options (commit on this
+worktree's branch and merge, or switch to the main checkout). Do not attempt
+it and explain after.
+
 ## source_of_truth: pick it before anything else
 
 The source_of_truth is whichever branch you're on when you start — often `main`,
@@ -79,6 +92,18 @@ ln -s "$MAIN/.cache" .cache
 Need a new dependency? Don't `npm install` in the worktree — coordinate with the
 source_of_truth agent to install it there; your symlink picks it up.
 
+**Gitignored config the worktree needs** (`.env`, keys): list the patterns in a
+`.worktreeinclude` file at the repo root (gitignore syntax); Claude Code's
+native worktree flow copies files matching BOTH `.worktreeinclude` and
+`.gitignore` into new worktrees automatically. This is a Claude Code feature,
+not git (docs: code.claude.com/docs/en/worktrees). Without it, symlink the
+files explicitly like any other artifact. Never hand-copy secrets ad hoc.
+
+**Unique runtime resources.** Two worktrees sharing a fixed dev-server port
+silently test each other's bundles. Give each worktree its own port, DB name,
+and temp dir (e.g. `QA_PORT=81<NN>`, one NN per worktree) and pass it to every
+test/server command run there.
+
 Why this is safe:
 
 - Gitignored artifacts are never committed, so a symlink is never committed either.
@@ -137,6 +162,29 @@ git switch "$SOURCE_OF_TRUTH" && git pull
 git add <status-file> && git commit -m "chore: un-claim <task>" && git push
 ```
 
+## Cleanup sweep (run on demand or after any wave)
+
+Merged work must lose its branch AND its worktree dir together; either one
+alone is an orphan. Audit and sweep:
+
+```bash
+cd "$MAIN"
+git worktree list                     # anything besides the main checkout?
+git branch --merged "$SOURCE_OF_TRUTH" | grep -v "$SOURCE_OF_TRUTH"
+
+# For each merged leftover:
+git worktree remove .claude/worktrees/<name>
+git branch -d <branch>
+
+# Unmerged leftovers: check for salvageable commits before -D
+git log "$SOURCE_OF_TRUTH"..<branch> --oneline
+git worktree prune
+```
+
+Pass bar: `git worktree list` shows only the main checkout and no merged
+branches remain. Anything unmerged gets surfaced to the user, not silently
+deleted.
+
 ## Red Flags — STOP
 
 | Rationalization | Reality |
@@ -162,3 +210,11 @@ git add <status-file> && git commit -m "chore: un-claim <task>" && git push
 - Multi-file change → PR. Cherry-pick only for a one-file hotfix.
 - Always rebase on latest `source_of_truth` and run the gate before merging.
 - Remove the worktree and delete the branch once merged or abandoned.
+- Detect context first (Step 0): inside a worktree, redirect "work directly on
+  main" requests instead of attempting them.
+- Unique runtime resources per worktree (port, DB name, temp dir); two
+  worktrees never share a running server.
+- Gitignored config enters via `.worktreeinclude` or explicit symlink, never
+  hand-copied.
+- Cleanup sweep: merged branches and their worktree dirs die together;
+  `git worktree list` + `git branch --merged` is the audit, zero orphans.

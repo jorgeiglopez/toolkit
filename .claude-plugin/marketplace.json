@@ -10,26 +10,26 @@
     {
       "name": "writing",
       "source": "./plugins/writing",
-      "description": "Skills for clearer, more human writing: tighten prose, strip AI-tells, caveman mode, interview drills.",
-      "version": "0.2.13"
+      "description": "Skills for clearer, more human writing: tighten prose, strip AI-tells, trim existing docs, interview drills.",
+      "version": "0.3.0"
     },
     {
       "name": "git-workflow",
       "source": "./plugins/git-workflow",
-      "description": "Git workflow actions: stage and commit, open pull requests, mirror CI locally before shipping.",
-      "version": "0.2.13"
+      "description": "Git workflow actions and guardrails: commit, open PRs, mirror CI locally, and the full worktree lifecycle.",
+      "version": "0.3.0"
     },
     {
       "name": "dev-workflow",
       "source": "./plugins/dev-workflow",
-      "description": "Developer utilities for working in unfamiliar repos. Ships ramp-up: a fast, methodical onboarding pass.",
-      "version": "0.2.13"
+      "description": "Developer utilities: repo ramp-up, systematic debugging, compare-approaches between candidate designs, subagent dispatch discipline, adversarial debates.",
+      "version": "0.3.0"
     },
     {
       "name": "mgt-workflow",
       "source": "./plugins/mgt-workflow",
-      "description": "Management & reporting workflows. Ships project-cost (estimate Claude Code spend from transcripts) and the toolkit-manager agent (triage toolkit bug reports, stage fixes for review).",
-      "version": "0.2.13"
+      "description": "Management & observability: project cost, weekly reviews, CLAUDE.md hygiene, on-call agents; ships the toolkit-manager and staff-engineer-reviewer agents.",
+      "version": "0.3.0"
     }
   ]
 }
