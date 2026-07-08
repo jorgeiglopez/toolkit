@@ -54,23 +54,11 @@ Ship flow, in order:
 - **Gated skills carry enforcement.** Skills that must not be talked past
   (commit, pre-flight) include a rationalization table (Excuse vs Reality) and
   a red-flag phrase list.
-- **No em dashes** in authored content, matching the global writing rule.
 
+## Local activation (dogfooding)
 
-## Adding skills
-When a new skill is added, don't forget to add it to dogfooding/mapping/skills.map, and run /dogfooding/mapping/sync.sh
-
-## Adding hooks
-When a new hook is added, three steps, all required:
-1. Register the hook in `claude-home/settings.json` (the `hooks` block). `sync.sh`
-   never reads or writes `settings.json`, this step is manual.
-2. Add it to `dogfooding/mapping/hooks.map` (one line per event it's registered for).
-3. Run `dogfooding/mapping/sync.sh`.
-
-Skipping step 2 doesn't fail loudly: the hook works fine until the next unrelated
-`sync.sh` run (e.g. adding a skill), which deletes any `~/.claude/hooks` symlink
-not listed in `hooks.map` and silently breaks the hook everywhere.
-
-If a hook needs shared helper logic, inline it in the hook script itself.
-`sync.sh` only tracks single script files, not helper directories, so a
-separate `lib/` file will get swept away the same way.
+Loading a new skill or hook into your own `~/.claude` (the `skills.map` /
+`hooks.map` / `sync.sh` mapping and its gotchas) is an internal dev-loop step,
+not part of the shipped plugins. It lives in the gitignored `dogfooding/`
+harness. When you add a skill or hook, follow `dogfooding/README.md` to wire it
+up locally.

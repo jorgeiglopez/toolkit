@@ -47,7 +47,23 @@ that doctrine.
 ## Mode B — commit (explicit only)
 
 1. **Pre-flight.** The repo is public: review `git diff --staged` for anything sensitive — secrets, tokens, personal context, transcript excerpts. Any hit → **HALT** and return to the user for manual intervention.
-2. **Commit.** Invoke the `/commit` skill. Nothing else — no version bump, no push.
+2. **Validate.** Run `scripts/validate.sh`. Failures block the commit — fix them first. A RULES-drift warning means SKILL.md and RULES.md are out of sync; align them (Mode D) and stage both before committing.
+3. **Commit.** Invoke the `/commit` skill. Nothing else — no version bump, no push.
+
+## Mode D — align a skill with its RULES (RULES-first change)
+
+`RULES.md` is the source of truth for a skill's intent (see `CLAUDE.md`). To
+change behavior, change the rule first, then bring `SKILL.md` into line — never
+the reverse.
+
+1. **Edit `RULES.md`** to the new intent and bump its `lastUpdate`.
+2. **Align `SKILL.md`** so every rule is implemented and nothing in the body
+   contradicts or outruns the rules. Add a matching rule for any behavior that
+   lacks one; delete body content no rule backs.
+3. **Stage both together** and commit them in the **same** commit. Splitting
+   them (or committing SKILL.md later) trips `validate.sh`'s drift heuristic,
+   which flags a SKILL.md committed after its RULES.md.
+4. **Validate.** Run `scripts/validate.sh`; it must be clean before you report.
 
 ## Mode C — add a skill (onboarding pipeline)
 

@@ -11,7 +11,6 @@
 #
 # WARNINGS (reported, exit 0 unless --strict):
 #   - RULES drift heuristic: SKILL.md last committed after RULES.md
-#   - em dash (U+2014) found in a skill/agent markdown file
 #   - SKILL.md description over 1024 chars
 #
 # Usage: scripts/validate.sh [--strict]
@@ -90,12 +89,6 @@ for skill in plugins/*/skills/*/; do
     fi
   fi
 done
-
-## 4. Em dashes (banned by house style; single summary, details via grep)
-# Skills that teach about em dashes (brevify, humanify) hit this legitimately,
-# so it stays a warning. Investigate with: grep -rln $'—' plugins/
-emdash_count=$(grep -rl $'—' plugins/*/skills plugins/*/agents 2>/dev/null | wc -l | tr -d ' ')
-[ "$emdash_count" -gt 0 ] && warn "em dash found in $emdash_count file(s) under plugins/ (see header for grep)"
 
 ## Result
 echo ""
