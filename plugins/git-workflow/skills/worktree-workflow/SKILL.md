@@ -93,9 +93,11 @@ Need a new dependency? Don't `npm install` in the worktree — coordinate with t
 source_of_truth agent to install it there; your symlink picks it up.
 
 **Gitignored config the worktree needs** (`.env`, keys): list the patterns in a
-`.worktreeinclude` file at the repo root; Claude Code's native worktree flow
-symlinks matching gitignored files into new worktrees automatically. Without
-it, symlink them explicitly like any other artifact. Never hand-copy secrets.
+`.worktreeinclude` file at the repo root (gitignore syntax); Claude Code's
+native worktree flow copies files matching BOTH `.worktreeinclude` and
+`.gitignore` into new worktrees automatically. This is a Claude Code feature,
+not git (docs: code.claude.com/docs/en/worktrees). Without it, symlink the
+files explicitly like any other artifact. Never hand-copy secrets ad hoc.
 
 **Unique runtime resources.** Two worktrees sharing a fixed dev-server port
 silently test each other's bundles. Give each worktree its own port, DB name,
