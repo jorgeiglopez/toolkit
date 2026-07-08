@@ -1,9 +1,9 @@
 ---
-name: update-claude
-description: "Mine recent git commits for undocumented coding patterns and propose CLAUDE.md or skill additions. Use when asked to update CLAUDE.md, extract patterns from commits, 'learn from my code', or 'what patterns do I follow'."
+name: improve-claude-from-ctx
+description: "Mine recent git commits for undocumented coding patterns and propose CLAUDE.md or skill additions. Manually invoked only, run when the user explicitly calls it to extract patterns from commits or 'learn from my code'."
 ---
 
-# update-claude
+# improve-claude-from-ctx
 
 Analyze recent commits to surface coding patterns worth codifying, so future sessions follow the same conventions without being told.
 
