@@ -1,0 +1,22 @@
+{
+  "name": "claude-config-viewer",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Minimal local UI to visualize the entire Claude Code configuration (~/.claude)",
+  "type": "module",
+  "scripts": {
+    "install:deps": "npm install && npm --prefix server install && npm --prefix client install",
+    "dev": "concurrently -n server,client -c blue,green \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd server && npx tsx watch src/index.ts",
+    "dev:client": "cd client && npx vite",
+    "build:server": "cd server && npx tsc",
+    "build:client": "cd client && npx vite build",
+    "build": "npm run build:server && npm run build:client"
+  },
+  "dependencies": {
+    "concurrently": "^9.1.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
