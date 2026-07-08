@@ -26,7 +26,7 @@ function Node({
   const isObject = value !== null && typeof value === 'object';
 
   const label =
-    name !== null ? <span className="text-(--color-accent)">{name}</span> : null;
+    name !== null ? <span className="text-(--color-text-primary) font-medium">{name}</span> : null;
 
   if (!isObject) {
     return (
@@ -82,6 +82,6 @@ function ValueLeaf({ value }: { value: unknown }) {
   if (typeof value === 'number')
     return <span className="text-(--color-warning)">{value}</span>;
   if (typeof value === 'boolean')
-    return <span className="text-(--color-purple)">{String(value)}</span>;
+    return <span className="text-(--color-cool)">{String(value)}</span>;
   return <span>{String(value)}</span>;
 }

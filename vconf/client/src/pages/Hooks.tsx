@@ -42,7 +42,7 @@ export default function Hooks() {
                     <Pill tone="accent">{h.type}</Pill>
                     {h.matcher && <Pill>matcher: {h.matcher}</Pill>}
                     {h.async && <Pill tone="warning">async</Pill>}
-                    <Pill tone={h.source.startsWith('agent:') ? 'purple' : 'neutral'}>{h.source}</Pill>
+                    <Pill tone={h.source.startsWith('agent:') ? 'cool' : 'neutral'}>{h.source}</Pill>
                   </div>
                   {h.command && (
                     <code className="block text-xs font-mono text-(--color-text-secondary) bg-(--color-surface-secondary) rounded-lg px-3 py-2 mt-1 overflow-x-auto">

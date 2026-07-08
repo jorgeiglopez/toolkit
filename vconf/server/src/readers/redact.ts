@@ -19,6 +19,46 @@ export function redactEnv(
   return out;
 }
 
+// A CLI flag that carries a secret in the FOLLOWING arg (e.g. `--api-key <val>`).
+const SECRET_FLAG_RE = /^--?(api[-_]?key|key|token|secret|password|passwd|auth|bearer|access[-_]?token|pat)$/i;
+// A standalone token that looks like a secret by its own shape.
+const SECRET_TOKEN_RE = /^(sk|pk|rk|ctx7sk|ghp|gho|ghs|ghu|github_pat|xox[abprs]|AKIA|AIza|glpat)[-_][A-Za-z0-9._-]{6,}$/;
+
+/** Redact secrets in command-line args: `--api-key X`, `--key=X`, and secret-shaped tokens. */
+export function redactArgs(args: string[] | undefined): string[] | undefined {
+  if (!Array.isArray(args)) return args;
+  let maskNext = false;
+  return args.map((arg) => {
+    if (maskNext) {
+      maskNext = false;
+      return MASK;
+    }
+    if (SECRET_FLAG_RE.test(arg)) {
+      maskNext = true;
+      return arg;
+    }
+    const inline = /^(--?[A-Za-z][\w-]*)=(.+)$/.exec(arg);
+    if (inline && SECRET_FLAG_RE.test(inline[1])) return `${inline[1]}=${MASK}`;
+    if (SECRET_TOKEN_RE.test(arg)) return MASK;
+    return arg;
+  });
+}
+
+/** Redact secret-looking query-param values and userinfo in a URL string. */
+export function redactUrl(url: string | undefined): string | undefined {
+  if (!url) return url;
+  try {
+    const u = new URL(url);
+    if (u.password) u.password = MASK;
+    for (const key of [...u.searchParams.keys()]) {
+      if (looksSecret(key)) u.searchParams.set(key, MASK);
+    }
+    return u.toString();
+  } catch {
+    return url;
+  }
+}
+
 /** Deep-redact secret-looking values anywhere in a JSON structure (for settings). */
 export function redactDeep(value: unknown): unknown {
   if (Array.isArray(value)) return value.map(redactDeep);

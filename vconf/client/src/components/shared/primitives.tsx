@@ -13,17 +13,15 @@ export function PageHeader({
   actions?: ReactNode;
 }) {
   return (
-    <div className="flex items-start justify-between mb-5">
+    <div className="flex items-end justify-between gap-4 mb-6 pb-4 border-b border-(--color-border-light)">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-(--color-text-primary) flex items-center gap-2">
+        <h1 className="text-[1.7rem] leading-none font-semibold tracking-[-0.02em] text-(--color-text-primary) flex items-baseline gap-2.5">
           {title}
           {count !== undefined && (
-            <span className="text-sm font-medium text-(--color-text-tertiary) bg-(--color-surface-tertiary) rounded-full px-2.5 py-0.5">
-              {count}
-            </span>
+            <span className="tnum text-sm font-medium text-(--color-text-tertiary) font-mono">{count}</span>
           )}
         </h1>
-        {subtitle && <div className="text-sm text-(--color-text-tertiary) mt-1">{subtitle}</div>}
+        {subtitle && <div className="text-[13px] text-(--color-text-tertiary) mt-2">{subtitle}</div>}
       </div>
       {actions}
     </div>
@@ -57,16 +55,16 @@ export function Field({ label, children }: { label: string; children: ReactNode 
   );
 }
 
-export function Pill({ children, tone = 'neutral' }: { children: ReactNode; tone?: 'neutral' | 'accent' | 'purple' | 'success' | 'warning' }) {
+export function Pill({ children, tone = 'neutral' }: { children: ReactNode; tone?: 'neutral' | 'accent' | 'cool' | 'success' | 'warning' }) {
   const tones: Record<string, string> = {
     neutral: 'text-(--color-text-secondary) bg-(--color-surface-tertiary)',
-    accent: 'text-(--color-accent) bg-(--color-accent)/10',
-    purple: 'text-(--color-purple) bg-(--color-purple)/10',
-    success: 'text-(--color-success) bg-(--color-success)/10',
-    warning: 'text-(--color-warning) bg-(--color-warning)/10',
+    accent: 'text-(--color-accent) bg-(--color-accent)/12',
+    cool: 'text-(--color-cool) bg-(--color-cool)/12',
+    success: 'text-(--color-success) bg-(--color-success)/12',
+    warning: 'text-(--color-warning) bg-(--color-warning)/14',
   };
   return (
-    <span className={`inline-flex items-center gap-1 text-xs font-medium rounded-md px-1.5 py-0.5 ${tones[tone]}`}>
+    <span className={`inline-flex items-center gap-1 text-[11px] font-medium rounded-(--radius-badge) px-1.5 py-0.5 ${tones[tone]}`}>
       {children}
     </span>
   );

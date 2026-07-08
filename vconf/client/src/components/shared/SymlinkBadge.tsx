@@ -6,7 +6,7 @@ export function SymlinkBadge({ file }: { file: Pick<FileRef, 'isSymlink' | 'real
   if (!file.isSymlink) return null;
   return (
     <span
-      className="inline-flex items-center gap-1 text-xs text-(--color-purple) bg-(--color-purple)/10 rounded-md px-1.5 py-0.5"
+      className="inline-flex items-center gap-1 text-xs text-(--color-cool) bg-(--color-cool)/10 rounded-md px-1.5 py-0.5"
       title={`symlink → ${file.realPath}`}
     >
       <Link2 size={12} strokeWidth={2} />
@@ -23,7 +23,7 @@ export function PathLine({ file }: { file: FileRef }) {
       {file.isSymlink && (
         <>
           {' '}
-          <span className="text-(--color-purple)">→ {file.realPath}</span>
+          <span className="text-(--color-cool)">→ {file.realPath}</span>
         </>
       )}
     </div>

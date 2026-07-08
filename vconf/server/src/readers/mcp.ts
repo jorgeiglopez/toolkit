@@ -1,6 +1,6 @@
 import type { McpData, McpServerEntry } from '../../../shared/types.js';
 import { readJson } from './util.js';
-import { redactEnv } from './redact.js';
+import { redactEnv, redactArgs, redactUrl } from './redact.js';
 
 interface RawMcpServer {
   type?: string;
@@ -20,14 +20,17 @@ function transportOf(s: RawMcpServer): McpServerEntry['transport'] {
 }
 
 function toEntry(name: string, scope: string, s: RawMcpServer): McpServerEntry {
-  // Whitelist only the fields we render; never pass through unknown keys blindly,
-  // and redact env + headers.
+  // Whitelist only the fields we render; never pass through unknown keys blindly.
+  // Redact secrets everywhere they can hide: env, headers, CLI args, and URL params.
+  const args = redactArgs(s.args);
+  const url = redactUrl(s.url);
+  const env = redactEnv(s.env);
   const safeRaw: Record<string, unknown> = {
     type: s.type,
     command: s.command,
-    args: s.args,
-    url: s.url,
-    env: redactEnv(s.env),
+    args,
+    url,
+    env,
     headers: redactEnv(s.headers),
   };
   return {
@@ -36,9 +39,9 @@ function toEntry(name: string, scope: string, s: RawMcpServer): McpServerEntry {
     scope,
     transport: transportOf(s),
     command: s.command,
-    args: s.args,
-    url: s.url,
-    env: redactEnv(s.env),
+    args,
+    url,
+    env,
     raw: safeRaw,
   };
 }

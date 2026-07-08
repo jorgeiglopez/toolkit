@@ -5,7 +5,7 @@ import remarkGfm from 'remark-gfm';
 
 export function MarkdownRenderer({ content }: { content: string }) {
   return (
-    <div className="text-(--color-text-secondary)">
+    <div className="text-(--color-text-secondary) max-w-[72ch]">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw, rehypeSanitize]}

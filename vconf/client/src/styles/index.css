@@ -1,61 +1,105 @@
 @import "tailwindcss";
 
+/*
+  Warm editorial config inspector.
+  Restrained color: warm OKLCH neutrals (tinted toward hue ~70) + one accent = Claude clay.
+  Sans for UI, mono for paths/keys/counts/code. No pure #fff / #000.
+*/
+
 @theme {
-  /* Apple-minimalist color palette */
-  --color-surface: #ffffff;
-  --color-surface-secondary: #f5f5f7;
-  --color-surface-tertiary: #e8e8ed;
-  --color-text-primary: #1d1d1f;
-  --color-text-secondary: #6e6e73;
-  --color-text-tertiary: #86868b;
-  --color-border: #d2d2d7;
-  --color-border-light: #e5e5ea;
-  --color-accent: #0071e3;
-  --color-accent-hover: #0077ed;
-  --color-danger: #ff3b30;
-  --color-success: #34c759;
-  --color-warning: #ff9500;
-  --color-purple: #af52de;
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, "Helvetica Neue", sans-serif;
+  --font-mono: "SF Mono", ui-monospace, "JetBrains Mono", "Cascadia Code", Menlo, "Roboto Mono", monospace;
 
-  --spacing-page: 2rem;
+  /* Light — ink on warm paper */
+  --color-canvas: oklch(0.963 0.006 74);
+  --color-panel: oklch(0.982 0.005 82);
+  --color-surface: oklch(0.995 0.003 86);
+  --color-surface-secondary: oklch(0.944 0.008 74);
+  --color-surface-tertiary: oklch(0.910 0.011 72);
+  --color-text-primary: oklch(0.27 0.014 52);
+  --color-text-secondary: oklch(0.46 0.012 54);
+  --color-text-tertiary: oklch(0.605 0.010 56);
+  --color-border: oklch(0.874 0.008 72);
+  --color-border-light: oklch(0.921 0.006 74);
 
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
-  --shadow-modal: 0 20px 60px rgba(0, 0, 0, 0.12), 0 8px 20px rgba(0, 0, 0, 0.08);
+  --color-accent: oklch(0.585 0.132 40);
+  --color-accent-hover: oklch(0.535 0.140 39);
+  --color-success: oklch(0.585 0.105 155);
+  --color-warning: oklch(0.640 0.122 66);
+  --color-danger: oklch(0.560 0.170 27);
+  --color-cool: oklch(0.545 0.088 248);
+
+  --radius-badge: 6px;
+  --radius-button: 8px;
+  --radius-card: 11px;
+
+  --shadow-card: 0 1px 2px oklch(0.25 0.02 60 / 0.05), 0 1px 3px oklch(0.25 0.02 60 / 0.04);
+  --shadow-card-hover: 0 2px 6px oklch(0.25 0.02 60 / 0.08), 0 8px 24px oklch(0.25 0.02 60 / 0.06);
+  --shadow-pop: 0 12px 40px oklch(0.2 0.02 60 / 0.18), 0 2px 10px oklch(0.2 0.02 60 / 0.10);
 }
 
+/* Dark — warm charcoal */
 .dark {
-  --color-surface: #1c1c1e;
-  --color-surface-secondary: #2c2c2e;
-  --color-surface-tertiary: #3a3a3c;
-  --color-text-primary: #f5f5f7;
-  --color-text-secondary: #a1a1a6;
-  --color-text-tertiary: #8e8e93;
-  --color-border: #48484a;
-  --color-border-light: #3a3a3c;
+  --color-canvas: oklch(0.176 0.006 66);
+  --color-panel: oklch(0.210 0.007 66);
+  --color-surface: oklch(0.238 0.008 66);
+  --color-surface-secondary: oklch(0.196 0.007 66);
+  --color-surface-tertiary: oklch(0.312 0.009 66);
+  --color-text-primary: oklch(0.940 0.008 78);
+  --color-text-secondary: oklch(0.745 0.010 74);
+  --color-text-tertiary: oklch(0.585 0.010 70);
+  --color-border: oklch(0.352 0.009 68);
+  --color-border-light: oklch(0.288 0.008 66);
 
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2);
-  --shadow-modal: 0 20px 60px rgba(0, 0, 0, 0.5), 0 8px 20px rgba(0, 0, 0, 0.3);
+  --color-accent: oklch(0.720 0.122 47);
+  --color-accent-hover: oklch(0.775 0.122 48);
+  --color-success: oklch(0.720 0.110 158);
+  --color-warning: oklch(0.780 0.120 70);
+  --color-danger: oklch(0.680 0.150 28);
+  --color-cool: oklch(0.700 0.090 250);
+
+  --shadow-card: 0 1px 2px oklch(0 0 0 / 0.30), 0 1px 3px oklch(0 0 0 / 0.22);
+  --shadow-card-hover: 0 2px 6px oklch(0 0 0 / 0.40), 0 8px 24px oklch(0 0 0 / 0.30);
+  --shadow-pop: 0 12px 40px oklch(0 0 0 / 0.55), 0 2px 10px oklch(0 0 0 / 0.35);
 }
+
+html { color-scheme: light; }
+html.dark { color-scheme: dark; }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text',
-    'Helvetica Neue', Arial, sans-serif;
-  background-color: var(--color-surface-secondary);
+  font-family: var(--font-sans);
+  background-color: var(--color-canvas);
   color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Numeric alignment for counts/keys */
+.tnum { font-variant-numeric: tabular-nums; }
+
 mark {
-  background: color-mix(in srgb, var(--color-warning) 35%, transparent);
+  background: color-mix(in oklab, var(--color-warning) 32%, transparent);
   color: inherit;
   border-radius: 3px;
   padding: 0 1px;
 }
 
-::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-text-tertiary); }
+::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--color-text-tertiary) 45%, transparent);
+  border-radius: 99px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklab, var(--color-text-tertiary) 70%, transparent);
+  background-clip: padding-box;
+}
+
+/* Focus ring, consistent across interactive elements */
+:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--color-accent) 55%, transparent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}

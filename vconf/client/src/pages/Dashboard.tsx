@@ -1,36 +1,42 @@
 import { Link } from 'react-router-dom';
-import { GitBranch, FolderTree, FileJson } from 'lucide-react';
+import { GitBranch, Link2, FileJson, ChevronRight } from 'lucide-react';
 import { api } from '../services/api';
 import { useLiveConfig } from '../hooks/useLiveConfig';
-import { NAV_ITEMS } from '../components/layout/Sidebar';
-import { Loading, ErrorState, Field } from '../components/shared/primitives';
-import type { ConfigCategory } from '../../../shared/types';
+import { NAV_GROUPS } from '../components/layout/Sidebar';
+import { Loading, ErrorState } from '../components/shared/primitives';
+import type { ConfigCategory, DashboardData } from '../../../shared/types';
 
-const CATEGORY_ROUTE: Record<ConfigCategory, string> = {
-  memory: '/memory',
-  settings: '/settings',
-  agents: '/agents',
-  skills: '/skills',
-  hooks: '/hooks',
-  mcp: '/mcp',
-  rules: '/rules',
-  plugins: '/plugins',
-  keybindings: '/keybindings',
-  statusline: '/statusline',
+const ROUTE_TO_CATEGORY: Record<string, ConfigCategory> = {
+  '/memory': 'memory',
+  '/rules': 'rules',
+  '/settings': 'settings',
+  '/hooks': 'hooks',
+  '/keybindings': 'keybindings',
+  '/statusline': 'statusline',
+  '/agents': 'agents',
+  '/skills': 'skills',
+  '/mcp': 'mcp',
+  '/plugins': 'plugins',
 };
 
-const CATEGORY_LABEL: Record<ConfigCategory, string> = {
-  memory: 'CLAUDE.md',
-  settings: 'Settings',
-  agents: 'Agents',
-  skills: 'Skills',
-  hooks: 'Hooks',
-  mcp: 'MCP Servers',
-  rules: 'Rules',
-  plugins: 'Plugins',
-  keybindings: 'Keybindings',
-  statusline: 'Statusline',
+const CATEGORY_HINT: Record<ConfigCategory, string> = {
+  memory: 'Global instructions loaded every session',
+  rules: 'Path-scoped guidance',
+  settings: 'Permissions, environment, model',
+  hooks: 'Event-driven automation',
+  keybindings: 'Keyboard shortcuts',
+  statusline: 'Custom terminal status bar',
+  agents: 'Custom subagents',
+  skills: 'Reusable procedures',
+  mcp: 'Tool server connections',
+  plugins: 'Installed plugins & marketplaces',
 };
+
+/** Collapse a home-dir prefix to ~ for display. */
+function collapseHome(p: string): string {
+  const m = /^(\/Users\/[^/]+|\/home\/[^/]+|\/root)(\/.*)?$/.exec(p);
+  return m ? `~${m[2] ?? ''}` : p;
+}
 
 export default function Dashboard() {
   const { data, loading, error } = useLiveConfig(api.dashboard);
@@ -38,64 +44,125 @@ export default function Dashboard() {
   if (error) return <ErrorState message={error} />;
   if (!data) return null;
 
-  const iconFor = (cat: string) => NAV_ITEMS.find((n) => n.to === CATEGORY_ROUTE[cat as ConfigCategory])?.icon;
-
   return (
     <div>
-      <h1 className="text-2xl font-bold tracking-tight text-(--color-text-primary) mb-1">Dashboard</h1>
-      <p className="text-sm text-(--color-text-tertiary) mb-6">Everything Claude Code loads from your config directory.</p>
+      <Masthead data={data} />
 
-      {/* Config root card */}
-      <div className="bg-(--color-surface) border border-(--color-border-light) rounded-2xl p-5 mb-6">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Field label="Config root">
-            <span className="font-mono text-xs break-all flex items-center gap-1">
-              <FolderTree size={13} /> {data.configRoot}
-            </span>
-          </Field>
-          <Field label="Model">{data.highlights.model ?? '—'}</Field>
-          <Field label="Effort">{data.highlights.effortLevel ?? '—'}</Field>
-          <Field label="Permission mode">{data.highlights.permissionMode ?? '—'}</Field>
-        </div>
-        <div className="flex flex-wrap gap-2 mt-4">
-          {data.isGitRepo && (
-            <span className="inline-flex items-center gap-1 text-xs text-(--color-success) bg-(--color-success)/10 rounded-md px-2 py-1">
-              <GitBranch size={12} /> git-tracked
-            </span>
-          )}
-          {data.configRootRealPath !== data.configRoot && (
-            <span className="inline-flex items-center gap-1 text-xs text-(--color-purple) bg-(--color-purple)/10 rounded-md px-2 py-1">
-              symlinked → {data.configRootRealPath}
-            </span>
-          )}
-          {data.claudeJsonPath && (
-            <span className="inline-flex items-center gap-1 text-xs text-(--color-text-secondary) bg-(--color-surface-tertiary) rounded-md px-2 py-1">
-              <FileJson size={12} /> MCP from {data.claudeJsonPath}
-            </span>
-          )}
-        </div>
-      </div>
-
-      {/* Count grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-        {(Object.keys(CATEGORY_LABEL) as ConfigCategory[]).map((cat) => (
-          <Link
-            key={cat}
-            to={CATEGORY_ROUTE[cat]}
-            className={`group bg-(--color-surface) border border-(--color-border-light) rounded-2xl p-4 transition-all hover:shadow-(--shadow-card-hover) ${
-              data.present[cat] ? '' : 'opacity-55'
-            }`}
-          >
-            <div className="flex items-center justify-between">
-              <span className="text-(--color-text-tertiary) group-hover:text-(--color-accent) transition-colors">
-                {iconFor(cat)}
-              </span>
-              <span className="text-2xl font-bold text-(--color-text-primary)">{data.counts[cat]}</span>
+      <div className="mt-9 space-y-8">
+        {NAV_GROUPS.map((group) => (
+          <section key={group.title}>
+            <h2 className="text-[11px] font-semibold uppercase tracking-[0.09em] text-(--color-text-tertiary) mb-2 px-1">
+              {group.title}
+            </h2>
+            <div className="rounded-(--radius-card) border border-(--color-border-light) bg-(--color-surface) overflow-hidden">
+              {group.items.map((item, i) => {
+                const cat = ROUTE_TO_CATEGORY[item.to];
+                const count = data.counts[cat];
+                const present = data.present[cat];
+                return (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    className={`group flex items-center gap-3 px-4 py-3 transition-colors hover:bg-(--color-surface-secondary) ${
+                      i > 0 ? 'border-t border-(--color-border-light)' : ''
+                    } ${present ? '' : 'opacity-55'}`}
+                  >
+                    <span className="text-(--color-text-tertiary) group-hover:text-(--color-accent) transition-colors">
+                      {item.icon}
+                    </span>
+                    <span className="w-32 shrink-0 text-[14px] font-medium text-(--color-text-primary) group-hover:text-(--color-accent) transition-colors">
+                      {item.label}
+                    </span>
+                    <span className="flex-1 text-[13px] text-(--color-text-tertiary) truncate">
+                      {CATEGORY_HINT[cat]}
+                    </span>
+                    <span className="tnum font-mono text-[13px] text-(--color-text-secondary) w-10 text-right">
+                      {present ? count : '—'}
+                    </span>
+                    <ChevronRight
+                      size={15}
+                      className="text-(--color-text-tertiary) opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all"
+                    />
+                  </Link>
+                );
+              })}
             </div>
-            <div className="text-sm font-medium text-(--color-text-secondary) mt-2">{CATEGORY_LABEL[cat]}</div>
-          </Link>
+          </section>
         ))}
       </div>
     </div>
+  );
+}
+
+function Masthead({ data }: { data: DashboardData }) {
+  const meta: { label: string; value?: string }[] = [
+    { label: 'model', value: data.highlights.model },
+    { label: 'effort', value: data.highlights.effortLevel },
+    { label: 'permissions', value: data.highlights.permissionMode },
+  ].filter((m) => m.value);
+
+  return (
+    <header>
+      <div className="text-[11px] font-semibold uppercase tracking-[0.09em] text-(--color-text-tertiary) mb-2">
+        Config root
+      </div>
+      <h1 className="font-mono text-3xl font-semibold tracking-tight text-(--color-text-primary) break-all">
+        {collapseHome(data.configRoot)}
+      </h1>
+
+      {meta.length > 0 && (
+        <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-1.5 font-mono text-[13px]">
+          {meta.map((m) => (
+            <span key={m.label} className="flex items-baseline gap-1.5">
+              <span className="text-(--color-text-tertiary)">{m.label}</span>
+              <span className="text-(--color-text-primary) font-medium">{m.value}</span>
+            </span>
+          ))}
+        </div>
+      )}
+
+      <div className="mt-4 flex flex-wrap items-center gap-2">
+        {data.isGitRepo && (
+          <Badge tone="success" icon={<GitBranch size={12} strokeWidth={2} />}>version-controlled</Badge>
+        )}
+        {data.configRootRealPath !== data.configRoot && (
+          <Badge tone="cool" icon={<Link2 size={12} strokeWidth={2} />} title={data.configRootRealPath}>
+            symlinked
+          </Badge>
+        )}
+        {data.claudeJsonPath && (
+          <Badge tone="neutral" icon={<FileJson size={12} strokeWidth={2} />} title={data.claudeJsonPath}>
+            MCP from {collapseHome(data.claudeJsonPath)}
+          </Badge>
+        )}
+      </div>
+    </header>
+  );
+}
+
+function Badge({
+  children,
+  icon,
+  tone,
+  title,
+}: {
+  children: React.ReactNode;
+  icon: React.ReactNode;
+  tone: 'success' | 'cool' | 'neutral';
+  title?: string;
+}) {
+  const tones = {
+    success: 'text-(--color-success) bg-(--color-success)/12',
+    cool: 'text-(--color-cool) bg-(--color-cool)/12',
+    neutral: 'text-(--color-text-secondary) bg-(--color-surface-tertiary)',
+  };
+  return (
+    <span
+      title={title}
+      className={`inline-flex items-center gap-1.5 text-[11px] font-medium rounded-full px-2.5 py-1 ${tones[tone]}`}
+    >
+      {icon}
+      {children}
+    </span>
   );
 }

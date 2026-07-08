@@ -3,6 +3,34 @@ import { useLiveConfig } from '../hooks/useLiveConfig';
 import { Loading, ErrorState, PageHeader, Pill } from '../components/shared/primitives';
 import { EmptyState } from '../components/shared/EmptyState';
 
+/** ISO timestamp -> YYYY-MM-DD (fall back to raw string). */
+function shortDate(iso?: string): string | null {
+  if (!iso) return null;
+  const d = iso.slice(0, 10);
+  return /^\d{4}-\d{2}-\d{2}$/.test(d) ? d : iso;
+}
+
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <section className="mb-8">
+      <h2 className="text-[11px] font-semibold uppercase tracking-[0.09em] text-(--color-text-tertiary) mb-2 px-1">
+        {title}
+      </h2>
+      <div className="rounded-(--radius-card) border border-(--color-border-light) bg-(--color-surface) overflow-hidden">
+        {children}
+      </div>
+    </section>
+  );
+}
+
+function Row({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex items-center gap-3 px-4 py-3 border-t border-(--color-border-light) first:border-t-0">
+      {children}
+    </div>
+  );
+}
+
 export default function Plugins() {
   const { data, loading, error } = useLiveConfig(api.plugins);
   if (loading && !data) return <Loading />;
@@ -22,33 +50,31 @@ export default function Plugins() {
     <div>
       <PageHeader title="Plugins" count={data.plugins.length} subtitle="Installed plugins and known marketplaces" />
 
-      <h3 className="text-sm font-bold text-(--color-text-primary) mb-3">Installed plugins</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-8">
+      <Section title={`Installed · ${data.plugins.length}`}>
         {data.plugins.map((p) => (
-          <div key={p.id} className="bg-(--color-surface) border border-(--color-border-light) rounded-2xl p-4">
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-sm font-semibold text-(--color-text-primary) truncate">{p.name}</span>
-              <Pill tone={p.scope === 'user' ? 'accent' : 'neutral'}>{p.scope}</Pill>
-            </div>
-            <div className="text-xs text-(--color-text-tertiary) mt-1">@{p.marketplace}</div>
-            {p.version && <div className="text-xs text-(--color-text-tertiary) mt-1 font-mono">{p.version}</div>}
-          </div>
+          <Row key={p.id}>
+            <span className="w-44 shrink-0 text-[14px] font-medium text-(--color-text-primary) truncate">{p.name}</span>
+            <span className="flex-1 text-[13px] text-(--color-text-tertiary) truncate font-mono">@{p.marketplace}</span>
+            {p.version && (
+              <span className="tnum font-mono text-[12px] text-(--color-text-tertiary) truncate max-w-32">{p.version}</span>
+            )}
+            <Pill tone={p.scope === 'user' ? 'accent' : 'neutral'}>{p.scope}</Pill>
+          </Row>
         ))}
-      </div>
+      </Section>
 
-      <h3 className="text-sm font-bold text-(--color-text-primary) mb-3">Marketplaces</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <Section title={`Marketplaces · ${data.marketplaces.length}`}>
         {data.marketplaces.map((m) => (
-          <div key={m.id} className="bg-(--color-surface) border border-(--color-border-light) rounded-2xl p-4">
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-sm font-semibold text-(--color-text-primary) truncate">{m.name}</span>
-              {m.autoUpdate && <Pill tone="success">auto-update</Pill>}
-            </div>
-            {m.source && <div className="text-xs text-(--color-text-tertiary) mt-1 font-mono break-all">{m.source}</div>}
-            {m.lastUpdated && <div className="text-xs text-(--color-text-tertiary) mt-1">updated {m.lastUpdated}</div>}
-          </div>
+          <Row key={m.id}>
+            <span className="w-44 shrink-0 text-[14px] font-medium text-(--color-text-primary) truncate">{m.name}</span>
+            <span className="flex-1 text-[13px] text-(--color-text-tertiary) truncate font-mono">{m.source ?? ''}</span>
+            {shortDate(m.lastUpdated) && (
+              <span className="tnum font-mono text-[12px] text-(--color-text-tertiary)">{shortDate(m.lastUpdated)}</span>
+            )}
+            {m.autoUpdate && <Pill tone="success">auto</Pill>}
+          </Row>
         ))}
-      </div>
+      </Section>
     </div>
   );
 }
