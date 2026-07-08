@@ -18,3 +18,6 @@
 # Local dogfooding harness (symlinks toolkit skills/hooks into ~/.claude; not for distribution)
 dogfooding/
 zz-archive/
+
+**/tmp*
+tmp*
