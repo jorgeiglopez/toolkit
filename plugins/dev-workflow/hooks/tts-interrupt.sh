@@ -5,7 +5,7 @@
 # speak.sh's speaker loop re-reads the token file between sentences and exits
 # when it no longer holds its own token. Mid-sentence speech cannot be cut.
 
-TTS_DIR="$HOME/.claude/toolkit"
+TTS_DIR="$HOME/.claude/toolkit/tts"
 mkdir -p "$TTS_DIR"
 printf 'stop' > "$TTS_DIR/tts-token"
 exit 0

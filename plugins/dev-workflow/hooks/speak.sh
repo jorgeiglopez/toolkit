@@ -15,7 +15,7 @@
 # fires, so we poll for a marker NEWER than the last user prompt. Requires
 # "async": true in the hook registration or polling would stall every turn.
 
-TTS_DIR="$HOME/.claude/toolkit"
+TTS_DIR="$HOME/.claude/toolkit/tts"
 FLAG="$TTS_DIR/tts-on"
 TOKEN_FILE="$TTS_DIR/tts-token"
 DBG="$TTS_DIR/tts-debug.log"
@@ -35,7 +35,7 @@ echo "$(date +%H:%M:%S) start pid=$$" >> "$DBG"
 SENTENCES=$(python3 -c '
 import sys, json, os, re, time
 
-LOG = os.path.expanduser("~/.claude/toolkit/tts-debug.log")
+LOG = os.path.expanduser("~/.claude/toolkit/tts/tts-debug.log")
 def log(msg):
     try:
         with open(LOG, "a") as f:

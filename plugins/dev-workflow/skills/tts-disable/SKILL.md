@@ -13,7 +13,7 @@ markers; they are just no longer read aloud.
 
 1. Run:
    ```bash
-   rm -f ~/.claude/toolkit/tts-on; printf 'stop' > ~/.claude/toolkit/tts-token
+   rm -f ~/.claude/toolkit/tts/tts-on; printf 'stop' > ~/.claude/toolkit/tts/tts-token
    ```
    (Rewriting the token stops any speech in progress at the next sentence
    boundary — signals like `pkill` are blocked in the sandbox.)

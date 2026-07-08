@@ -1,6 +1,6 @@
 #!/bin/bash
 # SessionStart hook: stdout becomes session context.
-# Always injected; whether the markers are spoken is gated by ~/.claude/toolkit/tts-on
+# Always injected; whether the markers are spoken is gated by ~/.claude/toolkit/tts/tts-on
 # (see speak.sh). The marker is an HTML comment so it cannot break the markdown
 # rendering of the response.
 

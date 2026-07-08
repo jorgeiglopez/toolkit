@@ -12,9 +12,9 @@ turn, so the change applies immediately — no restart.
 
 1. Run:
    ```bash
-   mkdir -p ~/.claude/toolkit && touch ~/.claude/toolkit/tts-on
+   mkdir -p ~/.claude/toolkit/tts && touch ~/.claude/toolkit/tts/tts-on
    ```
-   (The flag must live under `~/.claude/toolkit` — the only sandbox-writable dir in `~/.claude`.)
+   (The flag lives under `~/.claude/toolkit/tts`; its parent `~/.claude/toolkit` is the only sandbox-writable dir in `~/.claude`.)
 2. Confirm to the user that TTS is on. End the response with a spoken-summary
    marker confirming it aloud, so the user gets immediate audible feedback:
    ```
