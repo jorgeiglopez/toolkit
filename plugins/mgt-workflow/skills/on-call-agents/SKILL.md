@@ -47,5 +47,5 @@ Example of a good report: `Committed: 1c76795 - fix(git-workflow): harden hooks 
 
 ## Teardown
 
-TaskStop each agent and verify, per the agents-ctl skill. A message asking
-them to stop leaves the process alive and pinging.
+TaskStop each agent, then verify the process is actually gone. A message
+asking them to stop leaves the process alive and pinging.

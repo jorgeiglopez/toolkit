@@ -30,9 +30,8 @@ raise it, tagged `[off-library]`, and suggest a pattern entry for it.
 
 If `<project>/docs/code_review_decisions.md` exists, read it first. A finding
 matching a recorded decision is NOT raised again; reference the decision ID
-if context requires it. The file's format and lifecycle are owned by the
-`receiving-review` skill (git-workflow); follow its contract, do not define
-your own.
+if context requires it. Treat that file as read-only: propose new entries in
+your output and let the main session record what the user decides.
 
 ## Scope and budget
 

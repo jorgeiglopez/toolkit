@@ -7,11 +7,9 @@ Personal Claude Code plugin marketplace. macOS only, Claude Code only, single-us
 | Plugin | Ships | What it does |
 |---|---|---|
 | [writing](./plugins/writing) | skills: `brevify`, `humanify`, `grill-me`, `doc-trim` | Clearer, more human writing: tighten prose, strip AI-tells, trim existing docs, interview drills |
-| [git-workflow](./plugins/git-workflow) | skills: `commit`, `pr-create`, `pre-flight`, `worktree-workflow`, `finish-branch`, `receiving-review` · hooks: `blocked-commands`, `stop-gate` | Git actions plus guardrails: staged reviewable commits, PRs, local CI mirror, full worktree lifecycle, branch finishing, review response; hooks block bad commands and gate session end on quality |
-| [dev-workflow](./plugins/dev-workflow) | skills: `ramp-up`, `systematic-debugging`, `bake-off`, `doc-audit`, `dispatch`, `rename-verify`, `codebase-diagnostic`, `debate-team`, `recall-agent`, `check-exit-code`, `schedule-one-off-agent`, `tts-enable`, `tts-disable` · hooks: TTS trio, usage warning | Working effectively in repos: onboard fast, debug by root cause, compare approaches head-to-head, audit docs, delegate to subagents with discipline |
-| [mgt-workflow](./plugins/mgt-workflow) | skills: `project-cost`, `backlog`, `agents-ctl`, `on-call-agents`, `weekly-review`, `claude-deslop`, `update-claude` · agents: `toolkit-manager`, `staff-engineer-reviewer` · hook: skill-use logging | Management & observability: token spend, ticket capture and pickup, agent lifecycle with proof, weekly digests, CLAUDE.md hygiene, pattern-library code review |
-| [nextjs](./plugins/nextjs) | skills: `react-dev`, `react-useeffect` | React 19 / Next.js engineering patterns and Effect discipline |
-| [web-quality](./plugins/web-quality) | skills: `web-quality-audit`, `performance`, `core-web-vitals`, `accessibility`, `seo` | Lighthouse-style audits, framework-agnostic with Next.js emphasis |
+| [git-workflow](./plugins/git-workflow) | skills: `commit`, `pr-create`, `pre-flight`, `worktree-workflow` | Git actions plus guardrails: staged reviewable commits, PRs, local CI mirror, full worktree lifecycle |
+| [dev-workflow](./plugins/dev-workflow) | skills: `ramp-up`, `systematic-debugging`, `compare-approaches`, `dispatch`, `debate-team`, `recall-agent`, `check-exit-code`, `schedule-one-off-agent`, `tts-enable`, `tts-disable` · hooks: TTS trio, usage warning | Working effectively in repos: onboard fast, debug by root cause, compare approaches head-to-head, delegate to subagents with discipline |
+| [mgt-workflow](./plugins/mgt-workflow) | skills: `project-cost`, `on-call-agents`, `weekly-review`, `claude-deslop`, `improve-claude-from-ctx` · agents: `toolkit-manager`, `staff-engineer-reviewer` · hook: skill-use logging | Management & observability: token spend, on-call agents, weekly digests, CLAUDE.md hygiene, pattern-library code review |
 
 ## Install (from GitHub)
 
@@ -33,19 +31,7 @@ Claude Code caches installed plugins keyed on `version`; `marketplace update` se
 
 ## Conventions
 
-- Every skill ships `SKILL.md` + `RULES.md`; `RULES.md` is the source of truth for intent. See [CLAUDE.md](./CLAUDE.md) for the contract, the authoring doctrine, and the ship flow.
-- `scripts/validate.sh` enforces the structural invariants (run it before shipping).
-
-## Versioning
-
-All plugins ship in lockstep at the value in `VERSION`. `scripts/set-version.sh` propagates it into every manifest:
-
-```bash
-scripts/set-version.sh 0.3.0   # bump VERSION, then sync every manifest
-scripts/set-version.sh         # no args: re-sync manifests to VERSION
-```
-
-Bump rule: default **patch**; **minor** for a new skill/plugin or meaningful rewrite; **major** for breaking changes.
+Every skill ships `SKILL.md` + `RULES.md` (RULES is the source of truth for intent), all plugins version in lockstep from `VERSION`, and `scripts/validate.sh` enforces the structural invariants. The full contract, authoring doctrine, versioning, and ship flow live in **[CLAUDE.md](./CLAUDE.md)** — this README stays install- and overview-only to avoid duplicating it.
 
 ## Layout
 

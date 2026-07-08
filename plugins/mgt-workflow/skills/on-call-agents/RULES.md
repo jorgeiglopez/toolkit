@@ -11,4 +11,4 @@ lastUpdate: 2026-07-08 00:00
 - SendMessage with a string message always includes `summary`; omitting it errors ("summary is required when message is a string").
 - The lead never sends to "main"; "main" IS the lead. Agents address "main", the lead addresses agents by name.
 - `idle_notification` heartbeats are harness noise: no action, no reply, no relay to the user.
-- Teardown is TaskStop with verification (see agents-ctl), never a shutdown message.
+- Teardown is TaskStop with verification the process ended, never a shutdown message.
