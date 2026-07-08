@@ -1,6 +1,7 @@
 ---
 name: dispatch
-description: Discipline for delegating work to subagents and teammates. Manually invoked only, run when the user explicitly calls it to orchestrate multi-agent work or dispatch subagents.
+description: Discipline for delegating work to subagents and teammates. Run when the user explicitly calls it to orchestrate multi-agent work or dispatch subagents.
+disable-model-invocation: true
 ---
 
 # dispatch

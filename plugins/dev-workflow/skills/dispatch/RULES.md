@@ -5,7 +5,6 @@ lastUpdate: 2026-07-08 00:00
 
 # Rules
 
-- Manually invoked only: runs when the user explicitly calls it, never auto-triggered.
 - Standing project constraints live in `<project>/.claude/dispatch-skill/dispatch-constraints.md` (seed it from the shipped `dispatch-constraints.template.md`), referenced by path in every dispatch; never retyped inline. Retyping the same constraint twice means the file is missing an entry: add it.
 - File handoffs only: plans, diffs, and history are written to files and passed as paths. Pasting them into a dispatch prompt is banned.
 - Every dispatch states a budget: max files touched, max tool calls or minutes.

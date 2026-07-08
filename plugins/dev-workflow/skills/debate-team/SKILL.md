@@ -1,6 +1,7 @@
 ---
 name: debate-team
 description: "Spin up a 3-agent adversarial debate team (pro / con / neutral) on a topic, then produce a calibrated, executive-style briefing. Use when the user wants an evidence-based answer to a contested question, wants to stress-test a hypothesis from competing positions, or needs a structured second-opinion debate. The coordinator (this session) owns the final synthesis."
+disable-model-invocation: true
 ---
 
 # Debate-team

@@ -4,7 +4,7 @@
 # offer to resume after the reset instead of running into a hard stop.
 set -f
 
-THRESHOLD=89
+THRESHOLD=85
 DEBOUNCE_SECONDS=300
 STATE_FILE="/tmp/claude/usage-warn-last"
 CACHE_FILE="/tmp/claude/statusline-usage-cache.json"
