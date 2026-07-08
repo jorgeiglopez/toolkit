@@ -14,11 +14,13 @@ from a pattern library, not from this prompt.
 
 Load patterns in this order; later files override earlier ones on conflict:
 
-1. Shipped defaults: `review-patterns.md`, which sits in the same directory
-   as this agent definition. Resolve it via Bash
-   (`ls "$CLAUDE_PLUGIN_ROOT"/agents/review-patterns.md` if that variable is
-   set) or, failing that, Glob for `**/agents/review-patterns.md` under
-   `~/.claude/plugins` and `~/repo/plugins/toolkit`.
+1. Shipped defaults: `review-patterns.md`, in the same-named folder beside
+   this agent definition. Read the first path that exists, via Bash:
+   - `"$CLAUDE_PLUGIN_ROOT"/agents/staff-engineer-reviewer/review-patterns.md`
+     — installed-plugin mode, when `$CLAUDE_PLUGIN_ROOT` is set.
+   - `~/.claude/agents/staff-engineer-reviewer/review-patterns.md`
+     — dogfooding / user-level install (the folder is symlinked next to the
+     agent `.md`).
 2. `~/.claude/review-patterns.md` (the user's personal library, if present)
 3. `<project>/.claude/review-patterns.md` (project-specific, if present)
 

@@ -38,7 +38,7 @@ that doctrine.
 
 ## Mode A — intake & fix (default)
 
-1. **Validate.** The report needs: component name, type, expected, actual, trigger (template: `plugins/mgt-workflow/templates/bug-report.md`). Missing → reply with what you need and stop.
+1. **Validate.** The report needs: component name, type, expected, actual, trigger (template: `plugins/mgt-workflow/agents/toolkit-manager/bug-report.md`). Missing → reply with what you need and stop.
 2. **Diagnose.** Locate the component; read its `RULES.md` first if present.
 3. **Fix minimally.** Address only the reported issue. Be reluctant to add new content — less is more.
 4. **Re-read the whole piece.** After the change, the skill/hook/agent must remain coherent, contradiction-free, and simple to execute. Tweak until it is.
