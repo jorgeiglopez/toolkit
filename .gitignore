@@ -21,3 +21,6 @@ zz-archive/
 
 **/tmp*
 tmp*
+
+.playwright*
+**/.playwright*
