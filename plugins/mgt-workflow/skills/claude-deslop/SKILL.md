@@ -1,6 +1,6 @@
 ---
 name: claude-deslop
-description: "Audit CLAUDE.md files, skills, and context for redundancy, conflicts, and vagueness; propose a cleaned version. Use when the user asks to deslop, trim instructions, review AI context quality, or check for conflicting or redundant rules in their Claude setup."
+description: "Audit CLAUDE.md files, skills, and context for redundancy, conflicts, and vagueness; propose a cleaned version. Manually invoked only, run when the user explicitly calls it to deslop or review AI context quality."
 ---
 
 # claude-deslop
