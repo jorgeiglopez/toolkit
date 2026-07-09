@@ -14,12 +14,25 @@
 # The final assistant message is flushed to the transcript slightly after Stop
 # fires, so we poll for a marker NEWER than the last user prompt. Requires
 # "async": true in the hook registration or polling would stall every turn.
+#
+# Speaking rate is pinned to 200wpm (not the macOS default) so it can't drift
+# with System Voice / Spoken Content changes. Override by writing an integer
+# to ~/.claude/toolkit/tts/tts-rate.
 
 TTS_DIR="$HOME/.claude/toolkit/tts"
 FLAG="$TTS_DIR/tts-on"
 TOKEN_FILE="$TTS_DIR/tts-token"
+RATE_FILE="$TTS_DIR/tts-rate"
 DBG="$TTS_DIR/tts-debug.log"
 mkdir -p "$TTS_DIR"
+
+# Words-per-minute for `say`. Pinned here so speed doesn't drift with macOS
+# System Voice / Spoken Content settings. Override by writing an integer to
+# $RATE_FILE (see lpz-tts-enable).
+RATE=$(cat "$RATE_FILE" 2>/dev/null)
+case "$RATE" in
+  ''|*[!0-9]*) RATE=200 ;;
+esac
 
 # Rotate debug log if > 100KB
 if [ -f "$DBG" ] && [ "$(stat -f%z "$DBG" 2>/dev/null || echo 0)" -gt 102400 ]; then
@@ -154,13 +167,13 @@ TOKEN="$$.$(date +%s)"
 printf '%s' "$TOKEN" > "$TOKEN_FILE"
 
 SPEAKER_DEADLINE=$(($(date +%s) + 120))
-export TTS_TOKEN="$TOKEN" TTS_TOKEN_FILE="$TOKEN_FILE" TTS_SENTENCES="$SENTENCES" TTS_DBG="$DBG" TTS_DEADLINE="$SPEAKER_DEADLINE"
+export TTS_TOKEN="$TOKEN" TTS_TOKEN_FILE="$TOKEN_FILE" TTS_SENTENCES="$SENTENCES" TTS_DBG="$DBG" TTS_DEADLINE="$SPEAKER_DEADLINE" TTS_RATE="$RATE"
 nohup bash -c '
   while IFS= read -r s; do
     [ "$(cat "$TTS_TOKEN_FILE" 2>/dev/null)" = "$TTS_TOKEN" ] || { echo "$(date +%H:%M:%S) speaker: interrupted" >> "$TTS_DBG"; exit 0; }
     [ "$(date +%s)" -ge "$TTS_DEADLINE" ] && { echo "$(date +%H:%M:%S) speaker: deadline" >> "$TTS_DBG"; exit 0; }
-    [ -n "$s" ] && printf "%s" "$s" | say
-    echo "$(date +%H:%M:%S) speaker: said sentence (say exit $?)" >> "$TTS_DBG"
+    [ -n "$s" ] && printf "%s" "$s" | say -r "$TTS_RATE"
+    echo "$(date +%H:%M:%S) speaker: said sentence (say exit $?, rate $TTS_RATE)" >> "$TTS_DBG"
   done <<< "$TTS_SENTENCES"
 ' >/dev/null 2>&1 &
 

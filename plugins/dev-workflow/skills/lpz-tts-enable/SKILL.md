@@ -28,3 +28,16 @@ turn, so the change applies immediately — no restart.
 Once TTS is on, idle or heartbeat check-ins (nothing to act on, standing by,
 no-op pings) never get a spoken-summary marker. Only add a marker when the
 response reports real work done or a decision made.
+
+## Changing the speaking rate
+
+Speed is pinned at 200wpm in `speak.sh`, independent of macOS System
+Voice / Spoken Content settings (so it can't drift when those change). To
+adjust it, write the new words-per-minute integer to the rate file:
+
+```bash
+echo 170 > ~/.claude/toolkit/tts/tts-rate
+```
+
+Takes effect on the next spoken response, no restart needed. Delete the file
+to fall back to the 200wpm default.
