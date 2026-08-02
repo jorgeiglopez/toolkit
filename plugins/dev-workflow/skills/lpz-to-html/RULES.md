@@ -1,5 +1,5 @@
 ---
-name: lpz-html-visualizr
+name: to-html
 lastUpdate: 2026-08-02 00:00
 ---
 
@@ -10,6 +10,6 @@ lastUpdate: 2026-08-02 00:00
 - Verify the server responds (curl 127.0.0.1 for a 200) before reporting the URL.
 - Always report the LAN IP URL to the user, never `localhost`.
 - Also deliver the file via SendUserFile with `display: render`.
-- Support both light and dark themes via CSS variables + `prefers-color-scheme`.
+- Follow the `frontend-design` skill for all visual choices — palette, typography, layout, and both themes.
 - Wrap tables in `overflow-x: auto`; the page body itself must never scroll horizontally.
 - The server keeps running until killed — mention it and offer cleanup rather than leaving it forgotten.
