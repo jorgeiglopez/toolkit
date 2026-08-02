@@ -92,6 +92,21 @@ ln -s "$MAIN/.cache" .cache
 Need a new dependency? Don't `npm install` in the worktree — coordinate with the
 source_of_truth agent to install it there; your symlink picks it up.
 
+**pnpm ≥ 10 — never `pnpm install` or `pnpm run` here, and never `CI=true`.**
+pnpm detects the symlinked `node_modules` as another project's and tries to
+purge the modules dir: TTY-less it aborts with
+`ERR_PNPM_ABORTED_REMOVE_MODULES_DIR_NO_TTY` (breaking gate scripts that call
+`pnpm install`); with `CI=true` it proceeds and deletes the source_of_truth's
+real `node_modules` **through the symlink**. Env overrides
+(`npm_config_verify_deps_before_run=false`) do not disable the check. Run gate
+steps via the package binaries directly:
+
+```bash
+(cd <pkg> && ./node_modules/.bin/tsc --noEmit)
+./node_modules/.bin/vitest run
+./node_modules/.bin/vite build
+```
+
 **Gitignored config the worktree needs** (`.env`, keys): list the patterns in a
 `.worktreeinclude` file at the repo root (gitignore syntax); Claude Code's
 native worktree flow copies files matching BOTH `.worktreeinclude` and
@@ -193,6 +208,7 @@ deleted.
 | "Just edit on the source_of_truth checkout, it's faster" | You collide with the other agent's index. Use a worktree. |
 | "`npm install` in the worktree, no big deal" | Slow re-download. Symlink `node_modules` from the source_of_truth checkout instead. |
 | "I need a new dep, I'll just install it here" | Coordinate with the source_of_truth agent — install there, symlink picks it up. |
+| "pnpm aborts on the symlink — I'll set `CI=true`" | That abort is the safety net. `CI=true` lets pnpm purge the source_of_truth's `node_modules` through the symlink. Call `./node_modules/.bin/<tool>` directly. |
 | "Cherry-pick the branch over, skip the PR" | Cherry-pick drops files and ignores new `source_of_truth` commits. PR + rebase. |
 | "Skip the rebase, source_of_truth hasn't moved" | The other agent may have merged. `git fetch && rebase` before merge. |
 | "I dropped the task, leaving the claim is fine" | Un-claim it, or the task stays locked forever. |
@@ -207,6 +223,9 @@ deleted.
 - Never reinstall or regenerate inside a worktree — symlink expensive artifacts
   (`node_modules` and anything similar) from the source_of_truth checkout. Need a new
   dependency? Coordinate with the source_of_truth agent instead of installing solo.
+- pnpm ≥10 with a symlinked `node_modules`: no `pnpm install`/`pnpm run` in the
+  worktree, no `CI=true` around them (purge risk through the symlink); invoke
+  `./node_modules/.bin/<tool>` directly for gate steps.
 - Multi-file change → PR. Cherry-pick only for a one-file hotfix.
 - Always rebase on latest `source_of_truth` and run the gate before merging.
 - Remove the worktree and delete the branch once merged or abandoned.

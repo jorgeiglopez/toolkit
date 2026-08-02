@@ -1,6 +1,6 @@
 ---
 name: lpz-git-worktree
-lastUpdate: 2026-07-04 00:00
+lastUpdate: 2026-07-17 00:00
 ---
 
 # Rules
@@ -10,6 +10,7 @@ lastUpdate: 2026-07-04 00:00
 - Be smart with the required artifacts:
     - Avoid `npm install` inside a worktree — symlink `node_modules` from the MAIN checkout. Coordinate with the main agent if you need to install a new dependency that will require install.
     - The above was one example, but any other artifact or file that is expensive, conside symlink it first.
+    - pnpm ≥10 with a symlinked `node_modules`: never run `pnpm install` or `pnpm run` in the worktree, and never set `CI=true` around them — pnpm tries to purge the modules dir and would delete the source_of_truth's real `node_modules` through the symlink. Invoke `./node_modules/.bin/<tool>` directly for gate steps.
 - Land multi-file work via a PR (rebase on source_of_truth, run the gate, then merge).
 - On abandon, remove the worktree and revert the claim to pending on source_of_truth.
 - Clean up after the work is done.
