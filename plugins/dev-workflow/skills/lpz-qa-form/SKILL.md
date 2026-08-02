@@ -1,6 +1,6 @@
 ---
 name: lpz-qa-form
-description: "Turn the questions you'd otherwise ask in the CLI into ONE self-contained HTML form, served on localhost, that the user answers with radios/checkboxes/dropdowns/text; one click copies a compact Q&A block to paste back into the session. Use when the user says qa-form, ask me in a form, or you have several questions to ask at once."
+description: "Turn the questions you'd otherwise ask in the CLI into ONE self-contained HTML form, served on localhost, that the user answers with radios/checkboxes/dropdowns/text. Use when the user says qa-form, ask me in a form, or you have several questions to ask at once."
 ---
 
 # lpz-qa-form
