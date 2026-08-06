@@ -1,15 +1,16 @@
 #!/bin/bash
 # Stop hook (async): speaks the 📢 marker of the final assistant message
-# via macOS `say`. No-op unless the flag file exists. Toggled by /lpz-tts-enable and
-# /lpz-tts-disable. Marker format (HTML comment so markdown rendering survives):
+# through a pluggable TTS backend (see backends/README.md). No-op unless the
+# flag file exists. Toggled by /lpz-tts-enable and /lpz-tts-disable. Marker
+# format (HTML comment so markdown rendering survives):
 #   <!--📢 spoken summary -->
 #
 # Sandbox constraints:
 #   - only ~/.claude/toolkit is writable inside the hook sandbox
 #   - signals to other processes are blocked -> interruption is cooperative:
-#     one sentence per `say` call, checking the token file between sentences;
-#     rewriting the token (new speaker, tts-interrupt.sh, /lpz-tts-disable) stops
-#     the loop at the next sentence boundary.
+#     one sentence per backend `speak` call, checking the token file between
+#     sentences; rewriting the token (new speaker, tts-interrupt.sh,
+#     /lpz-tts-disable) stops the loop at the next sentence boundary.
 #
 # The final assistant message is flushed to the transcript slightly after Stop
 # fires, so we poll for a marker NEWER than the last user prompt. Requires
@@ -17,14 +18,34 @@
 #
 # Speaking rate is pinned to 200wpm (not the macOS default) so it can't drift
 # with System Voice / Spoken Content changes. Override by writing an integer
-# to ~/.claude/toolkit/tts/tts-rate.
+# to ~/.claude/toolkit/tts/tts-rate. Interpretation of the rate is up to the
+# active backend.
 
+# Resolve through symlinks (the dogfooding harness symlinks this file into
+# ~/.claude/hooks/) so BACKEND_DIR finds backends/ next to the real source,
+# not next to wherever this script was invoked from.
+SCRIPT_PATH="${BASH_SOURCE[0]}"
+while [ -L "$SCRIPT_PATH" ]; do
+  LINK_TARGET="$(readlink "$SCRIPT_PATH")"
+  case "$LINK_TARGET" in
+    /*) SCRIPT_PATH="$LINK_TARGET" ;;
+    *) SCRIPT_PATH="$(dirname "$SCRIPT_PATH")/$LINK_TARGET" ;;
+  esac
+done
+SCRIPT_DIR="$(cd "$(dirname "$SCRIPT_PATH")" && pwd)"
+BACKEND_DIR="$SCRIPT_DIR/backends"
 TTS_DIR="$HOME/.claude/toolkit/tts"
 FLAG="$TTS_DIR/tts-on"
 TOKEN_FILE="$TTS_DIR/tts-token"
 RATE_FILE="$TTS_DIR/tts-rate"
+BACKEND_OVERRIDE_FILE="$TTS_DIR/tts-backend"
 DBG="$TTS_DIR/tts-debug.log"
 mkdir -p "$TTS_DIR"
+
+# Preferred backend order. `say` ships with macOS and needs no install step,
+# so it stays last — the guaranteed fallback when nothing else is available.
+# Add new backend names here, ahead of `say`, as they're added to backends/.
+BACKEND_PRIORITY=(say)
 
 # Words-per-minute for `say`. Pinned here so speed doesn't drift with macOS
 # System Voice / Spoken Content settings. Override by writing an integer to
@@ -44,6 +65,26 @@ if [ ! -f "$FLAG" ]; then
   exit 0
 fi
 echo "$(date +%H:%M:%S) start pid=$$" >> "$DBG"
+
+# Pick a backend: an explicit override wins if set and usable, otherwise the
+# first BACKEND_PRIORITY entry whose `check` passes. `say` is always last in
+# BACKEND_PRIORITY, so this never falls through empty.
+BACKEND=""
+FORCED_BACKEND=$(cat "$BACKEND_OVERRIDE_FILE" 2>/dev/null)
+if [ -n "$FORCED_BACKEND" ] && [ -x "$BACKEND_DIR/$FORCED_BACKEND.sh" ]; then
+  BACKEND="$FORCED_BACKEND"
+else
+  for name in "${BACKEND_PRIORITY[@]}"; do
+    script="$BACKEND_DIR/$name.sh"
+    if [ -x "$script" ] && "$script" check; then
+      BACKEND="$name"
+      break
+    fi
+  done
+fi
+[ -n "$BACKEND" ] || BACKEND="say"
+BACKEND_SCRIPT="$BACKEND_DIR/$BACKEND.sh"
+echo "$(date +%H:%M:%S) backend: $BACKEND" >> "$DBG"
 
 SENTENCES=$(python3 -c '
 import sys, json, os, re, time
@@ -167,14 +208,14 @@ TOKEN="$$.$(date +%s)"
 printf '%s' "$TOKEN" > "$TOKEN_FILE"
 
 SPEAKER_DEADLINE=$(($(date +%s) + 120))
-export TTS_TOKEN="$TOKEN" TTS_TOKEN_FILE="$TOKEN_FILE" TTS_SENTENCES="$SENTENCES" TTS_DBG="$DBG" TTS_DEADLINE="$SPEAKER_DEADLINE" TTS_RATE="$RATE"
+export TTS_TOKEN="$TOKEN" TTS_TOKEN_FILE="$TOKEN_FILE" TTS_SENTENCES="$SENTENCES" TTS_DBG="$DBG" TTS_DEADLINE="$SPEAKER_DEADLINE" TTS_RATE="$RATE" TTS_BACKEND="$BACKEND" TTS_BACKEND_SCRIPT="$BACKEND_SCRIPT"
 nohup bash -c '
   while IFS= read -r s; do
     [ "$(cat "$TTS_TOKEN_FILE" 2>/dev/null)" = "$TTS_TOKEN" ] || { echo "$(date +%H:%M:%S) speaker: interrupted" >> "$TTS_DBG"; exit 0; }
     [ "$(date +%s)" -ge "$TTS_DEADLINE" ] && { echo "$(date +%H:%M:%S) speaker: deadline" >> "$TTS_DBG"; exit 0; }
-    [ -n "$s" ] && printf "%s" "$s" | say -r "$TTS_RATE"
-    echo "$(date +%H:%M:%S) speaker: said sentence (say exit $?, rate $TTS_RATE)" >> "$TTS_DBG"
+    [ -n "$s" ] && printf "%s" "$s" | "$TTS_BACKEND_SCRIPT" speak "$TTS_RATE"
+    echo "$(date +%H:%M:%S) speaker: said sentence (backend $TTS_BACKEND, exit $?, rate $TTS_RATE)" >> "$TTS_DBG"
   done <<< "$TTS_SENTENCES"
-' >/dev/null 2>&1 &
+' >>"$DBG" 2>>"$DBG" &
 
 exit 0
