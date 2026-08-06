@@ -13,8 +13,9 @@ markers; they are just no longer read aloud.
 
 1. Run:
    ```bash
-   rm -f ~/.claude/toolkit/tts/tts-on; printf 'stop' > ~/.claude/toolkit/tts/tts-token
+   rm -f ~/.claude/toolkit/tts/tts-on ~/.claude/toolkit/tts/queue/*; printf 'stop' > ~/.claude/toolkit/tts/tts-token
    ```
    (Rewriting the token stops any speech in progress at the next sentence
-   boundary — signals like `pkill` are blocked in the sandbox.)
+   boundary — signals like `pkill` are blocked in the sandbox. Clearing the
+   queue drops messages other sessions had lined up: disable means silence.)
 2. Confirm to the user that TTS is off. Do not add an audible confirmation. Instruct the user that needs to reset the session to stop seen the markers `<!--📢 Speech block -->`

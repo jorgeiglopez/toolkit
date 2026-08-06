@@ -29,12 +29,17 @@ Once TTS is on, idle or heartbeat check-ins (nothing to act on, standing by,
 no-op pings) never get a spoken-summary marker. Only add a marker when the
 response reports real work done or a decision made.
 
-## Voice backend
+## Voice backend and queue
 
-`speak.sh` auto-picks the voice each turn: Kokoro (local, natural voice via
-mlx-audio) when its dependencies are installed, otherwise macOS `say` — the
-zero-dependency fallback. Setup and details: `hooks/backends/README.md` in
-the dev-workflow plugin. To force a specific backend:
+Spoken summaries are queued, not raced: each response's summary lands in
+`~/.claude/toolkit/tts/queue/` and a single drainer speaks them in arrival
+order (deleting each afterwards), so parallel sessions never talk over each
+other. Typing skips only the message currently playing.
+
+The drainer auto-picks the voice per message: Kokoro (local, natural voice
+via mlx-audio) when its dependencies are installed, otherwise macOS `say` —
+the zero-dependency fallback. Setup and details: `hooks/backends/README.md`
+in the dev-workflow plugin. To force a specific backend:
 
 ```bash
 echo say > ~/.claude/toolkit/tts/tts-backend   # or kokoro

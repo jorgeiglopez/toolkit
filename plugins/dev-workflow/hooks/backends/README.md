@@ -1,8 +1,8 @@
 # TTS backends
 
-`speak.sh` speaks one sentence at a time by shelling out to a backend script
-in this directory. Each backend is a single executable implementing two
-subcommands:
+`tts-drain.sh` (the single queue drainer spawned by `speak.sh`) speaks one
+sentence at a time by shelling out to a backend script in this directory.
+Each backend is a single executable implementing two subcommands:
 
 - `check` — exit 0 if this backend's dependencies are installed and usable,
   non-zero otherwise. No output required, no side effects.
@@ -13,8 +13,8 @@ subcommands:
 
 ## Selection
 
-`speak.sh` tries backend names from `BACKEND_PRIORITY` in order and uses the
-first one whose `check` passes. `say` has no install step and ships with
+`tts-drain.sh` tries backend names from `BACKEND_PRIORITY` in order and uses
+the first one whose `check` passes. `say` has no install step and ships with
 macOS, so it's always last in priority — the guaranteed fallback when nothing
 else is available.
 
@@ -66,6 +66,6 @@ resort. Rate is native wpm.
 ## Adding a backend
 
 1. Add `<name>.sh` here implementing `check` and `speak <rate>`.
-2. Add `<name>` to `BACKEND_PRIORITY` in `speak.sh`, ahead of `say` if it
+2. Add `<name>` to `BACKEND_PRIORITY` in `tts-drain.sh`, ahead of `say` if it
    should be preferred whenever its dependencies are installed.
-3. `chmod +x` the new script — `speak.sh` only considers executable files.
+3. `chmod +x` the new script — only executable files are considered.
