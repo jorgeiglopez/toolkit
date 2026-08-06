@@ -45,7 +45,7 @@ mkdir -p "$TTS_DIR"
 # Preferred backend order. `say` ships with macOS and needs no install step,
 # so it stays last — the guaranteed fallback when nothing else is available.
 # Add new backend names here, ahead of `say`, as they're added to backends/.
-BACKEND_PRIORITY=(say)
+BACKEND_PRIORITY=(kokoro say)
 
 # Words-per-minute for `say`. Pinned here so speed doesn't drift with macOS
 # System Voice / Spoken Content settings. Override by writing an integer to
