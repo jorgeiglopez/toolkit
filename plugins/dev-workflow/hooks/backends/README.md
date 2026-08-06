@@ -33,22 +33,24 @@ Delete that file to return to auto-detection.
 
 Kokoro-82M via [mlx-audio](https://github.com/Blaizzy/mlx-audio), fully local
 on Apple Silicon — natural voice, no text leaves the machine. `check` passes
-once both the tool and the model cache exist. One-time setup:
+once both the tool and the model cache exist. One-time setup (idempotent,
+check-first; `dogfooding/install.sh` runs it automatically):
 
 ```bash
-uv tool install --force \
-  --with "misaki[en]" \
-  --with "en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl" \
-  mlx-audio
-# prime the model + voice cache (needs network once):
-mlx_audio.tts.generate --model mlx-community/Kokoro-82M-bf16 --voice af_heart --text "test" --output_path /tmp
+./kokoro-setup.sh
 ```
 
-Both `--with` pins matter. `misaki[en]` isn't declared by mlx-audio, and the
-spaCy model wheel can't be fetched lazily: `misaki.en.G2P` calls
-`spacy.cli.download()` at runtime, which shells out to `uv pip install` and
-dies with `error: No virtual environment found` inside a uv tool env. Bake
-the wheel in at install time instead.
+It installs whatever is missing from the chain: `uv` itself (brew, or the
+official installer), `mlx-audio` as a uv tool, and the Kokoro model + voice
+cache (~350MB, one network download; the backend then runs with
+`HF_HUB_OFFLINE=1` forever after).
+
+The `uv tool install` carries two `--with` pins, and both matter. `misaki[en]`
+isn't declared by mlx-audio, and the spaCy model wheel can't be fetched
+lazily: `misaki.en.G2P` calls `spacy.cli.download()` at runtime, which shells
+out to `uv pip install` and dies with `error: No virtual environment found`
+inside a uv tool env. Bake the wheel in at install time instead — see the
+pinned URLs in `kokoro-setup.sh`.
 
 The backend runs with `HF_HUB_OFFLINE=1`, so it never touches the network
 after the cache is primed. Each speak call reloads the model (~3s before
