@@ -113,10 +113,12 @@ def parse_entry(raw_line, idx, state):
         found = MARKER_RE.findall(text)
         if found:
             state["tag_idx"] = idx
-            state["tag"] = " ".join(m.strip() for m in found)
+            # one entry per marker block, whitespace collapsed to a single line;
+            # blocks are NOT split into sentences (each is spoken as one clip)
+            state["tag"] = [re.sub(r"\s+", " ", m).strip() for m in found if m.strip()]
 
 # Initial full scan to find the last user prompt
-state = {"user_idx": -1, "tag_idx": -1, "tag": ""}
+state = {"user_idx": -1, "tag_idx": -1, "tag": []}
 line_count = 0
 with open(path) as f:
     for i, line in enumerate(f):
@@ -151,12 +153,11 @@ while True:
         log("exit: newer prompt arrived (u %d -> %d)" % (prompt_idx, u))
         sys.exit(0)
     if t > u:
-        flat = re.sub(r"\s+", " ", tag).strip()
-        sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+(?=[A-Z])", flat) if s.strip()]
-        if not sentences and flat:
-            sentences = [flat]
-        log("speak %d sentence(s) from entry %d" % (len(sentences), t))
-        print("\n".join(sentences))
+        # tag is already a list of cleaned, single-line blocks (one per marker)
+        blocks = [b for b in tag if b]
+        log("speak %d block(s) from entry %d" % (len(blocks), t))
+        if blocks:
+            print("\n".join(blocks))
         sys.exit(0)
     if time.monotonic() > deadline:
         log("exit: timeout (u=%d t=%d)" % (u, t))
