@@ -4,9 +4,12 @@
 # enqueue; an mkdir lock guarantees at most one drainer machine-wide, so
 # concurrent Claude sessions never talk over each other.
 #
+# Each queued message holds one line per 📢 marker block; every block is
+# synthesized and played as a single continuous clip.
+#
 # Interruption is cooperative (signals are blocked in the hook sandbox):
 # tts-interrupt.sh rewrites the token file, which skips the CURRENT message
-# at its next sentence boundary — the drainer then moves on to the next
+# at its next block boundary — the drainer then moves on to the next
 # queued message. /lpz-tts-disable removes the flag file; the drainer clears
 # the whole queue and exits.
 

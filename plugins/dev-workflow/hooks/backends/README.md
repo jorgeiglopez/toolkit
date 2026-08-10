@@ -1,14 +1,16 @@
 # TTS backends
 
 `tts-drain.sh` (the single queue drainer spawned by `speak.sh`) speaks one
-sentence at a time by shelling out to a backend script in this directory.
-Each backend is a single executable implementing two subcommands:
+block at a time — a queued message holds one line per 📢 marker block — by
+shelling out to a backend script in this directory. Each block is synthesized
+and played as a single continuous clip. Each backend is a single executable
+implementing two subcommands:
 
 - `check` — exit 0 if this backend's dependencies are installed and usable,
   non-zero otherwise. No output required, no side effects.
-- `speak <rate>` — read one sentence of text from stdin and speak it,
-  blocking until playback finishes. The speaker loop is sequential: it
-  doesn't read the next sentence (or notice an interrupt) until this call
+- `speak <rate>` — read one block of text (a single line) from stdin and
+  speak it, blocking until playback finishes. The speaker loop is sequential:
+  it doesn't read the next block (or notice an interrupt) until this call
   returns.
 
 ## Selection

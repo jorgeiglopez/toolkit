@@ -6,7 +6,7 @@
 #
 # Latency note: each speak call loads the model (~3s warm) before audio
 # starts. If that grates, the upgrade path is a persistent Kokoro-FastAPI
-# server this script curls instead of invoking mlx_audio per sentence.
+# server this script curls instead of invoking mlx_audio per block.
 
 MODEL="mlx-community/Kokoro-82M-bf16"
 VOICE="af_heart"
