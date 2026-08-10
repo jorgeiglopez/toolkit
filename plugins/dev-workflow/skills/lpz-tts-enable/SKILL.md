@@ -10,11 +10,13 @@ turn, so the change applies immediately — no restart.
 
 ## Steps
 
-1. Run:
+1. Run exactly this script (do not inline the command — the script is the
+   single source of truth, also invoked directly by Alfred with no LLM in the loop):
    ```bash
-   mkdir -p ~/.claude/toolkit/tts && touch ~/.claude/toolkit/tts/tts-on
+   ~/.claude/skills/lpz-tts-enable/scripts/enable.sh
    ```
-   (The flag lives under `~/.claude/toolkit/tts`; its parent `~/.claude/toolkit` is the only sandbox-writable dir in `~/.claude`.)
+   It creates the `tts-on` flag under `~/.claude/toolkit/tts` (whose parent
+   `~/.claude/toolkit` is the only sandbox-writable dir in `~/.claude`).
 2. Confirm to the user that TTS is on. End the response with a spoken-summary
    marker confirming it aloud, so the user gets immediate audible feedback:
    ```

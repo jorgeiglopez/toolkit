@@ -1,9 +1,10 @@
 ---
 name: lpz-tts-enable
-lastUpdate: 2026-08-06 00:00
+lastUpdate: 2026-08-10 00:00
 ---
 
 # Rules
+- The state change (create the `tts-on` flag) lives in `scripts/enable.sh` (the single source of truth for the action), invoked by the skill AND directly by external triggers like Alfred with no LLM in the loop. SKILL.md must call the script, never inline the command. The script does NOT emit the spoken confirmation marker — that stays a Claude-only step in SKILL.md.
 - The flag file must live under `~/.claude/toolkit/tts` — verify that it's sandbox-writable (dir `~/.claude/toolkit`).
 - Takes effect immediately: the Stop hook checks the flag every turn, no restart needed.
 - Confirm with a spoken-summary marker so the user gets audible feedback right away.

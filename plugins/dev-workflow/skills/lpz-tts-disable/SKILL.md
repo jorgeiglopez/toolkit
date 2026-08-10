@@ -11,11 +11,14 @@ markers; they are just no longer read aloud.
 
 ## Steps
 
-1. Run:
+1. Run exactly this script (do not inline the commands — the script is the
+   single source of truth, also invoked directly by Alfred with no LLM in the loop):
    ```bash
-   rm -f ~/.claude/toolkit/tts/tts-on ~/.claude/toolkit/tts/queue/*; printf 'stop' > ~/.claude/toolkit/tts/tts-token
+   ~/.claude/skills/lpz-tts-disable/scripts/disable.sh
    ```
-   (Rewriting the token stops any speech in progress at the next sentence
-   boundary — signals like `pkill` are blocked in the sandbox. Clearing the
-   queue drops messages other sessions had lined up: disable means silence.)
+   It clears the `tts-on` flag, drops any queued summaries, and rewrites the
+   token so speech in progress stops at the next block boundary — each 📢
+   marker block plays as one continuous clip, and signals like `pkill` are
+   blocked in the sandbox. See `scripts/disable.sh` for the per-step
+   rationale.
 2. Confirm to the user that TTS is off. Do not add an audible confirmation. Instruct the user that needs to reset the session to stop seen the markers `<!--📢 Speech block -->`
