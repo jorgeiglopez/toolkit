@@ -63,3 +63,18 @@ echo 170 > ~/.claude/toolkit/tts/tts-rate
 
 Takes effect on the next spoken response, no restart needed. Delete the file
 to fall back to the 200wpm default.
+
+## Changing the volume
+
+Volume is a decimal linear gain applied at playback (`afplay -v`), read per
+message from the volume file. The default is 1.8, calibrated to lift
+Kokoro-82M's quiet WAVs to roughly `say`'s level (clamped to 0.1–4.0; too
+high clips). The `say` backend speaks through the system synthesizer with no
+gain hook, so it ignores this setting. To adjust:
+
+```bash
+echo 2.5 > ~/.claude/toolkit/tts/tts-volume
+```
+
+Takes effect on the next spoken response, no restart needed. Delete the file
+to fall back to the 1.8 default.

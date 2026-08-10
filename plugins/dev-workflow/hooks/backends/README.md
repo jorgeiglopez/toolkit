@@ -8,10 +8,12 @@ implementing two subcommands:
 
 - `check` — exit 0 if this backend's dependencies are installed and usable,
   non-zero otherwise. No output required, no side effects.
-- `speak <rate>` — read one block of text (a single line) from stdin and
-  speak it, blocking until playback finishes. The speaker loop is sequential:
-  it doesn't read the next block (or notice an interrupt) until this call
-  returns.
+- `speak <rate> [volume]` — read one block of text (a single line) from
+  stdin and speak it, blocking until playback finishes. `volume` is a decimal
+  linear gain (1.0 = unity; the drainer defaults it to 1.8 to lift Kokoro's
+  quiet output); backends with no gain hook (`say`) ignore it. The speaker
+  loop is sequential: it doesn't read the next block (or notice an interrupt)
+  until this call returns.
 
 ## Selection
 

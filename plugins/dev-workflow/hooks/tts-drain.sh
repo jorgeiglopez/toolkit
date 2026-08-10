@@ -30,6 +30,7 @@ TTS_DIR="$HOME/.claude/toolkit/tts"
 FLAG="$TTS_DIR/tts-on"
 TOKEN_FILE="$TTS_DIR/tts-token"
 RATE_FILE="$TTS_DIR/tts-rate"
+VOLUME_FILE="$TTS_DIR/tts-volume"
 BACKEND_OVERRIDE_FILE="$TTS_DIR/tts-backend"
 QUEUE_DIR="$TTS_DIR/queue"
 LOCK="$TTS_DIR/speaker.lock"
@@ -92,15 +93,19 @@ while :; do
     msg="$QUEUE_DIR/$next"
     RATE=$(cat "$RATE_FILE" 2>/dev/null)
     case "$RATE" in ''|*[!0-9]*) RATE=200 ;; esac
+    # Decimal linear gain. 1.8 default compensates Kokoro-82M's quiet WAVs;
+    # backends without a gain hook (say) ignore it.
+    VOLUME=$(cat "$VOLUME_FILE" 2>/dev/null)
+    case "$VOLUME" in ''|.|*[!0-9.]*|*.*.*) VOLUME=1.8 ;; esac
     pick_backend
     TOKEN="$$.$(date +%s).$next"
     printf '%s' "$TOKEN" > "$TOKEN_FILE"
     deadline=$(($(date +%s) + 120))
-    log "speaking $next (backend $BACKEND, rate $RATE)"
+    log "speaking $next (backend $BACKEND, rate $RATE, volume $VOLUME)"
     while IFS= read -r s; do
       [ "$(cat "$TOKEN_FILE" 2>/dev/null)" = "$TOKEN" ] || { log "interrupted: dropping rest of $next"; break; }
       [ "$(date +%s)" -ge "$deadline" ] && { log "deadline: dropping rest of $next"; break; }
-      [ -n "$s" ] && printf '%s' "$s" | "$BACKEND_SCRIPT" speak "$RATE"
+      [ -n "$s" ] && printf '%s' "$s" | "$BACKEND_SCRIPT" speak "$RATE" "$VOLUME"
     done < "$msg"
     rm -f "$msg"
   done

@@ -25,6 +25,10 @@ case "$1" in
     # multiplier and its 1.0x pace is slower than say's 200wpm, so calibrate
     # 1.0x ~= 167wpm: the 200wpm default lands at 1.2x. Clamped to sane range.
     SPEED=$(awk "BEGIN{ s=${2:-200}/167; if (s<0.5) s=0.5; if (s>2.0) s=2.0; printf \"%.2f\", s }")
+    # tts-volume is a linear afplay gain (1.0 = as generated). Kokoro-82M's
+    # WAVs are noticeably quieter than say, hence the boosted 1.8 default.
+    # Clamped: too low is inaudible, too high clips and distorts.
+    VOLUME=$(awk "BEGIN{ v=${3:-1.8}; if (v<0.1) v=0.1; if (v>4.0) v=4.0; printf \"%.2f\", v }")
     OUT="$(mktemp -d "${TMPDIR:-/tmp}/kokoro.XXXXXX")" || exit 1
     trap 'rm -rf "$OUT"' EXIT
     # HF_HUB_OFFLINE: model + voice are cached; never stall on network checks.
@@ -34,10 +38,10 @@ case "$1" in
       echo "kokoro.sh: generation produced no audio: $ERR" >&2
       exit 1
     fi
-    for f in "$OUT"/out*.wav; do afplay "$f"; done
+    for f in "$OUT"/out*.wav; do afplay -v "$VOLUME" "$f"; done
     ;;
   *)
-    echo "usage: $(basename "$0") {check|speak <rate>}" >&2
+    echo "usage: $(basename "$0") {check|speak <rate> [volume]}" >&2
     exit 1
     ;;
 esac
