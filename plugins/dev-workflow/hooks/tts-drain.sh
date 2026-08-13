@@ -10,7 +10,7 @@
 # Interruption is cooperative (signals are blocked in the hook sandbox):
 # tts-interrupt.sh rewrites the token file, which skips the CURRENT message
 # at its next block boundary — the drainer then moves on to the next
-# queued message. /lpz-tts-disable removes the flag file; the drainer clears
+# queued message. /tts-disable removes the flag file; the drainer clears
 # the whole queue and exits.
 
 # Resolve through symlinks so BACKEND_DIR finds backends/ next to the real
