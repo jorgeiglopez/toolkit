@@ -1,6 +1,6 @@
 {
   "name": "mgt-workflow",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Management & reporting workflows. Ships project-cost (estimate Claude Code spend from transcripts) and the toolkit-manager agent (triage toolkit bug reports, stage fixes for review).",
   "author": {
     "name": "Jorge Lopez",

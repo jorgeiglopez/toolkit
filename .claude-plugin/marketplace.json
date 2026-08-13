@@ -11,25 +11,25 @@
       "name": "writing",
       "source": "./plugins/writing",
       "description": "Skills for clearer, more human writing: tighten prose, strip AI-tells, trim existing docs, interview drills.",
-      "version": "0.4.0"
+      "version": "0.5.0"
     },
     {
       "name": "git-workflow",
       "source": "./plugins/git-workflow",
       "description": "Git workflow actions and guardrails: commit, open PRs, mirror CI locally, and the full worktree lifecycle.",
-      "version": "0.4.0"
+      "version": "0.5.0"
     },
     {
       "name": "dev-workflow",
       "source": "./plugins/dev-workflow",
-      "description": "Developer utilities: repo ramp-up, systematic debugging, lpz-agent-parallel-exec between candidate designs, subagent dispatch discipline, adversarial debates.",
-      "version": "0.4.0"
+      "description": "Developer utilities: repo ramp-up, systematic debugging, head-to-head bake-offs between candidate designs, subagent dispatch discipline, adversarial debates.",
+      "version": "0.5.0"
     },
     {
       "name": "mgt-workflow",
       "source": "./plugins/mgt-workflow",
       "description": "Management & observability: project cost, weekly reviews, CLAUDE.md hygiene, on-call agents; ships the toolkit-manager and staff-engineer-reviewer agents.",
-      "version": "0.4.0"
+      "version": "0.5.0"
     }
   ]
 }
