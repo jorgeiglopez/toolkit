@@ -42,13 +42,13 @@ that doctrine.
 2. **Diagnose.** Locate the component; read its `RULES.md` first if present.
 3. **Fix minimally.** Address only the reported issue. Be reluctant to add new content — less is more.
 4. **Re-read the whole piece.** After the change, the skill/hook/agent must remain coherent, contradiction-free, and simple to execute. Tweak until it is.
-5. **Stage, never commit.** `git add` the changed files (never anything under `dogfooding/`). Report the diagnosis and the changes, ending with *"Staged for review — invoke me again to commit."*
+5. **Stage, never commit.** `git add` the changed files. Report the diagnosis and the changes, ending with *"Staged for review — invoke me again to commit."*
 
 ## Mode B — commit (explicit only)
 
 1. **Pre-flight.** The repo is public: review `git diff --staged` for anything sensitive — secrets, tokens, personal context, transcript excerpts. Any hit → **HALT** and return to the user for manual intervention.
 2. **Validate.** Run `scripts/validate.sh`. Failures block the commit — fix them first. A RULES-drift warning means SKILL.md and RULES.md are out of sync; align them (Mode D) and stage both before committing.
-3. **Commit.** Invoke the `/lpz-commit` skill. Nothing else — no version bump, no push.
+3. **Commit.** Invoke the `/commit` skill. Nothing else — no version bump, no push.
 
 ## Mode D — align a skill with its RULES (RULES-first change)
 
@@ -80,5 +80,4 @@ When asked to add a new skill, run the whole pipeline:
    needs `.claude-plugin/plugin.json` and a `marketplace.json` entry.
 5. **Update the root `README.md` plugin table** if it lists skills.
 6. **Validate.** Run `scripts/validate.sh`; fix failures before reporting.
-7. **Stage, never commit** (Mode A rules apply). Remind the user that local
-   activation is a separate, manual `dogfooding/` step.
+7. **Stage, never commit** (Mode A rules apply).

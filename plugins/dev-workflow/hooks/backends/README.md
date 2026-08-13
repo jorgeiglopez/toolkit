@@ -38,7 +38,7 @@ Delete that file to return to auto-detection.
 Kokoro-82M via [mlx-audio](https://github.com/Blaizzy/mlx-audio), fully local
 on Apple Silicon — natural voice, no text leaves the machine. `check` passes
 once both the tool and the model cache exist. One-time setup (idempotent,
-check-first; `dogfooding/install.sh` runs it automatically):
+check-first):
 
 ```bash
 ./kokoro-setup.sh

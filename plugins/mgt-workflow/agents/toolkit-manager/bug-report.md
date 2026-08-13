@@ -18,7 +18,6 @@ Required fields are marked ★ — the agent stops and asks for them if missing.
 ## Context
 
 - **Where**: <!-- repo / directory where it happened -->
-- **Mode**: dogfood (symlinked) | plugin (installed) | unsure
 - **Evidence**: <!-- error text, hook output, transcript snippet — optional -->
 
 ## Assessment

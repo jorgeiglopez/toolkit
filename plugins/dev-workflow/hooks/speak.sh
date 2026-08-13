@@ -6,8 +6,8 @@
 # sessions never talk over each other. Backend selection, rate, and the
 # cooperative interruption token all live in tts-drain.sh; the pluggable
 # voices live in backends/ (see backends/README.md).
-# No-op unless the flag file exists. Toggled by /lpz-tts-enable and
-# /lpz-tts-disable. Marker format (HTML comment so markdown rendering
+# No-op unless the flag file exists. Toggled by /tts-enable and
+# /tts-disable. Marker format (HTML comment so markdown rendering
 # survives):
 #   <!--📢 spoken summary -->
 #
@@ -20,9 +20,9 @@
 # fires, so we poll for a marker NEWER than the last user prompt. Requires
 # "async": true in the hook registration or polling would stall every turn.
 
-# Resolve through symlinks (the dogfooding harness symlinks this file into
-# ~/.claude/hooks/) so tts-drain.sh is found next to the real source, not
-# next to wherever this script was invoked from.
+# Resolve through symlinks (this file may be symlinked into ~/.claude/hooks/)
+# so tts-drain.sh is found next to the real source, not next to wherever this
+# script was invoked from.
 SCRIPT_PATH="${BASH_SOURCE[0]}"
 while [ -L "$SCRIPT_PATH" ]; do
   LINK_TARGET="$(readlink "$SCRIPT_PATH")"

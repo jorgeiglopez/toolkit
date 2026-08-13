@@ -19,8 +19,7 @@ Load patterns in this order; later files override earlier ones on conflict:
    - `"$CLAUDE_PLUGIN_ROOT"/agents/staff-engineer-reviewer/review-patterns.md`
      — installed-plugin mode, when `$CLAUDE_PLUGIN_ROOT` is set.
    - `~/.claude/agents/staff-engineer-reviewer/review-patterns.md`
-     — dogfooding / user-level install (the folder is symlinked next to the
-     agent `.md`).
+     — user-level install, when the agent lives under `~/.claude/agents/`.
 2. `~/.claude/review-patterns.md` (the user's personal library, if present)
 3. `<project>/.claude/review-patterns.md` (project-specific, if present)
 

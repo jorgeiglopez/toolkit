@@ -54,11 +54,3 @@ Ship flow, in order:
 - **Gated skills carry enforcement.** Skills that must not be talked past
   (commit, pre-flight) include a rationalization table (Excuse vs Reality) and
   a red-flag phrase list.
-
-## Local activation (dogfooding)
-
-Loading a new skill or hook into your own `~/.claude` (the `skills.map` /
-`hooks.map` / `sync.sh` mapping and its gotchas) is an internal dev-loop step,
-not part of the shipped plugins. It lives in the gitignored `dogfooding/`
-harness. When you add a skill or hook, follow `dogfooding/README.md` to wire it
-up locally.
