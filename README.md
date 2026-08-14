@@ -11,23 +11,32 @@ Built and maintained by **[Jorge I. Lopez](https://jorgeiglopez.com)**.
 - **dev-workflow** — repo ramp-up, systematic debugging, head-to-head parallel-exec, subagent dispatch, spoken summaries.
 - **mgt-workflow** — project cost, weekly digests, CLAUDE.md hygiene, on-call agents, pattern-library code review.
 
-## Install
+## Installation (30-second setup)
 
-From inside Claude Code:
+**Requires:** [Claude Code](https://www.anthropic.com/claude-code) on macOS.
+
+**1. Add the marketplace**
 
 ```
 /plugin marketplace add jorgeiglopez/toolkit
-/plugin install <plugin>@jorgeiglopez-toolkit
 ```
 
-Update after new commits:
+**2. Install the plugins you want**
+
+```
+/plugin install dev-workflow@jorgeiglopez-toolkit
+```
+
+Repeat for any of: `writing`, `git-workflow`, `dev-workflow`, `mgt-workflow`.
+
+**3. Done** — skills, hooks, and agents load in your next session.
+
+Updates ship automatically; pull the latest anytime with:
 
 ```
 /plugin marketplace update jorgeiglopez-toolkit
 /reload-plugins
 ```
-
-Plugins are cached by `version`, so `marketplace update` serves new code only after a bump.
 
 ## Conventions
 
