@@ -1,6 +1,6 @@
 {
   "name": "communication",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "Communication skills — clearer, more human writing (tighten prose, strip AI-tells, trim docs, interview drills) plus spoken-summary TTS for hands-off listening.",
   "author": {
     "name": "Jorge Lopez",
