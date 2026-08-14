@@ -1,56 +1,53 @@
-# toolkit/ — plugin conventions
+# toolkit/ — `jorgeiglopez-toolkit`
+
+Personal Claude Code plugin marketplace. Several domain plugins, shipped in lockstep at one version.
+
+## Layout
+
+```
+VERSION                          # single source of truth for the version
+scripts/{set-version,validate}.sh
+.claude-plugin/marketplace.json  # the catalog
+plugins/<plugin>/
+  .claude-plugin/plugin.json
+  skills/<skill>/{SKILL.md,RULES.md}   hooks/*.sh   agents/*.md
+```
 
 ## RULES.md contract
 
-Every skill under `plugins/*/skills/<name>/` ships two files:
+Every skill ships `SKILL.md` (full) + `RULES.md` (terse `# Rules` bullets; frontmatter just `name` + `lastUpdate`; the constraints that matter — no procedure, no examples). **`RULES.md` is intent and always wins.** Change behavior by editing `RULES.md` first, then align `SKILL.md`. Any turn that touches a `SKILL.md` checks it against `RULES.md` for drift and fixes it. A skill with only one of the two files is incomplete.
 
-- `SKILL.md` — the full skill: frontmatter, procedure, examples.
-- `RULES.md` — a short TL;DR. Frontmatter is just `name` + `lastUpdate`, then a
-  terse `# Rules` bullet list of the constraints and decisions that matter. No
-  procedure, no examples — readable in a few seconds, enough to know exactly
-  what the skill does and won't do.
+## Versioning — one version, default to patch
 
-`RULES.md` is the source of truth for intent. To change a skill's behavior,
-edit `RULES.md` first, then align `SKILL.md` to it — not the other way round.
+All plugins ship at `VERSION`. The version string is Claude Code's **cache key** — pushing without a bump serves stale code, so always bump. `scripts/set-version.sh X.Y.Z` writes `VERSION` and syncs every `plugin.json` + `marketplace.json`; no args re-syncs.
 
-**Hard rule:** any agent that reads, edits, or creates a skill's `SKILL.md`
-MUST check it against that skill's `RULES.md` for drift in the same turn.
+| Bump | When |
+|---|---|
+| **Patch** | ~95% of changes: new skills, rewrites, tweaks |
+| **Minor** | a stable milestone worth announcing |
+| **Major** | breaking changes downstream users must adapt to |
 
-- **Drift** = a rule in `RULES.md` that `SKILL.md` no longer implements or
-  contradicts, or a behavior in `SKILL.md` with no matching rule.
-- Found drift, `RULES.md` is unchanged intent → fix `SKILL.md` to match it.
-- Found drift, the user is explicitly changing behavior → update `RULES.md`
-  too, in the same turn. The two files never fall out of sync.
-- A skill with only one of the two files is incomplete — create the missing
-  one from the existing content before moving on.
+## Ship flow
 
-## Versioning & shipping
+"change X in skill Z" implies the whole pipeline — don't pause between steps:
 
-All plugins version in lockstep. `VERSION` at the repo root is the single
-source of truth; `scripts/set-version.sh` propagates it into every
-`plugin.json` and `marketplace.json` entry.
+1. Edit the file(s).
+2. `scripts/validate.sh` passes (`--strict` also fails on warnings).
+3. `scripts/set-version.sh X.Y.Z` — patch by default.
+4. Commit (via the `commit` skill) + push `main`.
+5. Print the refresh commands — you can't run `/plugin` for the user:
 
-Ship flow, in order:
+```
+/plugin marketplace update jorgeiglopez-toolkit
+/reload-plugins
+```
 
-1. `scripts/validate.sh` must pass (structural invariants; `--strict` also
-   fails on warnings).
-2. Bump once per shipped batch, not per commit: `scripts/set-version.sh X.Y.Z`.
-3. Commit the bump, push `main`. Installed marketplaces pull it via
-   `autoUpdate`.
+Doc-only edits (this file, a plugin README) skip the bump — just commit and push.
 
 ## Skill authoring doctrine
 
-- **Description = trigger, never a workflow summary.** The description decides
-  when the skill fires; summarizing the procedure invites the model to follow
-  the summary and skip the body.
-- **Knowledge delta.** A skill earns its context cost with expert-only content:
-  what Claude does not already do reliably. Cut anything a good model does by
-  default.
-- **Scope check before creating.** Confirm placement first: project-local
-  (`.claude/skills/` in the target repo) vs toolkit. When the user says
-  "local", it never goes here.
-- **Size.** Target under ~150 lines per SKILL.md; push the long tail into a
-  `references/` (or similar) subfolder loaded on demand.
-- **Gated skills carry enforcement.** Skills that must not be talked past
-  (commit, pre-flight) include a rationalization table (Excuse vs Reality) and
-  a red-flag phrase list.
+- **Description = trigger, not a summary.** It decides when the skill fires; summarizing the procedure invites skipping the body.
+- **Knowledge delta.** Earn the context cost with expert-only content; cut what a good model already does by default.
+- **Scope check.** Toolkit vs project-local (`.claude/skills/`); when the user says "local", it never goes here.
+- **Size.** ~150 lines/`SKILL.md`; push the long tail into `references/`.
+- **Gated skills carry enforcement** — rationalization table (Excuse vs Reality) + red-flag phrases.

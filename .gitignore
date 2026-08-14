@@ -15,10 +15,7 @@
 .env.local
 .env.*.local
 
-zz-archive/
-
 **/tmp*
 tmp*
 
 .playwright*
-**/.playwright*
