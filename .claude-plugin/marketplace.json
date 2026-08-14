@@ -8,9 +8,9 @@
   },
   "plugins": [
     {
-      "name": "writing",
-      "source": "./plugins/writing",
-      "description": "Skills for clearer, more human writing: tighten prose, strip AI-tells, trim existing docs, interview drills.",
+      "name": "communication",
+      "source": "./plugins/communication",
+      "description": "Communication skills — clearer, more human writing (tighten prose, strip AI-tells, trim docs, interview drills) plus spoken-summary TTS.",
       "version": "0.5.1"
     },
     {

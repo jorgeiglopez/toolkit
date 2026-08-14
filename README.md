@@ -6,9 +6,9 @@ Built and maintained by **[Jorge I. Lopez](https://jorgeiglopez.com)**.
 
 ## Plugins
 
-- **writing** — tighten prose, strip AI-tells, trim docs, interview drills.
+- **communication** — tighten prose, strip AI-tells, trim docs, interview drills, plus spoken summaries read aloud.
 - **git-workflow** — staged reviewable commits, PRs, local CI mirror, worktree lifecycle.
-- **dev-workflow** — repo ramp-up, systematic debugging, head-to-head parallel-exec, subagent dispatch, spoken summaries.
+- **dev-workflow** — repo ramp-up, systematic debugging, head-to-head parallel-exec, subagent dispatch.
 - **mgt-workflow** — project cost, weekly digests, CLAUDE.md hygiene, on-call agents, pattern-library code review.
 
 ## Installation (30-second setup)
@@ -27,7 +27,7 @@ Built and maintained by **[Jorge I. Lopez](https://jorgeiglopez.com)**.
 /plugin install dev-workflow@jorgeiglopez-toolkit
 ```
 
-Repeat for any of: `writing`, `git-workflow`, `dev-workflow`, `mgt-workflow`.
+Repeat for any of: `communication`, `git-workflow`, `dev-workflow`, `mgt-workflow`.
 
 **3. Done** — skills, hooks, and agents load in your next session.
 
