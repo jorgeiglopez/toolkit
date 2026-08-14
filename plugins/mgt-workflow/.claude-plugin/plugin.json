@@ -1,6 +1,6 @@
 {
   "name": "mgt-workflow",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Management & reporting workflows. Ships project-cost (estimate Claude Code spend from transcripts) and the staff-engineer-reviewer agent (reviews changes against your engineering patterns).",
   "author": {
     "name": "Jorge Lopez",
