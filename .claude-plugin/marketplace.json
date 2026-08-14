@@ -28,7 +28,7 @@
     {
       "name": "mgt-workflow",
       "source": "./plugins/mgt-workflow",
-      "description": "Management & observability: project cost, weekly reviews, CLAUDE.md hygiene, on-call agents; ships the toolkit-manager and staff-engineer-reviewer agents.",
+      "description": "Management & observability: project cost, weekly reviews, CLAUDE.md hygiene, on-call agents; ships the staff-engineer-reviewer agent.",
       "version": "0.5.0"
     }
   ]
