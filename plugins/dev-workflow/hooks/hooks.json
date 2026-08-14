@@ -1,23 +1,8 @@
 {
   "hooks": {
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/tts-instructions.sh\""
-          }
-        ]
-      }
-    ],
     "Stop": [
       {
         "hooks": [
-          {
-            "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/speak.sh\"",
-            "async": true
-          },
           {
             "type": "command",
             "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/usage-warn.sh\""
@@ -31,16 +16,6 @@
           {
             "type": "command",
             "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/usage-warn.sh\""
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/tts-interrupt.sh\""
           }
         ]
       }
