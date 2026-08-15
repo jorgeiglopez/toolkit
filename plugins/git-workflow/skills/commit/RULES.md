@@ -1,10 +1,14 @@
 ---
 name: commit
-lastUpdate: 2026-05-11 21:12
+lastUpdate: 2026-08-15 15:30
 ---
 
 # Rules
-- The commits should tell a story that the reviewer can follow: group the changes to commit in a way that logically make sense, and build up over time.
-- Commit messages should be short, and follow a guideline detailed on the skill
-- There's no commit ammeds. We move always forward, to fix a falty commit, we commit on top
-- Never include `Co-Authored-By` or any co-author in commit messages.
+- Group changes into logically scoped commits a reviewer can follow; split unrelated work. File renames commit alone.
+- Subject: Conventional Commits, imperative, ≤50 chars (hard cap 72), no trailing period. Body: why over what, wrap at 72.
+- Never `--amend`. We always move forward: fix a faulty landed commit with a new commit on top.
+- Never `git add -A` or `git add .` — patch staging or named paths only.
+- Never `--no-verify` unless the user asks.
+- Never commit secrets, `.env*`, credentials, tokens, or large binaries.
+- Each commit must compile and pass the fastest meaningful check.
+- Never include `Co-Authored-By` or any co-author trailer — deliberate override of the Claude Code harness default.
