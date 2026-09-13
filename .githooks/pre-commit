@@ -1,9 +1,9 @@
 #!/bin/bash
-# Structural invariants must hold before anything reaches the remote.
+# Structural invariants must hold before anything is committed.
 repo_root=$(git rev-parse --show-toplevel)
 if [ -x "$repo_root/scripts/validate.sh" ]; then
     "$repo_root/scripts/validate.sh" || {
-        echo "BLOCKED: scripts/validate.sh failed - fix the reported issues before pushing." >&2
+        echo "BLOCKED: scripts/validate.sh failed - fix the reported issues before committing." >&2
         exit 1
     }
 fi
